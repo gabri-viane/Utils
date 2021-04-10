@@ -27,3 +27,5 @@ build/*
 dist/*
 nbproject/*
 /bin/
+test/*
+*.xml
