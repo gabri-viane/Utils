@@ -8,7 +8,7 @@ package net.vnleng.utils.menu;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import net.vnleng.utils.input.InputData;
+import net.vnleng.utils.input.ConsoleInput;
 import net.vnleng.utils.menu.utils.FutureMenuAction;
 import net.vnleng.utils.menu.utils.Pair;
 import net.vnleng.utils.output.GeneralFormatter;
@@ -24,10 +24,10 @@ public abstract class Menu {
     private final ArrayList<Pair<String, FutureMenuAction>> menu = new ArrayList<>();
     private final ArrayList<FutureMenuAction> to_execute_later = new ArrayList<>();
 
-    private final String titolo;
+    private final String title;
 
-    public Menu(String titolo) {
-        this.titolo = titolo;
+    public Menu(String title) {
+        this.title = title;
         init();
     }
 
@@ -40,7 +40,7 @@ public abstract class Menu {
     }
 
     private void init() {
-        GeneralFormatter.printOut(titolo, true, false);
+        GeneralFormatter.printOut(title, true, false);
         reset();
     }
 
@@ -74,11 +74,11 @@ public abstract class Menu {
      * Rimuove l'opzione dal menù all'indice specificato. L'indice parte da 1 e
      * non da 0.
      *
-     * @param indice
+     * @param index
      */
-    public void removeOption(int indice) {
-        if (indice > 0 && indice <= menu.size()) {
-            menu.remove(indice - 1);
+    public void removeOption(int index) {
+        if (index > 0 && index <= menu.size()) {
+            menu.remove(index - 1);
         }
     }
 
@@ -125,7 +125,7 @@ public abstract class Menu {
         GeneralFormatter.incrementIndents();
         Optional<Integer> op;
         do {
-            op = InputData.getIstance().readInteger(menu_bundle.getString("oper"), false, null);
+            op = ConsoleInput.getIstance().readInteger(menu_bundle.getString("oper"), false, null);
         } while (op.get() < 1 || op.get() > menu.size());
         GeneralFormatter.decrementIndents();
         consoleSpaces(3);

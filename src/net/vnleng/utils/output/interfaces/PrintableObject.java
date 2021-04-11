@@ -5,8 +5,6 @@
  */
 package net.vnleng.utils.output.interfaces;
 
-import net.vnleng.utils.output.ObjectPrinter;
-
 /**
  *
  * @author gabri

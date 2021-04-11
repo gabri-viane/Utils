@@ -17,20 +17,20 @@ import static net.vnleng.utils.output.GeneralFormatter.printOut;
  *
  * @author gabri
  */
-public class InputData {
+public class ConsoleInput {
 
-    private static InputData istance;
+    private static ConsoleInput istance;
     private static final ResourceBundle input_data = ResourceBundle.getBundle("net/vnleng/utils/resources/i18n/input/input_data");
     private final Scanner input;
 
-    private InputData() {
+    private ConsoleInput() {
         input = new Scanner(System.in);
         input.useLocale(ProjectSettings.MAIN_PROGRAMM_LOCALE); // Si usa il punto e non la virgola.
     }
 
-    public static InputData getIstance() {
+    public static ConsoleInput getIstance() {
         if (istance == null) {
-            istance = new InputData();
+            istance = new ConsoleInput();
         }
         return istance;
     }

@@ -17,11 +17,11 @@ import net.vnleng.utils.output.interfaces.PrintableObject;
  */
 public class ObjectPrinter {
 
-    public ObjectPrinter() {
+    private ObjectPrinter() {
 
     }
 
-    public String print(String format, Object o) {
+    public static String print(String format, Object o) {
         Class c = o.getClass();
         if (o instanceof PrintableObject) {
             for (Field f : c.getFields()) {
