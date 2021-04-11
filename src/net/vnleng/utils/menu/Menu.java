@@ -74,7 +74,7 @@ public abstract class Menu {
      * Rimuove l'opzione dal menù all'indice specificato. L'indice parte da 1 e
      * non da 0.
      *
-     * @param index
+     * @param index Indice da rimuovere
      */
     public void removeOption(int index) {
         if (index > 0 && index <= menu.size()) {
