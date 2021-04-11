@@ -6,6 +6,8 @@
 package net.vnleng.utils.output;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.vnleng.utils.output.annotations.Printable;
@@ -33,10 +35,32 @@ public class ObjectPrinter {
                         if (retn instanceof PrintableObject) {
                             format = print(format, retn);
                         } else {
-                            format = format.replaceAll(annotation.replace(), retn != null ? retn.toString() : "null");
+                            if (annotation.replace() != null && !"".equals(annotation.replace().trim())) {
+                                format = format.replaceAll("%" + annotation.replace(), retn != null ? retn.toString() : "null");
+                            }
                         }
                     } catch (IllegalArgumentException | IllegalAccessException ex) {
                         Logger.getLogger(ObjectPrinter.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+            for (Method m : c.getMethods()) {
+                m.setAccessible(true);
+                if (m.isAnnotationPresent(Printable.class)) {
+                    Printable annotation = m.getAnnotation(Printable.class);
+                    if (m.getParameterCount() == 0) {
+                        try {
+                            Object retn = m.invoke(o, new Object[0]);
+                            if (retn instanceof PrintableObject) {
+                                format = print(format, retn);
+                            } else {
+                                if (annotation.replace() != null && !"".equals(annotation.replace().trim())) {
+                                    format = format.replaceAll("%" + annotation.replace(), retn != null ? retn.toString() : "null");
+                                }
+                            }
+                        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                            Logger.getLogger(ObjectPrinter.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
             }

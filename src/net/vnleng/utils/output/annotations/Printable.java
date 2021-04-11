@@ -18,5 +18,5 @@ import java.lang.annotation.Target;
 @Target(value = {ElementType.FIELD, ElementType.METHOD})
 public @interface Printable {
 
-    public String replace();
+    public String replace() default "";
 }
