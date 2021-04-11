@@ -23,6 +23,21 @@ public class ObjectPrinter {
 
     }
 
+    public static String printExclusive(String format, Object o) {
+        return ObjectPrinter.print(format, o).replaceAll("(%([^\\W]++))", "");
+    }
+
+    public static String printExclusive(String format, Object... os) {
+        return printAll(format, os).replaceAll("(%([^\\W]++))", "");
+    }
+
+    public static String printAll(String format, Object... os) {
+        for (Object o : os) {
+            format = ObjectPrinter.print(format, o);
+        }
+        return format;
+    }
+
     public static String print(String format, Object o) {
         Class c = o.getClass();
         if (o instanceof PrintableObject) {
@@ -33,7 +48,7 @@ public class ObjectPrinter {
                         Printable annotation = f.getAnnotation(Printable.class);
                         Object retn = f.get(o);
                         if (retn instanceof PrintableObject) {
-                            format = print(format, retn);
+                            format = ObjectPrinter.print(format, retn);
                         } else {
                             if (annotation.replace() != null && !"".equals(annotation.replace().trim())) {
                                 format = format.replaceAll("%" + annotation.replace(), retn != null ? retn.toString() : "null");
@@ -52,7 +67,7 @@ public class ObjectPrinter {
                         try {
                             Object retn = m.invoke(o, new Object[0]);
                             if (retn instanceof PrintableObject) {
-                                format = print(format, retn);
+                                format = ObjectPrinter.print(format, retn);
                             } else {
                                 if (annotation.replace() != null && !"".equals(annotation.replace().trim())) {
                                     format = format.replaceAll("%" + annotation.replace(), retn != null ? retn.toString() : "null");
