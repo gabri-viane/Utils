@@ -10,7 +10,7 @@ package net.vnleng.utils.menu.utils;
  * @author TTT
  */
 @FunctionalInterface
-public interface FutureMenuAction {
+public interface FutureMenuAction<P> {
 
-    public void onSelected();
+    public P onSelected();
 }

@@ -16,15 +16,17 @@ import net.vnleng.utils.output.GeneralFormatter;
 /**
  *
  * @author gabri
+ * @param <P> Tipo di menu, nel caso ritorna un valore
  */
-public abstract class Menu {
+public abstract class Menu<P> {
 
     private static final ResourceBundle menu_bundle = ResourceBundle.getBundle("net/vnleng/utils/resources/i18n/menu/menu_bundle");
 
-    private final ArrayList<Pair<String, FutureMenuAction>> menu = new ArrayList<>();
-    private final ArrayList<FutureMenuAction> to_execute_later = new ArrayList<>();
+    private final ArrayList<Pair<String, FutureMenuAction<P>>> menu = new ArrayList<>();
+    private final ArrayList<FutureMenuAction<P>> to_execute_later = new ArrayList<>();
 
     private final String title;
+    private boolean quitMenu = false;
 
     public Menu(String title) {
         this.title = title;
@@ -32,15 +34,17 @@ public abstract class Menu {
     }
 
     public void reset() {
+        quitMenu = false;
         menu.clear();
         to_execute_later.clear();
         addOption(menu_bundle.getString("exit"), () -> {
             System.exit(0);
+            return null;
         });
     }
 
     private void init() {
-        GeneralFormatter.printOut(title, true, false);
+        GeneralFormatter.printOut(menu_bundle.getString("menu_title"), true, false);
         reset();
     }
 
@@ -98,12 +102,18 @@ public abstract class Menu {
      * Stampa il menù e attende una risposta.
      */
     public void paintMenu() {
-        GeneralFormatter.printOut(menu_bundle.getString("menu_title"), true, false);
+        GeneralFormatter.printOut(title, true, false);
         for (int i = 0; i < menu.size(); i++) {
             GeneralFormatter.printOut("[" + (i + 1) + "] " + menu.get(i).getKey(), true, false);
         }
         System.out.println();
         waitAnswer();
+    }
+
+    boolean autoPrint = true;
+
+    public void autoPrintSpaces(boolean value) {
+        autoPrint = value;
     }
 
     /**
@@ -128,10 +138,43 @@ public abstract class Menu {
             op = ConsoleInput.getIstance().readInteger(menu_bundle.getString("oper"), false, null);
         } while (op.get() < 1 || op.get() > menu.size());
         GeneralFormatter.decrementIndents();
-        consoleSpaces(3);
+        if (autoPrint) {
+            consoleSpaces(3);
+        }
         executeAt(op.get() - 1);
-        consoleSpaces(5);
-        paintMenu();
+        if (autoPrint) {
+            consoleSpaces(5);
+        }
+        if (!quitMenu) {
+            paintMenu();
+        }
+    }
+
+    public void quit() {
+        quitMenu = true;
+    }
+
+    /**
+     * Mostra il menù e ritorna il valore dell'esecuzione
+     *
+     * @return
+     */
+    public P showAndWait() {
+        GeneralFormatter.printOut(title, true, false);
+        for (int i = 0; i < menu.size(); i++) {
+            GeneralFormatter.printOut("[" + (i + 1) + "] " + menu.get(i).getKey(), true, false);
+        }
+        System.out.println();
+        GeneralFormatter.incrementIndents();
+        Optional<Integer> op;
+        do {
+            op = ConsoleInput.getIstance().readInteger(menu_bundle.getString("oper"), false, null);
+        } while (op.get() < 1 || op.get() > menu.size());
+        GeneralFormatter.decrementIndents();
+        if (autoPrint) {
+            consoleSpaces(3);
+        }
+        return executeAt(op.get() - 1);
     }
 
     /**
@@ -139,10 +182,10 @@ public abstract class Menu {
      *
      * @param index Indice selezionato.
      */
-    private void executeAt(int index) {
-        Pair<String, FutureMenuAction> p = menu.get(index);
-        p.getValue().onSelected();
+    private P executeAt(int index) {
+        Pair<String, FutureMenuAction<P>> p = menu.get(index);
         to_execute_later.forEach((f) -> f.onSelected());
         to_execute_later.clear();
+        return p.getValue().onSelected();
     }
 }
