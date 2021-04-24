@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.vnleng.utils.menu.utils;
+package ttt.utils;
+
+import java.util.Locale;
 
 /**
  *
- * @author TTT
+ * @author gabri
  */
-@FunctionalInterface
-public interface FutureMenuAction<P> {
+public class ProjectSettings {
 
-    public P onSelected();
+    public static Locale MAIN_PROGRAMM_LOCALE = Locale.ENGLISH;
 }

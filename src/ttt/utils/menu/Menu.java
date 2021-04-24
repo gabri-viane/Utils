@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.vnleng.utils.menu;
+package ttt.utils.menu;
 
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import net.vnleng.utils.input.ConsoleInput;
-import net.vnleng.utils.menu.utils.FutureMenuAction;
-import net.vnleng.utils.menu.utils.Pair;
-import net.vnleng.utils.output.GeneralFormatter;
+import ttt.utils.input.ConsoleInput;
+import ttt.utils.menu.utils.FutureMenuAction;
+import ttt.utils.menu.utils.Pair;
+import ttt.utils.output.GeneralFormatter;
 
 /**
  *
@@ -110,7 +110,7 @@ public abstract class Menu<P> {
         waitAnswer();
     }
 
-    boolean autoPrint = true;
+    private boolean autoPrint = true;
 
     public void autoPrintSpaces(boolean value) {
         autoPrint = value;

@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.vnleng.utils.registry;
+package ttt.utils.registry;
 
 import java.util.HashMap;
-import net.vnleng.utils.output.GeneralFormatter;
-import net.vnleng.utils.registry.abstracts.RegistrableEntry;
-import net.vnleng.utils.registry.events.RegistryEvent;
-import net.vnleng.utils.registry.exception.RegistryException;
+import ttt.utils.output.GeneralFormatter;
+import ttt.utils.registry.abstracts.RegistrableEntry;
+import ttt.utils.registry.events.RegistryEvent;
+import ttt.utils.registry.exception.RegistryException;
+import ttt.utils.registry.interfaces.IndexID;
 
 /**
  * Classe non istanziabile che permette di registrare nuovi elementi nel
@@ -17,7 +18,7 @@ import net.vnleng.utils.registry.exception.RegistryException;
  *
  * @author TTT
  */
-public final class Registry {
+public final class Registry implements IndexID {
 
     private static final Registry register_key = new Registry();
     private static long currentID = 0;
@@ -118,6 +119,11 @@ public final class Registry {
         registry.forEach((t, u) -> {
             GeneralFormatter.printOut("ID: " + t + "\t\t" + u.toString(), true, false);
         });
+    }
+
+    @Override
+    public long getLastID() {
+        return currentID - 1;
     }
 
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.vnleng.utils.registry.exception;
+package ttt.utils.registry.exception;
 
 /**
  * Eccezione causate dal registro degli elementi.

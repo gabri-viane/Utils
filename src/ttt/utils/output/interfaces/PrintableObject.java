@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.vnleng.utils.output.interfaces;
+package ttt.utils.output.interfaces;
 
 /**
  *

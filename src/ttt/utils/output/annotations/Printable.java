@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.vnleng.utils.output.annotations;
+package ttt.utils.output.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

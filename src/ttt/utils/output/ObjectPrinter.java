@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.vnleng.utils.output;
+package ttt.utils.output;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.vnleng.utils.output.annotations.Printable;
-import net.vnleng.utils.output.interfaces.PrintableObject;
+import ttt.utils.output.annotations.Printable;
+import ttt.utils.output.interfaces.PrintableObject;
 
 /**
  *

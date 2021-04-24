@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.vnleng.utils.registry.events;
+package ttt.utils.registry.events;
 
-import net.vnleng.utils.registry.abstracts.RegistrableEntry;
+import ttt.utils.registry.abstracts.UUIDRegistrableEntry;
 
 /**
  * Semplice Listener del registro, utile per essere segnalati di eliminazioni o
@@ -13,19 +13,19 @@ import net.vnleng.utils.registry.abstracts.RegistrableEntry;
  *
  * @author TTT
  */
-public interface RegistryListener {
+public interface UUIDRegistryListener {
 
     /**
      * Viene chiamato ogni volta che un elemento viene registrato.
      *
      * @param re L'elemento registrato.
      */
-    public void onElementRegistered(RegistrableEntry re);
+    public void onElementRegistered(UUIDRegistrableEntry re);
 
     /**
      * Viene chiamato ogni volta che un elemento viene rimosso dal registro.
      *
      * @param re L'elemento rimosso.
      */
-    public void onElementRemoved(RegistrableEntry re);
+    public void onElementRemoved(UUIDRegistrableEntry re);
 }

@@ -3,20 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.vnleng.utils.registry.abstracts;
+package ttt.utils.registry.abstracts;
 
-import net.vnleng.utils.registry.Registry;
-import net.vnleng.utils.registry.exception.RegistryException;
+import java.util.UUID;
+import ttt.utils.registry.Registry;
+import ttt.utils.registry.UUIDRegistry;
+import ttt.utils.registry.exception.RegistryException;
 
 /**
- * Classe che deve essere implementata da tutti gli oggetti che si vogliono fare
- * registrare.
  *
- * @author TTT
+ * @author gabri
  */
-public abstract class RegistrableEntry {
+public abstract class UUIDRegistrableEntry {
 
-    private long ID = -1;
+    private UUID ID = null;
     private boolean registered = false;
     private Object me;
     private String entry_name = null;
@@ -28,7 +28,7 @@ public abstract class RegistrableEntry {
      *
      * @return L'ID del corpo celeste se è stato registrato, altrimenti -1.
      */
-    public final Long getID() {
+    public final UUID getUUID() {
         return ID;
     }
 
@@ -44,21 +44,20 @@ public abstract class RegistrableEntry {
     }
 
     /**
-     * Registra un oggetto. Solo la classe {@link Registry} tramite il
-     * metodo {@link Registry#registerEntry(planetarium.contents.registry.abstracts.RegistrableEntry, java.lang.String)
+     * Registra un oggetto. Solo la classe {@link Registry} tramite il metodo {@link Registry#registerEntry(planetarium.contents.registry.abstracts.RegistrableEntry, java.lang.String)
      * } può registrare l'ID.
      *
      * @param id Il nuovo ID
      * @param registry L'unica instanza di register.
      */
-    public final void register(long id, Registry registry) {
+    public final void register(UUID id, UUIDRegistry registry) {
         if (registry != null && registry.onCall()) {
-            if (id >= 0) {
+            if (id != null) {
                 registered = true;
                 ID = id;
                 return;
             } else {
-                throw new RegistryException("L'ID assegnato non è valido.");
+                throw new RegistryException("L'UUID assegnato non è valido.");
             }
         }
         throw new RegistryException("Il registro non è valido.");
@@ -69,11 +68,11 @@ public abstract class RegistrableEntry {
      *
      * @param register Il registro.
      */
-    public final void remove(Registry register) {
+    public final void remove(UUIDRegistry register) {
         if (register != null && register.onCall()) {
             if (registered) {
                 registered = false;
-                ID = -1;
+                ID = null;
                 return;
             } else {
                 throw new RegistryException("L'elemento non è stato registrato.");
@@ -108,7 +107,7 @@ public abstract class RegistrableEntry {
      * @param name Il nome.
      * @param registry L'unica instanza di register.
      */
-    public final void setEntryName(String name, Registry registry) {
+    public final void setEntryName(String name, UUIDRegistry registry) {
         if (registry != null && registry.onCall() && entry_name == null) {
             entry_name = name;
         }

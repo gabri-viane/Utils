@@ -3,23 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.vnleng.utils.registry.events;
+package ttt.utils.registry.events;
 
 import java.util.ArrayList;
-import net.vnleng.utils.registry.Registry;
-import net.vnleng.utils.registry.abstracts.RegistrableEntry;
+import ttt.utils.registry.Registry;
+import ttt.utils.registry.abstracts.UUIDRegistrableEntry;
 
 /**
  * Classe che scatena gli eventi riguardanti il registro.
  *
  * @author TTT
  */
-public final class RegistryEvent {
+public final class UUIDRegistryEvent {
 
-    private static final RegistryEvent re = new RegistryEvent();
-    private final ArrayList<RegistryListener> listeners;
+    private static final UUIDRegistryEvent re = new UUIDRegistryEvent();
+    private final ArrayList<UUIDRegistryListener> listeners;
 
-    private RegistryEvent() {
+    private UUIDRegistryEvent() {
         listeners = new ArrayList<>();
     }
 
@@ -28,7 +28,7 @@ public final class RegistryEvent {
      *
      * @return L'istanza di questa classe.
      */
-    public static RegistryEvent getIstance() {
+    public static UUIDRegistryEvent getIstance() {
         return re;
     }
 
@@ -37,7 +37,7 @@ public final class RegistryEvent {
      *
      * @param rl Listener
      */
-    public void addListener(RegistryListener rl) {
+    public void addListener(UUIDRegistryListener rl) {
         if (rl != null) {
             listeners.add(rl);
         }
@@ -48,7 +48,7 @@ public final class RegistryEvent {
      *
      * @param rl Listener
      */
-    public void removeListener(RegistryListener rl) {
+    public void removeListener(UUIDRegistryListener rl) {
         if (rl != null) {
             listeners.remove(rl);
         }
@@ -60,7 +60,7 @@ public final class RegistryEvent {
      * @param re L'elemento aggiunto.
      * @param r L'istanza del registro
      */
-    public void elementRegistered(RegistrableEntry re, Registry r) {
+    public void elementRegistered(UUIDRegistrableEntry re, Registry r) {
         if (r != null && r.onCall()) {
             listeners.forEach(l -> l.onElementRegistered(re));
         }
@@ -73,7 +73,7 @@ public final class RegistryEvent {
      * @param re L'elemento rimosso.
      * @param r L'istanza del registro
      */
-    public void elementRemoved(RegistrableEntry re, Registry r) {
+    public void elementRemoved(UUIDRegistrableEntry re, Registry r) {
         if (r != null && r.onCall()) {
             listeners.forEach(l -> l.onElementRemoved(re));
         }

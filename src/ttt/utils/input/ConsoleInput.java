@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.vnleng.utils.input;
+package ttt.utils.input;
 
-import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Scanner;
-import net.vnleng.utils.ProjectSettings;
-import static net.vnleng.utils.output.GeneralFormatter.printOut;
+import ttt.utils.ProjectSettings;
+import static ttt.utils.output.GeneralFormatter.printOut;
 
 /**
  *
@@ -257,7 +256,7 @@ public class ConsoleInput {
         while (true) {
             try {
                 if (skippable) {
-                    String in = input.next();
+                    String in = input.nextLine();
                     if (in.startsWith(skippable_keyword)) {
                         break;
                     }
@@ -273,7 +272,6 @@ public class ConsoleInput {
                         + input_data.getString("ask_input"), false, true);
             }
         }
-        //input.nextLine();
         return Optional.ofNullable(s);
     }
 
