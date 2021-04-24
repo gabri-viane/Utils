@@ -20,7 +20,7 @@ import ttt.utils.output.GeneralFormatter;
  */
 public abstract class Menu<P> {
 
-    private static final ResourceBundle menu_bundle = ResourceBundle.getBundle("net/vnleng/utils/resources/i18n/menu/menu_bundle");
+    private static final ResourceBundle menu_bundle = ResourceBundle.getBundle("ttt/utils/resources/i18n/menu/menu_bundle");
 
     private final ArrayList<Pair<String, FutureMenuAction<P>>> menu = new ArrayList<>();
     private final ArrayList<FutureMenuAction<P>> to_execute_later = new ArrayList<>();

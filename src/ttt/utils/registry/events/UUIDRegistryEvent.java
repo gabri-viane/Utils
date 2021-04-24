@@ -6,7 +6,7 @@
 package ttt.utils.registry.events;
 
 import java.util.ArrayList;
-import ttt.utils.registry.Registry;
+import ttt.utils.registry.UUIDRegistry;
 import ttt.utils.registry.abstracts.UUIDRegistrableEntry;
 
 /**
@@ -60,7 +60,7 @@ public final class UUIDRegistryEvent {
      * @param re L'elemento aggiunto.
      * @param r L'istanza del registro
      */
-    public void elementRegistered(UUIDRegistrableEntry re, Registry r) {
+    public void elementRegistered(UUIDRegistrableEntry re, UUIDRegistry r) {
         if (r != null && r.onCall()) {
             listeners.forEach(l -> l.onElementRegistered(re));
         }
@@ -73,7 +73,7 @@ public final class UUIDRegistryEvent {
      * @param re L'elemento rimosso.
      * @param r L'istanza del registro
      */
-    public void elementRemoved(UUIDRegistrableEntry re, Registry r) {
+    public void elementRemoved(UUIDRegistrableEntry re, UUIDRegistry r) {
         if (r != null && r.onCall()) {
             listeners.forEach(l -> l.onElementRemoved(re));
         }

@@ -10,7 +10,7 @@ import java.util.UUID;
 import ttt.utils.output.GeneralFormatter;
 import ttt.utils.registry.abstracts.RegistrableEntry;
 import ttt.utils.registry.abstracts.UUIDRegistrableEntry;
-import ttt.utils.registry.events.RegistryEvent;
+import ttt.utils.registry.events.UUIDRegistryEvent;
 import ttt.utils.registry.exception.RegistryException;
 
 /**
@@ -57,7 +57,7 @@ public class UUIDRegistry {
                 secondary_registry.put(entry_name, currentID.toString());
                 registry.put(currentID.toString(), re);
                 currentID = UUID.randomUUID();
-                RegistryEvent.getIstance().elementRegistered(re, register_key);
+                UUIDRegistryEvent.getIstance().elementRegistered(re, register_key);
                 return true;
             }
             return false;
@@ -75,12 +75,12 @@ public class UUIDRegistry {
      * @return <code>true</code> se viene rimosso con successo, altrimenti
      * <code>false</code>.
      */
-    public static boolean removeEntry(RegistrableEntry re) {
+    public static boolean removeEntry(UUIDRegistrableEntry re) {
         if (re != null && registry.containsValue(re)) {
-            registry.remove(re.getID());
+            registry.remove(re.getUUID().toString());
             secondary_registry.remove(re.getEntryName());
             re.remove(register_key);
-            RegistryEvent.getIstance().elementRemoved(re, register_key);
+            UUIDRegistryEvent.getIstance().elementRemoved(re, register_key);
             return true;
         }
         return false;
@@ -89,12 +89,12 @@ public class UUIDRegistry {
     /**
      * Ritorna un {@link RegistrableEntry} dato l'ID corrispondente.
      *
-     * @param ID L'ID da cercare.
+     * @param UUID L'UUID da cercare.
      * @return {@code null} se non esiste nessun elemento con quell'ID
      * altrimenti un riferimento ad un {@link RegistrableEntry}.
      */
-    public static RegistrableEntry getEntry(long ID) {
-        return registry.get(ID);
+    public static UUIDRegistrableEntry getEntry(String UUID) {
+        return registry.get(UUID);
     }
 
     /**
@@ -105,8 +105,8 @@ public class UUIDRegistry {
      * @return {@code null} se non esiste nessun elemento con quel nome
      * altrimenti un riferimento ad un {@link RegistrableEntry}.
      */
-    public static RegistrableEntry getEntry(String name) {
-        Long val_id = secondary_registry.get(name);
+    public static UUIDRegistrableEntry getEntryByName(String name) {
+        String val_id = secondary_registry.get(name);
         return val_id != null ? registry.get(val_id) : null;
     }
 
@@ -121,9 +121,8 @@ public class UUIDRegistry {
         });
     }
 
-    @Override
-    public long getLastID() {
-        return currentID - 1;
+    public UUID getNewUUID() {
+        return currentID;
     }
 
 }
