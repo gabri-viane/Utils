@@ -19,7 +19,7 @@ import static ttt.utils.output.GeneralFormatter.printOut;
 public class ConsoleInput {
 
     private static ConsoleInput istance;
-    private static final ResourceBundle input_data = ResourceBundle.getBundle("net/vnleng/utils/resources/i18n/input/input_data");
+    private static final ResourceBundle input_data = ResourceBundle.getBundle("ttt/utils/resources/i18n/input/input_data");
     private final Scanner input;
 
     private ConsoleInput() {
