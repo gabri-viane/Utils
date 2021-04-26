@@ -15,7 +15,7 @@ import ttt.utils.output.interfaces.PrintableObject;
 
 /**
  *
- * @author gabri
+ * @author TTT
  */
 public class ObjectPrinter {
 

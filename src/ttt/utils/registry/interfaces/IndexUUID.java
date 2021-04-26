@@ -9,7 +9,7 @@ import java.util.UUID;
 
 /**
  *
- * @author gabri
+ * @author TTT
  */
 public interface IndexUUID {
     public UUID getLastUUID();

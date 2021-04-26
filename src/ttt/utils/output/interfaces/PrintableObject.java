@@ -7,7 +7,7 @@ package ttt.utils.output.interfaces;
 
 /**
  *
- * @author gabri
+ * @author TTT
  */
 public interface PrintableObject {
 

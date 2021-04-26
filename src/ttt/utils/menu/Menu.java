@@ -15,7 +15,7 @@ import ttt.utils.output.GeneralFormatter;
 
 /**
  *
- * @author gabri
+ * @author TTT
  * @param <P> Tipo di menu, nel caso ritorna un valore
  */
 public abstract class Menu<P> {

@@ -14,7 +14,7 @@ import static ttt.utils.output.GeneralFormatter.printOut;
 
 /**
  *
- * @author gabri
+ * @author TTT
  */
 public class ConsoleInput {
 

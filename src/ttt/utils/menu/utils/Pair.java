@@ -7,7 +7,7 @@ package ttt.utils.menu.utils;
 
 /**
  *
- * @author gabri
+ * @author TTT
  */
 public class Pair<K, V> {
 

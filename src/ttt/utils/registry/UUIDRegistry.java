@@ -15,7 +15,7 @@ import ttt.utils.registry.exception.RegistryException;
 
 /**
  *
- * @author gabri
+ * @author TTT
  */
 public class UUIDRegistry {
 

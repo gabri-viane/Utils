@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ttt.utils;
-
-import java.util.Locale;
+package ttt.utils.xml.io;
 
 /**
  *
  * @author TTT
  */
-public class ProjectSettings {
-
-    public static Locale MAIN_PROGRAMM_LOCALE = Locale.ENGLISH;
+public class XMLWriter {
+    
 }

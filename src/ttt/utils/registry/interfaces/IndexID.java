@@ -7,7 +7,7 @@ package ttt.utils.registry.interfaces;
 
 /**
  *
- * @author gabri
+ * @author TTT
  */
 public interface IndexID {
 
