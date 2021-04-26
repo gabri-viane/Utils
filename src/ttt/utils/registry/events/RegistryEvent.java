@@ -28,7 +28,7 @@ public final class RegistryEvent {
      *
      * @return L'istanza di questa classe.
      */
-    public static RegistryEvent getIstance() {
+    public static RegistryEvent getInstance() {
         return re;
     }
 

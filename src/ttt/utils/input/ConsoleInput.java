@@ -13,6 +13,8 @@ import ttt.utils.ProjectSettings;
 import static ttt.utils.output.GeneralFormatter.printOut;
 
 /**
+ * Gestisce tutti gli input base. Tramite alcune funzioni si può definire se
+ * l'inserimento di un dato è annullabile.
  *
  * @author TTT
  */
@@ -27,7 +29,7 @@ public class ConsoleInput {
         input.useLocale(ProjectSettings.MAIN_PROGRAMM_LOCALE); // Si usa il punto e non la virgola.
     }
 
-    public static ConsoleInput getIstance() {
+    public static ConsoleInput getInstance() {
         if (istance == null) {
             istance = new ConsoleInput();
         }

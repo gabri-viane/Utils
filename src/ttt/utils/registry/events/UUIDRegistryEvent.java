@@ -28,7 +28,7 @@ public final class UUIDRegistryEvent {
      *
      * @return L'istanza di questa classe.
      */
-    public static UUIDRegistryEvent getIstance() {
+    public static UUIDRegistryEvent getInstance() {
         return re;
     }
 

@@ -57,7 +57,7 @@ public final class Registry implements IndexID {
                 re.setEntryName(entry_name, register_key);
                 secondary_registry.put(entry_name, currentID);
                 registry.put(currentID++, re);
-                RegistryEvent.getIstance().elementRegistered(re, register_key);
+                RegistryEvent.getInstance().elementRegistered(re, register_key);
                 return true;
             }
             return false;
@@ -80,7 +80,7 @@ public final class Registry implements IndexID {
             registry.remove(re.getID());
             secondary_registry.remove(re.getEntryName());
             re.remove(register_key);
-            RegistryEvent.getIstance().elementRemoved(re, register_key);
+            RegistryEvent.getInstance().elementRemoved(re, register_key);
             return true;
         }
         return false;

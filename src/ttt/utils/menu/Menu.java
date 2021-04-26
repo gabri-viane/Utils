@@ -135,7 +135,7 @@ public abstract class Menu<P> {
         GeneralFormatter.incrementIndents();
         Optional<Integer> op;
         do {
-            op = ConsoleInput.getIstance().readInteger(menu_bundle.getString("oper"), false, null);
+            op = ConsoleInput.getInstance().readInteger(menu_bundle.getString("oper"), false, null);
         } while (op.get() < 1 || op.get() > menu.size());
         GeneralFormatter.decrementIndents();
         if (autoPrint) {
@@ -168,7 +168,7 @@ public abstract class Menu<P> {
         GeneralFormatter.incrementIndents();
         Optional<Integer> op;
         do {
-            op = ConsoleInput.getIstance().readInteger(menu_bundle.getString("oper"), false, null);
+            op = ConsoleInput.getInstance().readInteger(menu_bundle.getString("oper"), false, null);
         } while (op.get() < 1 || op.get() > menu.size());
         GeneralFormatter.decrementIndents();
         if (autoPrint) {

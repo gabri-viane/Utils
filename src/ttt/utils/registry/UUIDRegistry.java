@@ -57,7 +57,7 @@ public class UUIDRegistry {
                 secondary_registry.put(entry_name, currentID.toString());
                 registry.put(currentID.toString(), re);
                 currentID = UUID.randomUUID();
-                UUIDRegistryEvent.getIstance().elementRegistered(re, register_key);
+                UUIDRegistryEvent.getInstance().elementRegistered(re, register_key);
                 return true;
             }
             return false;
@@ -80,7 +80,7 @@ public class UUIDRegistry {
             registry.remove(re.getUUID().toString());
             secondary_registry.remove(re.getEntryName());
             re.remove(register_key);
-            UUIDRegistryEvent.getIstance().elementRemoved(re, register_key);
+            UUIDRegistryEvent.getInstance().elementRemoved(re, register_key);
             return true;
         }
         return false;

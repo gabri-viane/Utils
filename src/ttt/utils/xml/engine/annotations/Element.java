@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ttt.utils.xml.engine.interfaces;
+package ttt.utils.xml.engine.annotations;
 
 /**
  *
  * @author TTT
  */
-public interface Element {
-    
+public @interface Element {
+
 }
