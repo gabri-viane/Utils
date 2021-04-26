@@ -5,13 +5,21 @@
  */
 package ttt.utils.xml.engine.annotations;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import ttt.utils.xml.engine.XMLEngine;
 import ttt.utils.xml.engine.interfaces.IXMLTag;
 
 /**
+ * Se anteposto alla definizione di un metodo o variabile permette alla classe
+ * {@link XMLEngine} di valutarlo come Elemento XML.
  *
  * @author TTT
  */
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD, ElementType.METHOD, ElementType.TYPE})
 public @interface Element {
 
     /**
