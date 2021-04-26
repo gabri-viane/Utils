@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ttt.utils.menu.utils;
+package ttt.utils.console.output.interfaces;
 
 /**
  *
  * @author TTT
  */
-@FunctionalInterface
-public interface FutureMenuAction<P> {
+public interface PrintableObject {
 
-    public P onSelected();
 }

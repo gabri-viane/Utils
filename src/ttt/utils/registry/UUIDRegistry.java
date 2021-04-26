@@ -7,7 +7,7 @@ package ttt.utils.registry;
 
 import java.util.HashMap;
 import java.util.UUID;
-import ttt.utils.output.GeneralFormatter;
+import ttt.utils.console.output.GeneralFormatter;
 import ttt.utils.registry.abstracts.RegistrableEntry;
 import ttt.utils.registry.abstracts.UUIDRegistrableEntry;
 import ttt.utils.registry.events.UUIDRegistryEvent;

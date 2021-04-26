@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ttt.utils.menu.utils;
+package ttt.utils.console.menu.utils;
 
 /**
  *

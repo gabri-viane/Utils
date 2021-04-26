@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ttt.utils.output;
+package ttt.utils.console.output;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ttt.utils.output.annotations.Printable;
-import ttt.utils.output.interfaces.PrintableObject;
+import ttt.utils.console.output.annotations.Printable;
+import ttt.utils.console.output.interfaces.PrintableObject;
 
 /**
  *

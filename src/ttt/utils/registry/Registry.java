@@ -6,7 +6,7 @@
 package ttt.utils.registry;
 
 import java.util.HashMap;
-import ttt.utils.output.GeneralFormatter;
+import ttt.utils.console.output.GeneralFormatter;
 import ttt.utils.registry.abstracts.RegistrableEntry;
 import ttt.utils.registry.events.RegistryEvent;
 import ttt.utils.registry.exception.RegistryException;

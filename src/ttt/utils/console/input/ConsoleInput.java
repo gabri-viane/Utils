@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ttt.utils.input;
+package ttt.utils.console.input;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import ttt.utils.ProjectSettings;
-import static ttt.utils.output.GeneralFormatter.printOut;
+import static ttt.utils.console.output.GeneralFormatter.printOut;
 
 /**
  * Gestisce tutti gli input base. Tramite alcune funzioni si può definire se

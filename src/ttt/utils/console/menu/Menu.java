@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ttt.utils.menu;
+package ttt.utils.console.menu;
 
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import ttt.utils.input.ConsoleInput;
-import ttt.utils.menu.utils.FutureMenuAction;
-import ttt.utils.menu.utils.Pair;
-import ttt.utils.output.GeneralFormatter;
+import ttt.utils.console.input.ConsoleInput;
+import ttt.utils.console.menu.utils.FutureMenuAction;
+import ttt.utils.console.menu.utils.Pair;
+import ttt.utils.console.output.GeneralFormatter;
 
 /**
  *

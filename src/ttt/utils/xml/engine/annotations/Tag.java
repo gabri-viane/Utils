@@ -12,4 +12,17 @@ package ttt.utils.xml.engine.annotations;
  */
 public @interface Tag {
 
+    /**
+     * Il nome del Tag(Attributo).
+     *
+     * @return
+     */
+    public String Name();
+
+    /**
+     * Tipo di valore contenuto. Di default è pari a {@code String.class }.
+     *
+     * @return Classe del valore ottenuto.
+     */
+    public Class Type() default String.class;
 }
