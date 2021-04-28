@@ -99,6 +99,8 @@ public interface IXMLElement {
      * @return
      */
     public List<IXMLElement> getElements();
+    
+    public IXMLElement getFirstElement(String name);
 
     public boolean isClosed();
 

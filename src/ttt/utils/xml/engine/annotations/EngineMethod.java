@@ -12,25 +12,12 @@ import java.lang.annotation.Target;
 import ttt.utils.xml.engine.enums.MethodType;
 
 /**
- * Tag detto anche Attributo.
  *
- * @author TTT
+ * @author gabri
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.METHOD})
-public @interface Tag {
+@Target(ElementType.METHOD)
+public @interface EngineMethod {
 
-    /**
-     * Il nome del Tag(Attributo).
-     *
-     * @return
-     */
-    public String Name();
-
-    /**
-     * Tipo di valore contenuto. Di default è pari a {@code String.class }.
-     *
-     * @return Classe del valore ottenuto.
-     */
-    public Class ValueType() default String.class;
+    public MethodType MethodType();
 }

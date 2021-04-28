@@ -48,6 +48,7 @@ public class XMLWriter {
             XMLStreamWriter xmlsw = xmlof.createXMLStreamWriter(new FileOutputStream(f), "UTF-8");
             xmlsw.writeStartDocument("UTF-8", "1.0");
             document.getElements().forEach(el -> writeElement(xmlsw, el));
+            xmlsw.writeEndDocument();
             xmlsw.flush();
             xmlsw.close();
         } catch (FileNotFoundException | XMLStreamException e) {
@@ -72,6 +73,7 @@ public class XMLWriter {
             }
             xmlsw.flush();
             element.getElements().forEach(el -> writeElement(xmlsw, el));
+            xmlsw.writeEndElement();
         } catch (XMLStreamException ex) {
             Logger.getLogger(XMLWriter.class.getName()).log(Level.SEVERE, null, ex);
         }

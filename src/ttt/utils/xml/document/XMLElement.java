@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import ttt.utils.xml.engine.interfaces.IXMLElement;
 import ttt.utils.xml.engine.interfaces.IXMLTag;
 
@@ -93,6 +94,13 @@ public class XMLElement implements IXMLElement {
     @Override
     public List<IXMLElement> getElements() {
         return Collections.unmodifiableList(sub_elements);
+    }
+
+    @Override
+    public IXMLElement getFirstElement(String name) {
+        return sub_elements.stream().filter((t) -> {
+            return t.getName().equals(name);
+        }).findFirst().orElse(null);
     }
 
     private boolean closed = false;

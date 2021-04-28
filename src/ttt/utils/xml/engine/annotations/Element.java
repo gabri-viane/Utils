@@ -46,4 +46,6 @@ public @interface Element {
      * un eventuale valore associato.
      */
     public boolean CanHaveValue() default true;
+    
+    
 }
