@@ -19,7 +19,7 @@ import ttt.utils.xml.engine.interfaces.IXMLTag;
  * @author TTT
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.METHOD, ElementType.TYPE})
+@Target(value = {ElementType.TYPE})
 public @interface Element {
 
     /**
