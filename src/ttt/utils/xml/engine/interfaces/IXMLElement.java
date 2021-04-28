@@ -91,6 +91,8 @@ public interface IXMLElement {
      */
     public IXMLTag getTag(String name);
 
+    public List<IXMLTag> getTags();
+
     /**
      * Ritorna la lista di elementi
      *

@@ -19,7 +19,7 @@ import ttt.utils.xml.engine.interfaces.IXMLElement;
  *
  * @author TTT
  */
-public class XMLDocument extends XMLElement{
+public class XMLDocument extends XMLElement {
 
     private final ArrayList<IXMLElement> elements = new ArrayList<>();
     private final File file;
@@ -27,6 +27,10 @@ public class XMLDocument extends XMLElement{
     public XMLDocument(File file) {
         super(file.getName());
         this.file = file;
+    }
+
+    public File getSourceFile() {
+        return file;
     }
 
     @Override

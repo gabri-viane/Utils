@@ -84,6 +84,13 @@ public class XMLElement implements IXMLElement {
     }
 
     @Override
+    public List<IXMLTag> getTags() {
+        ArrayList<IXMLTag> tgs = new ArrayList<>();
+        tgs.addAll(tags.values());
+        return Collections.unmodifiableList(tgs);
+    }
+
+    @Override
     public List<IXMLElement> getElements() {
         return Collections.unmodifiableList(sub_elements);
     }
