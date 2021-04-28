@@ -99,6 +99,9 @@ public final class XMLEngine {
         Class c = to.getClass();
         Element main_ann = getAnnotationFrom(c);
         ArrayList<Method> calc_methods = new ArrayList<>();
+        if (main_ann.CanHaveValue()) {
+            to.setValue(from.getValue());
+        }
         for (Method m : c.getDeclaredMethods()) {
             EngineMethod meta = m.getAnnotation(EngineMethod.class);//Il metodo deve essre annotato con @EngineMethod
             if (meta != null) {
@@ -142,9 +145,6 @@ public final class XMLEngine {
                 Logger.getLogger(XMLEngine.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        if (main_ann.CanHaveValue()) {
-            to.setValue(from.getValue());
-        }
     }
 
 }
