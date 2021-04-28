@@ -5,13 +5,19 @@
  */
 package ttt.utils.xml.io;
 
+import java.io.File;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import ttt.utils.xml.document.XMLDocument;
+import ttt.utils.xml.document.XMLElement;
+import ttt.utils.xml.document.XMLTag;
 
 /**
  * Serve per leggere un file di testo strutturato come XML.
@@ -19,6 +25,7 @@ import java.util.ArrayList;
  * @author TTT
  */
 public class XMLReader {
+
     /*
     Quando si legge un file si deve ritornare un'istanza di una classe 
     Documento (da creare).
@@ -30,129 +37,64 @@ public class XMLReader {
     Ogni sezione del documento letto (perciò ad ogni evento) viene chiamata la 
     classe XMLEngine che si deve occupare di completare (assegnare i valori, 
     perciò chiamando metodi o direttamente variabili) con i valori letti.
-    */
-
-     /**
-     * Metodo che legge tutte le persone dal file "inputPersone.xml" e ritorna un array-list di {@link Persona}
-     * @return lista delle persone con dati personali
-     * @throws FileNotFoundException e
-     * @throws XMLStreamException e
      */
-    public static ArrayList<Persona> leggiPersone() throws FileNotFoundException, XMLStreamException {
+    private final File f;
 
-        ArrayList<Persona> lista_persone = new ArrayList<>();
-        Persona p;
-        String nome = "";
-        String cognome = "";
-        String  sesso = "";
-        Data data_di_nascita = null;
-        String luogo_di_nascita = "";
-
-        FileInputStream file = new FileInputStream("inputPersone.xml");
-
-        XMLInputFactory xmlif = null;
-        XMLStreamReader xmlr = null;
-        try {
-            xmlif = XMLInputFactory.newInstance();
-            xmlr = xmlif.createXMLStreamReader("inputPersone.xml", file);
-        } catch (Exception e) {
-            System.out.println("Errore nell'inizializzazione del reader:");
-            System.out.println(e.getMessage());
-        }
-
-        int contatore = 0;
-
-        while (xmlr.hasNext()) {
-            if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT && xmlr.getLocalName().equals("persona")){
-
-                contatore = 0;
-
-                while (contatore < 5){
-                    xmlr.next();
-                    if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT && xmlr.getLocalName().equals("nome")){
-                        xmlr.next();
-                        nome = xmlr.getText();
-                        contatore++;
-                        xmlr.next();
-                    }
-                    if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT && xmlr.getLocalName().equals("cognome")){
-                        xmlr.next();
-                        cognome = xmlr.getText();
-                        contatore++;
-                        xmlr.next();
-                    }
-                    if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT && xmlr.getLocalName().equals("sesso")){
-                        xmlr.next();
-                        sesso = xmlr.getText();
-                        contatore++;
-                        xmlr.next();
-                    }
-                    if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT && xmlr.getLocalName().equals("comune_nascita")){
-                        xmlr.next();
-                        luogo_di_nascita = xmlr.getText();
-                        contatore++;
-                        xmlr.next();
-                    }
-                    if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT && xmlr.getLocalName().equals("data_nascita")){
-                        xmlr.next();
-                        data_di_nascita = new Data(xmlr.getText());
-                        contatore++;
-                        xmlr.next();
-                    }
-                }
-                p = new Persona(nome, cognome, sesso, data_di_nascita, luogo_di_nascita);
-                lista_persone.add(p);
-            }
-            xmlr.next();
-        }
-        return  lista_persone;
+    public XMLReader(File file) {
+        this.f = file;
     }
 
-    public static ArrayList<Comune> leggiComuni() throws FileNotFoundException, XMLStreamException {
-
-        ArrayList<Comune> lista_comuni = new ArrayList<>();
-
-        FileInputStream file = new FileInputStream("comuni.xml");
-
-        XMLInputFactory xmlif = null;
-        XMLStreamReader xmlr = null;
-        try {
-            xmlif = XMLInputFactory.newInstance();
-            xmlr = xmlif.createXMLStreamReader("inputPersone.xml", file);
-        } catch (Exception e) {
-            System.out.println("Errore nell'inizializzazione del reader:");
-            System.out.println(e.getMessage());
-        }
-
-        while (xmlr.hasNext()){
-
-            int contatore = 0;
-            String nome = "";
-            String codice = "";
-            Comune comune_letto = null;
-
-            if(xmlr.getEventType() == XMLStreamConstants.START_ELEMENT && xmlr.getLocalName() == "comune"){
-                while(contatore < 2){
-                    xmlr.next();
-                    if(xmlr.getEventType() == XMLStreamConstants.START_ELEMENT && xmlr.getLocalName() == "nome"){
-                        xmlr.next();
-                        nome = xmlr.getText();
-                        contatore++;
-                    }
-                    if(xmlr.getEventType() == XMLStreamConstants.START_ELEMENT && xmlr.getLocalName() == "codice"){
-                        xmlr.next();
-                        codice = xmlr.getText();
-                        contatore++;
-                    }
-                }
-                comune_letto = new Comune(nome, codice);
-                lista_comuni.add(comune_letto);
+    public XMLDocument readDocument() throws IOException {
+        if (f != null && f.exists() && f.isFile()) {
+            XMLDocument document = new XMLDocument(f);
+            try {
+                XMLInputFactory xmlif = XMLInputFactory.newInstance();
+                XMLStreamReader xmlsr = xmlif.createXMLStreamReader(f.getAbsolutePath(), new FileInputStream(f));
+                parseDocument(xmlsr, document);
+                xmlsr.close();
+            } catch (FileNotFoundException | XMLStreamException e) {
+                throw new IOException("Il file specificato non esiste o non è formattato correttamente.");
             }
-            xmlr.next();
-        }
-        return lista_comuni;
-    }
-}
 
+            return document;
+        } else {
+            throw new IOException("Il file specificato non esiste o non è correttto.");
+        }
+    }
+
+    private void parseDocument(XMLStreamReader xmlsr, XMLDocument d) {
+        try {
+            while (xmlsr.hasNext()) {
+                switch (xmlsr.getEventType()) {
+                    case XMLStreamConstants.START_ELEMENT:
+                        d.getLast().addSubElement(parseElement(xmlsr));
+                        break;
+                    case XMLStreamConstants.END_ELEMENT:
+                        d.getLast().close();
+                        break;
+                    case XMLStreamConstants.CHARACTERS: // content all’interno di un elemento: stampa il testo
+                        if (xmlsr.getText().trim().length() > 0) {
+                            d.getLast().setValue(xmlsr.getText());
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                xmlsr.next();
+            }
+        } catch (XMLStreamException ex) {
+            Logger.getLogger(XMLReader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private XMLElement parseElement(XMLStreamReader xmlsr) {
+        XMLElement element = new XMLElement(xmlsr.getLocalName());
+        for (int i = 0; i < xmlsr.getAttributeCount(); i++) {
+            XMLTag xmlTag = new XMLTag(xmlsr.getAttributeLocalName(i));
+            xmlTag.setValue(xmlsr.getAttributeValue(i));
+            element.addTag(xmlTag);
+        }
+        return element;
+    }
 
 }

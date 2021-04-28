@@ -6,7 +6,9 @@
 package ttt.utils.xml.document;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import ttt.utils.xml.engine.interfaces.IXMLElement;
 import ttt.utils.xml.engine.interfaces.IXMLTag;
 
@@ -29,7 +31,7 @@ public class XMLElement implements IXMLElement {
     }
 
     @Override
-    public boolean hasSubElement() {
+    public boolean hasSubElements() {
         return sub_elements.size() > 0;
     }
 
@@ -79,6 +81,37 @@ public class XMLElement implements IXMLElement {
     @Override
     public void addTag(IXMLTag tag) {
         tags.put(tag.getName(), tag);
+    }
+
+    @Override
+    public List<IXMLElement> getElements() {
+        return Collections.unmodifiableList(sub_elements);
+    }
+
+    private boolean closed = false;
+
+    @Override
+    public boolean isClosed() {
+        return closed;
+    }
+
+    @Override
+    public void close() {
+        closed = true;
+    }
+
+    @Override
+    public IXMLElement getLast() {
+        if (!closed) {
+            if (hasSubElements()) {
+                IXMLElement last = sub_elements.get(sub_elements.size() - 1).getLast();
+                if (last != null) {
+                    return last;
+                }
+            }
+            return this;
+        }
+        return null;
     }
 
 }

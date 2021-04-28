@@ -14,6 +14,33 @@ import ttt.utils.xml.engine.interfaces.IXMLTag;
  */
 public class XMLTag implements IXMLTag {
 
+    private String name;
+    private String value;
+
+    public XMLTag(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
     /*
     Implementare i metodi di IXMLTag
      */

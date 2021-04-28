@@ -5,7 +5,7 @@
  */
 package ttt.utils.xml.engine.interfaces;
 
-import ttt.utils.xml.document.XMLTag;
+import java.util.List;
 
 /**
  *
@@ -44,18 +44,63 @@ public interface IXMLElement {
      *
      * @return
      */
-    public boolean hasSubElement();
+    public boolean hasSubElements();
 
+    /**
+     * Aggiunge all'elemento un sotto-elemento
+     *
+     * @param element
+     */
     public void addSubElement(IXMLElement element);
 
+    /**
+     * Rimuovi da quest'elemento un sotto-elemento
+     *
+     * @param element
+     */
     public void removeSubElement(IXMLElement element);
 
+    /**
+     * Controlla se ha un'elemento
+     *
+     * @param element
+     * @return
+     */
     public boolean hasElement(IXMLElement element);
 
+    /**
+     * Aggiungi una tag
+     *
+     * @param tag
+     */
     public void addTag(IXMLTag tag);
 
+    /**
+     * Controlla se ha una tag.
+     *
+     * @param name
+     * @return
+     */
     public boolean hasTag(String name);
 
+    /**
+     * Restituisce una tag.
+     *
+     * @param name
+     * @return
+     */
     public IXMLTag getTag(String name);
 
+    /**
+     * Ritorna la lista di elementi
+     *
+     * @return
+     */
+    public List<IXMLElement> getElements();
+
+    public boolean isClosed();
+
+    public void close();
+
+    public IXMLElement getLast();
 }
