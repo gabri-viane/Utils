@@ -44,6 +44,14 @@ public class XMLReader {
         this.f = file;
     }
 
+    /**
+     * Legge il file associato a questo {@link XMLReader} per estrapolarne un
+     * oggetto {@link XMLDocument} con i relativi {@link XMLElement} ognungo
+     * completo di tags e valori.
+     *
+     * @return Il nuovo documento tradotto in oggetti {@link XMLElement}
+     * @throws IOException
+     */
     public XMLDocument readDocument() throws IOException {
         if (f != null && f.exists() && f.isFile()) {
             XMLDocument document = new XMLDocument(f);
@@ -62,6 +70,12 @@ public class XMLReader {
         }
     }
 
+    /**
+     * Esegue il parse per eventi base XML.
+     *
+     * @param xmlsr Lo stream di lettura XML.
+     * @param d Il documento in cui vanno salvati gli elementi.
+     */
     private void parseDocument(XMLStreamReader xmlsr, XMLDocument d) {
         try {
             while (xmlsr.hasNext()) {
@@ -87,6 +101,13 @@ public class XMLReader {
         }
     }
 
+    /**
+     * Esegue il parse di un singolo elemento: lo crea e gli associa gli
+     * attributi.
+     *
+     * @param xmlsr Lo stream di lettura XML.
+     * @return Il nuovo oggetto {@link XMLElement}.
+     */
     private XMLElement parseElement(XMLStreamReader xmlsr) {
         XMLElement element = new XMLElement(xmlsr.getLocalName());
         for (int i = 0; i < xmlsr.getAttributeCount(); i++) {

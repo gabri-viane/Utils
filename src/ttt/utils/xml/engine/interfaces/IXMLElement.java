@@ -91,6 +91,11 @@ public interface IXMLElement {
      */
     public IXMLTag getTag(String name);
 
+    /**
+     * Restituisce la lista di Tag associati a quest'elemento.
+     *
+     * @return
+     */
     public List<IXMLTag> getTags();
 
     /**
@@ -99,12 +104,35 @@ public interface IXMLElement {
      * @return
      */
     public List<IXMLElement> getElements();
-    
+
+    /**
+     * Ritorna la prima occorrenza (se presente, altrimenti {@code null}) di
+     * un'elemento con il nome specificato.
+     *
+     * @param name
+     * @return
+     */
     public IXMLElement getFirstElement(String name);
 
+    /**
+     * Ritrorna se l'elemento è stato chiuso.
+     *
+     * @return
+     */
     public boolean isClosed();
 
+    /**
+     * Chiude l'elemento corrente e non modifica il comportamento del metodo {@link IXMLElement#getLast()
+     * }.
+     */
     public void close();
 
+    /**
+     * Ritorna l'ultimo elemento non chiuso che dipende da quest'elemento, o nel
+     * caso tutti i sottoelementi siano chiusi ritorna se stesso, nel caso non
+     * sia stato precedentemente chiuso. Altrimenti ritorna {@code null}.
+     *
+     * @return
+     */
     public IXMLElement getLast();
 }

@@ -29,10 +29,20 @@ public class XMLDocument extends XMLElement {
         this.file = file;
     }
 
+    /**
+     * Ritorna il file associato a questo documento.
+     *
+     * @return
+     */
     public File getSourceFile() {
         return file;
     }
 
+    /**
+     * Ritorna la lista non modificabile di elementi contenuti nel documento .
+     *
+     * @return
+     */
     @Override
     public List<IXMLElement> getElements() {
         elements.clear();

@@ -7,8 +7,26 @@ package ttt.utils.xml.engine.enums;
 
 /**
  *
- * @author gabri
+ * @author TTT
  */
 public enum MethodType {
-    GET, SET, CALC, EVENT, VARIABLE_ONLY
+    /**
+     * Segnala un metodo di tipo GET, con valore di ritorno.
+     */
+    GET,
+    /**
+     * Segnala un metodo di tipo SET, senza necessariamente un metodo di ritorno
+     * ma che deve rispettare il numero di parametri e i tipi definiti
+     * dall'engine che deve utilizzare il metodo.
+     */
+    SET,
+    /**
+     * Segnala un metodo che viene chiamato solamente dopo aver chiamato tutti i
+     * metodi set e aver inizializzato i valori base.<br/>
+     * Non necessita un ritorno ma deve rispettare il numero di parametri e i
+     * tipi definiti dall'engine che deve utilizzare il metodo.
+     */
+    CALC,
+    EVENT,
+    VARIABLE_ONLY
 }

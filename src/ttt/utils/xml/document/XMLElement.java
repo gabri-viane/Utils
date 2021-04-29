@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 import ttt.utils.xml.engine.interfaces.IXMLElement;
 import ttt.utils.xml.engine.interfaces.IXMLTag;
 
@@ -27,6 +26,12 @@ public class XMLElement implements IXMLElement {
     private final HashMap<String, IXMLTag> tags = new HashMap<>();
     private final ArrayList<IXMLElement> sub_elements = new ArrayList<>();
 
+    /**
+     * Crea un nuovo elemento con tutti i metodi cià implementati. Evita di
+     * dover implementarli ogni volta.
+     *
+     * @param name
+     */
     public XMLElement(String name) {
         this.name = name;
     }
@@ -56,9 +61,6 @@ public class XMLElement implements IXMLElement {
         return tags.get(name);
     }
 
-    /*
-     Implementare i metodi base di IXMLElement
-     */
     @Override
     public String getName() {
         return name;

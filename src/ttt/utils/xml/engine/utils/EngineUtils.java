@@ -6,6 +6,7 @@
 package ttt.utils.xml.engine.utils;
 
 /**
+ * Non ancora implementata.
  *
  * @author TTT
  */

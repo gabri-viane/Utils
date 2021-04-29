@@ -27,6 +27,14 @@ public class XMLWriter {
 
     private final File f;
 
+    /**
+     * Crea un nuovo XMLWriter associato ad un file, in cui si potrà salvare un
+     * oggetto di tipo {@link XMLDocument} tramite il metodo messo a
+     * disposizione: {@link XMLWriter#writeDocument(ttt.utils.xml.document.XMLDocument)
+     * }.
+     *
+     * @param file Il file che conterrà il documento.
+     */
     public XMLWriter(File file) {
         this.f = file;
     }
@@ -38,6 +46,17 @@ public class XMLWriter {
      
     Deve permettere di creare un file vuoto nel caso non esiste, deve chiedere se
     si vuole sovrascrivere il file già esistente.
+     */
+    /**
+     * Scrive nel file (lo crea se non esiste già, altrimenti lo sovrascrive) il
+     * contenuto di un {@link XMLDocument}.<br/>
+     *
+     * Per ogni {@link IXMLElement} contenuto nel documento viene eseguito il
+     * flush subito dopo aver scritto l'apertura e i relativi tags.<br/>
+     *
+     * Il file è scritto in codifica UTF-8 con formato XML 1.0
+     *
+     * @param document Il documento da salvare
      */
     public void writeDocument(XMLDocument document) {
         try {
@@ -58,6 +77,14 @@ public class XMLWriter {
         }
     }
 
+    /**
+     * Si occupa della scrittura di un singolo elemento con i relativi tags, nel
+     * caso l'elemento ne possieda a sua volta degli altri allora il metodo
+     * procede a scrivere pure loro prima di chiudere l'elemento corrente.
+     *
+     * @param xmlsw Lo stream di scrittura del file.
+     * @param element L'elemento da scrivere.
+     */
     private void writeElement(XMLStreamWriter xmlsw, IXMLElement element) {
         try {
             xmlsw.writeStartElement(element.getName());

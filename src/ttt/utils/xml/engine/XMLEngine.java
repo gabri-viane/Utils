@@ -41,10 +41,26 @@ public final class XMLEngine {
 
     private final HashMap<String, Class<? extends XMLElement>> availableElements = new HashMap<>();
 
+    /**
+     * Uguale al comportamento di {@link XMLEngine#XMLEngine(ttt.utils.xml.document.XMLDocument, java.lang.Class...)
+     * }
+     *
+     * @param file
+     * @param classes
+     * @throws IOException
+     */
     public XMLEngine(File file, Class<? extends XMLElement>... classes) throws IOException {
         this(new XMLReader(file).readDocument(), classes);
     }
 
+    /**
+     * Uguale al comportamento di {@link  XMLEngine#XMLEngine(ttt.utils.xml.document.XMLDocument, java.lang.Class...)
+     * }
+     *
+     * @param reader
+     * @param classes
+     * @throws IOException
+     */
     public XMLEngine(XMLReader reader, Class<? extends XMLElement>... classes) throws IOException {
         this(reader.readDocument(), classes);
     }
@@ -64,6 +80,11 @@ public final class XMLEngine {
         init();
     }
 
+    /**
+     * Inizializza la lista di classi usate nel documento. Ogni classe deve
+     * implementare l'interfaccia {@link IXMLElement} ed essre annotata con
+     * {@link Element} per poter poi essere usata da questo engine
+     */
     private void init() {
         for (Class cls : classes) {
             Element elem_ann = getAnnotationFrom(cls);
@@ -73,6 +94,13 @@ public final class XMLEngine {
         }
     }
 
+    /**
+     * Restituisce l'annotazione, se presente, {@link Element} associata ad una
+     * classe.
+     *
+     * @param c La classe da controllare.
+     * @return
+     */
     private Element getAnnotationFrom(Class c) {
         Annotation annotation = c.getAnnotation(Element.class);
         if (annotation != null) {
@@ -82,6 +110,19 @@ public final class XMLEngine {
         return null;
     }
 
+    /**
+     * Converte tutti gli {@link IXMLElement} possibili nelle istanze delle
+     * classi specificate nel costruttore.<br/>
+     * Ogni elemento viene convertito in una classe specificata solo se la sua
+     * annotazione {@link Element#Name() } contiene lo stesso nome
+     * dell'elemento.<p/>
+     * Ad esempio:<br/> {@code <esempio_elemento>valore</esempio_elemento>}<br/>
+     * Può essere associato solo ad una classe che implementa
+     * {@link IXMLElement} ed è annotata così:<br/>
+     * {@code @Element(Name = "esempio_elemento")}
+     *
+     * @param to Documento in cui salvare la nuova struttura
+     */
     public void morph(XMLDocument to) {
         document.getElements().forEach(to_transfer -> {
             try {
@@ -95,6 +136,13 @@ public final class XMLEngine {
         });
     }
 
+    /**
+     * Trasferisce i valori di un generico {@link XMLElement} in uno nuovo, nel
+     * caso rappresentato da una nuova classe.
+     *
+     * @param from L'elemento da trasferire, copiare.
+     * @param to L'elemento di destinzaione (può essere una nuova classe).
+     */
     private void transfer(IXMLElement from, IXMLElement to) {
         Class c = to.getClass();
         Element main_ann = getAnnotationFrom(c);

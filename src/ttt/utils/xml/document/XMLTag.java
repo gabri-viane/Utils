@@ -17,6 +17,11 @@ public class XMLTag implements IXMLTag {
     private String name;
     private String value;
 
+    /**
+     * Crea una nuova Tag, deve essere associato subito un nome.
+     *
+     * @param name
+     */
     public XMLTag(String name) {
         this.name = name;
     }
@@ -41,7 +46,4 @@ public class XMLTag implements IXMLTag {
         return name;
     }
 
-    /*
-    Implementare i metodi di IXMLTag
-    */
 }
