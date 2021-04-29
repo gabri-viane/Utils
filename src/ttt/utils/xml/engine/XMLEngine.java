@@ -43,10 +43,10 @@ public final class XMLEngine {
 
     /**
      * Uguale al comportamento di {@link XMLEngine#XMLEngine(ttt.utils.xml.document.XMLDocument, java.lang.Class...)
-     * }
+     * }.
      *
-     * @param file
-     * @param classes
+     * @param file Il file da leggere come documento XML.
+     * @param classes Le classi che devono essere utilizzate per lo scambio
      * @throws IOException
      */
     public XMLEngine(File file, Class<? extends XMLElement>... classes) throws IOException {
@@ -55,10 +55,11 @@ public final class XMLEngine {
 
     /**
      * Uguale al comportamento di {@link  XMLEngine#XMLEngine(ttt.utils.xml.document.XMLDocument, java.lang.Class...)
-     * }
+     * }.
      *
-     * @param reader
-     * @param classes
+     * @param reader La classe Reader inizializzata per poter leggere il
+     * documento.
+     * @param classes Le classi che devono essere utilizzate per lo scambio.
      * @throws IOException
      */
     public XMLEngine(XMLReader reader, Class<? extends XMLElement>... classes) throws IOException {
@@ -194,5 +195,4 @@ public final class XMLEngine {
             }
         });
     }
-
 }

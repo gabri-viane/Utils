@@ -15,7 +15,10 @@ import ttt.utils.xml.engine.interfaces.IXMLTag;
 /**
  * Elemento base di un file XML. Può contenere zero o molteplici tags
  * ({@link IXMLTag}) e può avere anche altri sotto-elementi
- * ({@link IXMLElement}).
+ * ({@link IXMLElement}).<br/>
+ * Fornisce tutti i metodi in modo che una classe possa estendre
+ * {@link XMLElement} definendo solo metodi funzionali per la gestione dei
+ * tag o comportamenti specifici.
  *
  * @author TTT
  */
@@ -27,8 +30,7 @@ public class XMLElement implements IXMLElement {
     private final ArrayList<IXMLElement> sub_elements = new ArrayList<>();
 
     /**
-     * Crea un nuovo elemento con tutti i metodi cià implementati. Evita di
-     * dover implementarli ogni volta.
+     * Crea un nuovo elemento generico con tutti i metodi base già implementati.
      *
      * @param name
      */

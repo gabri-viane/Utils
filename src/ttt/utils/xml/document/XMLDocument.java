@@ -15,7 +15,9 @@ import ttt.utils.xml.engine.interfaces.IXMLElement;
 /**
  * Rappresenta il documento base. Questa è la root per tutti gli elementi di un
  * documento. La creazione coincide con l'evento
- * {@link XMLEvent#START_DOCUMENT}.
+ * {@link XMLEvent#START_DOCUMENT}.<br/>
+ * Un documento è considerato esso stesso un elemento XML per poter facilitare i
+ * compiti d'accesso, di scrittura e di lettura.
  *
  * @author TTT
  */

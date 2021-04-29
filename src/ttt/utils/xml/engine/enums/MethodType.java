@@ -6,6 +6,8 @@
 package ttt.utils.xml.engine.enums;
 
 /**
+ * I tipi di metodi che possono essere utilizzati da un Engine per completare e
+ * richiedere valori.
  *
  * @author TTT
  */

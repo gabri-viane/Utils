@@ -23,7 +23,8 @@ import ttt.utils.xml.engine.interfaces.IXMLTag;
 public @interface Element {
 
     /**
-     * Il nome dell'Elemento.
+     * Il nome dell'Elemento. Deve corrispondere con il nome di un elemento del
+     * file XML per poter essere gestito correttamente.
      *
      * @return
      */
@@ -46,6 +47,5 @@ public @interface Element {
      * un eventuale valore associato.
      */
     public boolean CanHaveValue() default true;
-    
-    
+
 }

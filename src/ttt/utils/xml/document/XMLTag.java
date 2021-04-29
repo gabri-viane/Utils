@@ -18,7 +18,7 @@ public class XMLTag implements IXMLTag {
     private String value;
 
     /**
-     * Crea una nuova Tag, deve essere associato subito un nome.
+     * Crea una nuova Tag, deve essere associato subito ad un nome.
      *
      * @param name
      */

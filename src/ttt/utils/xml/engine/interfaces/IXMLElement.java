@@ -8,6 +8,8 @@ package ttt.utils.xml.engine.interfaces;
 import java.util.List;
 
 /**
+ * L'interfaccia che fornisce i metodi necessari per poter gestire una classe
+ * come elemento istanziabile XML.
  *
  * @author TTT
  */

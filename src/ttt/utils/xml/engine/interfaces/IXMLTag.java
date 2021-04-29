@@ -6,6 +6,8 @@
 package ttt.utils.xml.engine.interfaces;
 
 /**
+ * Interfaccia che deve essere implmentata dalle classi che rappresentano
+ * un'attributo (un tag) di un elemento XML.
  *
  * @author TTT
  */

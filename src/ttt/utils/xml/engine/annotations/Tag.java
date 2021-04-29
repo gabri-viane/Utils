@@ -9,9 +9,14 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import ttt.utils.xml.engine.XMLEngine;
 
 /**
- * Tag detto anche Attributo.
+ * Tag detto anche attributo.<br>
+ *
+ * Permette di definire una variabile o un metodo (solo se pubblici) come tag,
+ * in modo tale che la classe {@link XMLEngine} possa gestire in modo corretto
+ * le tag di un elemento.
  *
  * @author TTT
  */
@@ -20,7 +25,8 @@ import java.lang.annotation.Target;
 public @interface Tag {
 
     /**
-     * Il nome del Tag(Attributo).
+     * Il nome del Tag(attributo). Deve corrispondere con l'effettivo nome del
+     * tag nel file XML per poter essere caricato correttamente.
      *
      * @return
      */
