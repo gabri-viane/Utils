@@ -28,9 +28,13 @@ public abstract class Menu<P> {
     private final String title;
     private boolean quitMenu = false;
 
-    public Menu(String title) {
+    public Menu(String title){
+        this(title, false);
+    }
+    
+    public Menu(String title, boolean print_menu_title) {
         this.title = title;
-        init();
+        init(print_menu_title);
     }
 
     public void reset() {
@@ -43,8 +47,10 @@ public abstract class Menu<P> {
         });
     }
 
-    private void init() {
-        GeneralFormatter.printOut(menu_bundle.getString("menu_title"), true, false);
+    private void init(boolean print_title) {
+        if (print_title) {
+            GeneralFormatter.printOut(menu_bundle.getString("menu_title"), true, false);
+        }
         reset();
     }
 

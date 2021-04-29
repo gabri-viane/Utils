@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -113,13 +112,13 @@ public final class XMLEngine {
 
     /**
      * Converte tutti gli {@link IXMLElement} possibili nelle istanze delle
-     * classi specificate nel costruttore.<br/>
+     * classi specificate nel costruttore.<br>
      * Ogni elemento viene convertito in una classe specificata solo se la sua
      * annotazione {@link Element#Name() } contiene lo stesso nome
-     * dell'elemento.<p/>
-     * Ad esempio:<br/> {@code <esempio_elemento>valore</esempio_elemento>}<br/>
+     * dell'elemento.<p>
+     * Ad esempio:<br> {@code <esempio_elemento>valore</esempio_elemento>}<br>
      * Può essere associato solo ad una classe che implementa
-     * {@link IXMLElement} ed è annotata così:<br/>
+     * {@link IXMLElement} ed è annotata così:<br>
      * {@code @Element(Name = "esempio_elemento")}
      *
      * @param to Documento in cui salvare la nuova struttura
@@ -128,7 +127,12 @@ public final class XMLEngine {
         document.getElements().forEach(to_transfer -> {
             try {
                 Constructor constr = availableElements.get(to_transfer.getName()).getConstructor();
-                Object newInstance = constr.newInstance();
+                Object newInstance;
+                if (constr != null) {
+                    newInstance = constr.newInstance();
+                } else {
+                    newInstance = new XMLElement(to_transfer.getName());
+                }
                 transfer(to_transfer, (IXMLElement) newInstance);
                 to.addSubElement((IXMLElement) newInstance);
             } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
@@ -180,7 +184,12 @@ public final class XMLEngine {
         from.getElements().forEach(to_transfer -> {
             try {
                 Constructor constr = availableElements.get(to_transfer.getName()).getConstructor();
-                Object newInstance = constr.newInstance();
+                Object newInstance;
+                if (constr != null) {
+                    newInstance = constr.newInstance();
+                } else {
+                    newInstance = new XMLElement(to_transfer.getName());
+                }
                 transfer(to_transfer, (IXMLElement) newInstance);
                 to.addSubElement((IXMLElement) newInstance);
             } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
