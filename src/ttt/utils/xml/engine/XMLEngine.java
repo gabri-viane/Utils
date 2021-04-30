@@ -126,9 +126,10 @@ public final class XMLEngine {
     public void morph(XMLDocument to) {
         document.getElements().forEach(to_transfer -> {
             try {
-                Constructor constr = availableElements.get(to_transfer.getName()).getConstructor();
+                Class<? extends XMLElement> to_instance = availableElements.get(to_transfer.getName());
                 Object newInstance;
-                if (constr != null) {
+                if (to_instance != null) {
+                    Constructor constr = to_instance.getConstructor();
                     newInstance = constr.newInstance();
                 } else {
                     newInstance = new XMLElement(to_transfer.getName());
@@ -184,9 +185,10 @@ public final class XMLEngine {
         from.getTags().forEach(tag -> to.addTag(tag));
         from.getElements().forEach(to_transfer -> {
             try {
-                Constructor constr = availableElements.get(to_transfer.getName()).getConstructor();
+                Class<? extends XMLElement> to_instance = availableElements.get(to_transfer.getName());
                 Object newInstance;
-                if (constr != null) {
+                if (to_instance != null) {
+                    Constructor constr = to_instance.getConstructor();
                     newInstance = constr.newInstance();
                 } else {
                     newInstance = new XMLElement(to_transfer.getName());
