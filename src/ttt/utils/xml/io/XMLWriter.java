@@ -101,6 +101,7 @@ public class XMLWriter {
             xmlsw.flush();
             element.getElements().forEach(el -> writeElement(xmlsw, el));
             xmlsw.writeEndElement();
+            xmlsw.flush();
         } catch (XMLStreamException ex) {
             Logger.getLogger(XMLWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
