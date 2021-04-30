@@ -153,34 +153,36 @@ public final class XMLEngine {
         Class c = to.getClass();
         Element main_ann = getAnnotationFrom(c);
         ArrayList<Method> calc_methods = new ArrayList<>();
-        if (main_ann.CanHaveValue()) {
-            to.setValue(from.getValue());
-        }
-        for (Method m : c.getDeclaredMethods()) {
-            EngineMethod meta = m.getAnnotation(EngineMethod.class);//Il metodo deve essre annotato con @EngineMethod
-            if (meta != null) {
-                if (meta.MethodType() == MethodType.SET) {
-                    if (main_ann.CanHaveTags()) {
-                        Tag tag_annot = m.getAnnotation(Tag.class);
-                        if (tag_annot != null) {
-                            if (m.getParameterCount() == 1 && m.getParameterTypes()[0] == String.class) {
-                                try {
-                                    IXMLTag effective_tag = from.getTag(tag_annot.Name());
-                                    m.invoke(to, effective_tag != null ? effective_tag.getValue() : null);
-                                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                                    Logger.getLogger(XMLEngine.class.getName()).log(Level.SEVERE, null, ex);
+        if (main_ann != null) {
+            if (main_ann.CanHaveValue()) {
+                to.setValue(from.getValue());
+            }
+            for (Method m : c.getDeclaredMethods()) {
+                EngineMethod meta = m.getAnnotation(EngineMethod.class);//Il metodo deve essre annotato con @EngineMethod
+                if (meta != null) {
+                    if (meta.MethodType() == MethodType.SET) {
+                        if (main_ann.CanHaveTags()) {
+                            Tag tag_annot = m.getAnnotation(Tag.class);
+                            if (tag_annot != null) {
+                                if (m.getParameterCount() == 1 && m.getParameterTypes()[0] == String.class) {
+                                    try {
+                                        IXMLTag effective_tag = from.getTag(tag_annot.Name());
+                                        m.invoke(to, effective_tag != null ? effective_tag.getValue() : null);
+                                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                                        Logger.getLogger(XMLEngine.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
                                 }
                             }
                         }
+                    } else if (meta.MethodType() == MethodType.CALC && m.getParameterCount() == 0) {
+                        calc_methods.add(m);
                     }
-                } else if (meta.MethodType() == MethodType.CALC && m.getParameterCount() == 0) {
-                    calc_methods.add(m);
                 }
-            }
-            //Completare per le variabili
-            /*for (Field f : c.getDeclaredFields()) {
+                //Completare per le variabili
+                /*for (Field f : c.getDeclaredFields()) {
 
             }*/
+            }
         }
         from.getTags().forEach(tag -> to.addTag(tag));
         from.getElements().forEach(to_transfer -> {
