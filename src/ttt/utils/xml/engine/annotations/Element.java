@@ -26,7 +26,7 @@ public @interface Element {
      * Il nome dell'Elemento. Deve corrispondere con il nome di un elemento del
      * file XML per poter essere gestito correttamente.
      *
-     * @return
+     * @return Il nome dell'elemento
      */
     public String Name();
 

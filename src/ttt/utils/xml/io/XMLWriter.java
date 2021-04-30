@@ -49,10 +49,10 @@ public class XMLWriter {
      */
     /**
      * Scrive nel file (lo crea se non esiste già, altrimenti lo sovrascrive) il
-     * contenuto di un {@link XMLDocument}.<br/>
+     * contenuto di un {@link XMLDocument}.<br>
      *
      * Per ogni {@link IXMLElement} contenuto nel documento viene eseguito il
-     * flush subito dopo aver scritto l'apertura e i relativi tags.<br/>
+     * flush subito dopo aver scritto l'apertura e i relativi tags.<br>
      *
      * Il file è scritto in codifica UTF-8 con formato XML 1.0
      *

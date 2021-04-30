@@ -46,7 +46,7 @@ public final class XMLEngine {
      *
      * @param file Il file da leggere come documento XML.
      * @param classes Le classi che devono essere utilizzate per lo scambio
-     * @throws IOException
+     * @throws IOException Nel caso in cui il file non esiste.
      */
     public XMLEngine(File file, Class<? extends XMLElement>... classes) throws IOException {
         this(new XMLReader(file).readDocument(), classes);
@@ -59,7 +59,7 @@ public final class XMLEngine {
      * @param reader La classe Reader inizializzata per poter leggere il
      * documento.
      * @param classes Le classi che devono essere utilizzate per lo scambio.
-     * @throws IOException
+     * @throws IOException Nel caso in cui il file non esiste
      */
     public XMLEngine(XMLReader reader, Class<? extends XMLElement>... classes) throws IOException {
         this(reader.readDocument(), classes);
@@ -99,7 +99,7 @@ public final class XMLEngine {
      * classe.
      *
      * @param c La classe da controllare.
-     * @return
+     * @return L'annotazone {@link Element} associata alla classe.
      */
     private Element getAnnotationFrom(Class c) {
         Annotation annotation = c.getAnnotation(Element.class);
@@ -181,6 +181,7 @@ public final class XMLEngine {
 
             }*/
         }
+        from.getTags().forEach(tag -> to.addTag(tag));
         from.getElements().forEach(to_transfer -> {
             try {
                 Constructor constr = availableElements.get(to_transfer.getName()).getConstructor();

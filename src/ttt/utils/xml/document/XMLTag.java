@@ -20,7 +20,7 @@ public class XMLTag implements IXMLTag {
     /**
      * Crea una nuova Tag, deve essere associato subito ad un nome.
      *
-     * @param name
+     * @param name Il nome dell'attributo.
      */
     public XMLTag(String name) {
         this.name = name;

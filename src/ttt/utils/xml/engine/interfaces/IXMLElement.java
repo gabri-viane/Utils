@@ -23,87 +23,87 @@ public interface IXMLElement {
     /**
      * Ritorna il nome dell'elemento.
      *
-     * @return
+     * @return Il nome dell'elemento.
      */
     public String getName();
 
     /**
      * Ritorna il valore dell'elemento se presente.
      *
-     * @return
+     * @return Il valore dell'elemento.
      */
     public String getValue();
 
     /**
-     * Imposta il valore dell'elemento
+     * Imposta il valore dell'elemento.
      *
-     * @param value
+     * @param value Il valore da impostare.
      */
     public void setValue(String value);
 
     /**
-     * Ritorna se sono presenti dei sotto-elementi
+     * Ritorna se sono presenti dei sotto-elementi.
      *
-     * @return
+     * @return {@code true} se contiene altri {@link IXMLElement}.
      */
     public boolean hasSubElements();
 
     /**
-     * Aggiunge all'elemento un sotto-elemento
+     * Aggiunge all'elemento un sotto-elemento.
      *
-     * @param element
+     * @param element L'elemento da aggiungere.
      */
     public void addSubElement(IXMLElement element);
 
     /**
-     * Rimuovi da quest'elemento un sotto-elemento
+     * Rimuovi da quest'elemento un sotto-elemento.
      *
-     * @param element
+     * @param element L'elemento da rimuovere.
      */
     public void removeSubElement(IXMLElement element);
 
     /**
      * Controlla se ha un'elemento
      *
-     * @param element
-     * @return
+     * @param element Elemento da trovare.
+     * @return {@code true} se contiene l'elemento.
      */
     public boolean hasElement(IXMLElement element);
 
     /**
      * Aggiungi una tag
      *
-     * @param tag
+     * @param tag La {@link IXMLTag} da aggiungere
      */
     public void addTag(IXMLTag tag);
 
     /**
      * Controlla se ha una tag.
      *
-     * @param name
-     * @return
+     * @param name Nome della tag da cercare.
+     * @return {@code true} se contiene un'attributo con quel nome.
      */
     public boolean hasTag(String name);
 
     /**
      * Restituisce una tag.
      *
-     * @param name
-     * @return
+     * @param name Il nome dell'attributo da cercare.
+     * @return La {@link IXMLTag} associata al nome cercato (se presente).
      */
     public IXMLTag getTag(String name);
 
     /**
      * Restituisce la lista di Tag associati a quest'elemento.
      *
-     * @return
+     * @return Lista di attributi.
      */
     public List<IXMLTag> getTags();
 
     /**
-     * Ritorna la lista di elementi
+     * Ritorna la lista di elementi contenuti nell'elemento corrente.
      *
-     * @return
+     * @return Lista di elementi.
      */
     public List<IXMLElement> getElements();
 
@@ -111,15 +111,15 @@ public interface IXMLElement {
      * Ritorna la prima occorrenza (se presente, altrimenti {@code null}) di
      * un'elemento con il nome specificato.
      *
-     * @param name
-     * @return
+     * @param name Il nome dell'elemento da cercare.
+     * @return L'elemento trovato, altrimenti {@code null}.
      */
     public IXMLElement getFirstElement(String name);
 
     /**
      * Ritrorna se l'elemento è stato chiuso.
      *
-     * @return
+     * @return {@code true} se è stato precedentemente chiuso.
      */
     public boolean isClosed();
 
@@ -134,7 +134,7 @@ public interface IXMLElement {
      * caso tutti i sottoelementi siano chiusi ritorna se stesso, nel caso non
      * sia stato precedentemente chiuso. Altrimenti ritorna {@code null}.
      *
-     * @return
+     * @return L'ultimo elemento disponibile oppure {@code null}.
      */
     public IXMLElement getLast();
 }

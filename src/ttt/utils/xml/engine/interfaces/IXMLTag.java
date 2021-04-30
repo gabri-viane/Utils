@@ -19,30 +19,30 @@ public interface IXMLTag {
     Bisogna definire i metodi base di get e set.
      */
     /**
-     * Imposta il nome della Tag
+     * Imposta il nome della Tag.
      *
-     * @param name
+     * @param name Il nome dell'attributo.
      */
     public void setName(String name);
 
     /**
      * Imposta il valore della Tag
      *
-     * @param value
+     * @param value Il valore dell'attributo.
      */
     public void setValue(String value);
 
     /**
      * Ritorna il valore associato alla Tag
      *
-     * @return
+     * @return Il nome dell'attributo.
      */
     public String getValue();
 
     /**
      * Ritorna il nome della Tag.
      *
-     * @return
+     * @return Il valore dell'attributo.
      */
     public String getName();
 

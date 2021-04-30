@@ -50,7 +50,7 @@ public class XMLReader {
      * completo di tags e valori.
      *
      * @return Il nuovo documento tradotto in oggetti {@link XMLElement}
-     * @throws IOException
+     * @throws IOException Nel caso in cui il file non esiste.
      */
     public XMLDocument readDocument() throws IOException {
         if (f != null && f.exists() && f.isFile()) {

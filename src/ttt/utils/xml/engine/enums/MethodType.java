@@ -24,7 +24,7 @@ public enum MethodType {
     SET,
     /**
      * Segnala un metodo che viene chiamato solamente dopo aver chiamato tutti i
-     * metodi set e aver inizializzato i valori base.<br/>
+     * metodi set e aver inizializzato i valori base.<br>
      * Non necessita un ritorno ma deve rispettare il numero di parametri e i
      * tipi definiti dall'engine che deve utilizzare il metodo.
      */

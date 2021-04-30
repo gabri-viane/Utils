@@ -28,7 +28,7 @@ public @interface Tag {
      * Il nome del Tag(attributo). Deve corrispondere con l'effettivo nome del
      * tag nel file XML per poter essere caricato correttamente.
      *
-     * @return
+     * @return Il nome dell'attributo
      */
     public String Name();
 

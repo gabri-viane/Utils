@@ -28,10 +28,10 @@ public abstract class Menu<P> {
     private final String title;
     private boolean quitMenu = false;
 
-    public Menu(String title){
+    public Menu(String title) {
         this(title, false);
     }
-    
+
     public Menu(String title, boolean print_menu_title) {
         this.title = title;
         init(print_menu_title);
@@ -72,7 +72,8 @@ public abstract class Menu<P> {
      * eseguita perciò dopo che l'utente ha selezionato e completato un'azione e
      * prima che il menù venga ristampato.
      *
-     * @param action
+     * @param action Azione da eseguire dopo aver eseguito l'azione scelta
+     * dall'utente.
      */
     public void addLazyExecutable(FutureMenuAction action) {
         if (action != null) {
@@ -95,8 +96,8 @@ public abstract class Menu<P> {
     /**
      * Trova l'indice di un menu in base al testo contenuto.
      *
-     * @param text
-     * @return
+     * @param text Testo da cercare tra le voci del menu.
+     * @return L'indice dell'opzione.
      */
     public int optionLookup(String text) {
         return menu.indexOf(menu.stream().filter((t) -> {
@@ -118,6 +119,13 @@ public abstract class Menu<P> {
 
     private boolean autoPrint = true;
 
+    /**
+     * Imposta se il menu deve stampare gli spazi tra un aggiornamento e il
+     * successivo.
+     *
+     * @param value {@code false} nel caso si voglia disabilitare. Di default è
+     * {@code true}.
+     */
     public void autoPrintSpaces(boolean value) {
         autoPrint = value;
     }
@@ -156,14 +164,17 @@ public abstract class Menu<P> {
         }
     }
 
+    /**
+     * Esci dal menu.
+     */
     public void quit() {
         quitMenu = true;
     }
 
     /**
-     * Mostra il menù e ritorna il valore dell'esecuzione
+     * Mostra il menù e ritorna il valore dell'esecuzione.
      *
-     * @return
+     * @return Il valore ritornato dall'opzione chiamata.
      */
     public P showAndWait() {
         GeneralFormatter.printOut(title, true, false);
@@ -187,6 +198,7 @@ public abstract class Menu<P> {
      * Fa eseguire una {@link FutureMenuAction} associata ad una voce del menù.
      *
      * @param index Indice selezionato.
+     * @return Il valore dell'esecuzione.
      */
     private P executeAt(int index) {
         Pair<String, FutureMenuAction<P>> p = menu.get(index);
