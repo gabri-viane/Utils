@@ -1,7 +1,17 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2021 TTT.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package ttt.utils.console.menu;
 
@@ -28,15 +38,32 @@ public abstract class Menu<P> {
     private final String title;
     private boolean quitMenu = false;
 
+    /**
+     * Inizializza un menù.
+     *
+     * @param title Il titolo da stampare.
+     */
     public Menu(String title) {
         this(title, false);
     }
 
+    /**
+     * Inizializza un menù.
+     *
+     * @param title Il titolo da stampare.
+     * @param print_menu_title Se {@code true} allora viene stampata la stringa
+     * default del titolo.
+     */
     public Menu(String title, boolean print_menu_title) {
         this.title = title;
         init(print_menu_title);
     }
 
+    /**
+     * Reimposta il menù.<br>
+     * Inserisce nella posizione 1 l'opzione "Esci" che permette di uscire
+     * dall'esecuzione del programma chiamando {@link System#exit(int) }.
+     */
     public void reset() {
         quitMenu = false;
         menu.clear();

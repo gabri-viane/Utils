@@ -1,7 +1,17 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2021 TTT.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package ttt.utils.registry;
 
@@ -12,12 +22,15 @@ import ttt.utils.registry.abstracts.RegistrableEntry;
 import ttt.utils.registry.abstracts.UUIDRegistrableEntry;
 import ttt.utils.registry.events.UUIDRegistryEvent;
 import ttt.utils.registry.exception.RegistryException;
+import ttt.utils.registry.interfaces.IndexUUID;
 
 /**
+ * Versione del registro {@link Registry} che utilizza la classe {@link UUID}
+ * come ID invece che un valore {@link Long}.
  *
  * @author TTT
  */
-public class UUIDRegistry {
+public class UUIDRegistry implements IndexUUID {
 
     private static final UUIDRegistry register_key = new UUIDRegistry();
     private static UUID currentID = UUID.randomUUID();
@@ -121,7 +134,8 @@ public class UUIDRegistry {
         });
     }
 
-    public UUID getNewUUID() {
+    @Override
+    public UUID getLastUUID() {
         return currentID;
     }
 
