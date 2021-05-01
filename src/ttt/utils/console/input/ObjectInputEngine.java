@@ -49,23 +49,24 @@ public class ObjectInputEngine {
             clazz = EngineUtils.boxPrimitiveClass(clazz);
         }
         String question = (ProjectSettings.PROGRAM_DEFAULT_OBJECT_OUTPUT ? "Inserire il valore per \"" : "") + var_name + (ProjectSettings.PROGRAM_DEFAULT_OBJECT_OUTPUT ? "\"" : "") + " [" + clazz.getSimpleName() + "]: ";
-        boolean skp = skippable != null && skippable.trim().equals("");
+        boolean skp = skippable != null && !skippable.trim().equals("");
+        question += skp ? "('" + skippable + "' per saltare)" : "";
         Object return_value = null;
         if (clazz == Integer.class) {
-            return_value = skp ? IN.readInteger(question) : IN.readInteger(question, true, skippable).orElse(null);
+            return_value = !skp ? IN.readInteger(question) : IN.readInteger(question, true, skippable).orElse(null);
         } else if (clazz == Long.class) {
-            return_value = skp ? IN.readLong(question) : IN.readLong(question, true, skippable).orElse(null);
+            return_value = !skp ? IN.readLong(question) : IN.readLong(question, true, skippable).orElse(null);
         } else if (clazz == Character.class) {
-            return_value = skp ? IN.readCharacter(question) : IN.readCharacter(question, true, skippable).orElse(null);
+            return_value = !skp ? IN.readCharacter(question) : IN.readCharacter(question, true, skippable).orElse(null);
         } else if (clazz == Boolean.class) {
             question = "\"" + var_name + "\"? ";
             return_value = IN.readBoolean(question);
         } else if (clazz == Float.class) {
-            return_value = skp ? IN.readFloat(question) : IN.readFloat(question, true, skippable).orElse(null);
+            return_value = !skp ? IN.readFloat(question) : IN.readFloat(question, true, skippable).orElse(null);
         } else if (clazz == Double.class) {
-            return_value = skp ? IN.readDouble(question) : IN.readDouble(question, true, skippable).orElse(null);
+            return_value = !skp ? IN.readDouble(question) : IN.readDouble(question, true, skippable).orElse(null);
         } else if (clazz == String.class) {
-            return_value = skp ? IN.readString(question) : IN.readString(question, true, skippable).orElse(null);
+            return_value = !skp ? IN.readString(question) : IN.readString(question, true, skippable).orElse(null);
         }
         return return_value;
     }
@@ -123,7 +124,7 @@ public class ObjectInputEngine {
                                     } else {
                                         read_val = readValue(annotazione.Type(), annotazione.Name(), annotazione.SkippableKeyword());
                                     }
-                                    if (metodo.getParameterCount() == 1 && metodo.getParameterTypes()[0] == read_val.getClass()) {
+                                    if (metodo.getParameterCount() == 1 && (read_val != null ? metodo.getParameterTypes()[0] == read_val.getClass() : true)) {
                                         metodo.invoke(newInstance, read_val);
                                     }
                                 }
@@ -154,7 +155,7 @@ public class ObjectInputEngine {
                                     } else {
                                         read_val = readValue(annotazione.Type(), annotazione.Name(), annotazione.SkippableKeyword());
                                     }
-                                    if ((EngineUtils.isPrimitive(attributo.getType()) ? EngineUtils.boxPrimitiveClass(attributo.getType()) : attributo.getType()) == read_val.getClass()) {
+                                    if ((read_val != null && EngineUtils.isPrimitive(attributo.getType()) ? EngineUtils.boxPrimitiveClass(attributo.getType()) : attributo.getType()) == read_val.getClass()) {
                                         attributo.set(newInstance, read_val);
                                     }
                                 }
@@ -171,12 +172,12 @@ public class ObjectInputEngine {
                     }
                     elementi_chiamabili.stream().sorted((o1, o2) -> {
                         return o1.getKey() != null && o2.getKey() != null ? o1.getKey().compareTo(o2.getKey()) : -1;
-                    }).forEach((t) -> {
+                    }).forEachOrdered((t) -> {
                         t.getValue().onSelected();
                     });
                     metodi_chiamabili.stream().sorted((o1, o2) -> {
                         return o1.getKey() != null && o2.getKey() != null ? o1.getKey().compareTo(o2.getKey()) : -1;
-                    }).forEach((t) -> {
+                    }).forEachOrdered((t) -> {
                         t.getValue().onSelected();
                     });
                     GeneralFormatter.decrementIndents();
