@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import ttt.utils.console.input.ConsoleInput;
-import ttt.utils.console.menu.utils.FutureMenuAction;
 import ttt.utils.console.menu.utils.Pair;
 import ttt.utils.console.output.GeneralFormatter;
+import ttt.utils.console.menu.utils.FutureAction;
 
 /**
  *
@@ -22,8 +22,8 @@ public abstract class Menu<P> {
 
     private static final ResourceBundle menu_bundle = ResourceBundle.getBundle("ttt/utils/resources/i18n/menu/menu_bundle");
 
-    private final ArrayList<Pair<String, FutureMenuAction<P>>> menu = new ArrayList<>();
-    private final ArrayList<FutureMenuAction<P>> to_execute_later = new ArrayList<>();
+    private final ArrayList<Pair<String, FutureAction<P>>> menu = new ArrayList<>();
+    private final ArrayList<FutureAction<P>> to_execute_later = new ArrayList<>();
 
     private final String title;
     private boolean quitMenu = false;
@@ -60,7 +60,7 @@ public abstract class Menu<P> {
      * @param option_message La voce del menu
      * @param action L'azione che verrà eseguita
      */
-    public void addOption(String option_message, FutureMenuAction action) {
+    public void addOption(String option_message, FutureAction action) {
         if (option_message != null && action != null) {
             menu.add(new Pair<>(option_message, action));
         }
@@ -75,7 +75,7 @@ public abstract class Menu<P> {
      * @param action Azione da eseguire dopo aver eseguito l'azione scelta
      * dall'utente.
      */
-    public void addLazyExecutable(FutureMenuAction action) {
+    public void addLazyExecutable(FutureAction action) {
         if (action != null) {
             to_execute_later.add(action);
         }
@@ -195,13 +195,13 @@ public abstract class Menu<P> {
     }
 
     /**
-     * Fa eseguire una {@link FutureMenuAction} associata ad una voce del menù.
+     * Fa eseguire una {@link FutureAction} associata ad una voce del menù.
      *
      * @param index Indice selezionato.
      * @return Il valore dell'esecuzione.
      */
     private P executeAt(int index) {
-        Pair<String, FutureMenuAction<P>> p = menu.get(index);
+        Pair<String, FutureAction<P>> p = menu.get(index);
         to_execute_later.forEach((f) -> f.onSelected());
         to_execute_later.clear();
         return p.getValue().onSelected();

@@ -77,7 +77,7 @@ public class ConsoleInput {
                 input.nextLine();
                 printOut(input_data.getString("invalid_input")
                         + (skippable ? input_data.getString("annulable_1") + skippable_keyword + input_data.getString("annulable_2") : "")
-                        + input_data.getString(" ask_input"), false, true);
+                        + input_data.getString("ask_input"), false, true);
             }
         }
         input.nextLine();
@@ -125,7 +125,7 @@ public class ConsoleInput {
                 input.nextLine();
                 printOut(input_data.getString("invalid_input")
                         + (skippable ? input_data.getString("annulable_1") + skippable_keyword + input_data.getString("annulable_2") : "")
-                        + input_data.getString(" ask_input"), false, true);
+                        + input_data.getString("ask_input"), false, true);
             }
         }
         input.nextLine();
@@ -283,7 +283,7 @@ public class ConsoleInput {
      * @param question La domanda che viene stampata in output.
      * @return il valore immesso.
      */
-    public Character readCharacter(String question) {
+    public char readCharacter(String question) {
         return readCharacter(question, false, null).get();
     }
 

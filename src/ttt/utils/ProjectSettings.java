@@ -14,4 +14,5 @@ import java.util.Locale;
 public class ProjectSettings {
 
     public static Locale MAIN_PROGRAMM_LOCALE = Locale.ENGLISH;
+    public static boolean PROGRAM_DEFAULT_OBJECT_OUTPUT = true;
 }

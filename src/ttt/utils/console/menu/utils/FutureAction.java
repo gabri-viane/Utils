@@ -8,9 +8,10 @@ package ttt.utils.console.menu.utils;
 /**
  *
  * @author TTT
+ * @param <P>
  */
 @FunctionalInterface
-public interface FutureMenuAction<P> {
+public interface FutureAction<P> {
 
     public P onSelected();
 }
