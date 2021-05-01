@@ -15,10 +15,16 @@
  */
 package ttt.utils.console.input.interfaces;
 
+import ttt.utils.console.input.ObjectInputEngine;
+import ttt.utils.console.input.annotations.InputElement;
+
 /**
+ * Interfaccia che permette ad una classe di essere letta dall'engine
+ * {@link ObjectInputEngine} e quindi all'utente di inserire tramite console i
+ * valori contrassegnati dall'annotazione {@link InputElement}.
  *
- * @author gabri
+ * @author TTT
  */
 public interface InputObject {
-    
+
 }

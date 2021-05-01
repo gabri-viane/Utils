@@ -21,8 +21,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Imposta l'ordine di richiesta/lettura che l'engine deve seguire.
  *
- * @author gabri
+ * @author TTT
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.FIELD, ElementType.METHOD})

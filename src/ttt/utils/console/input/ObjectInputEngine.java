@@ -32,12 +32,14 @@ import ttt.utils.console.menu.utils.FutureAction;
 import ttt.utils.console.menu.utils.Pair;
 
 /**
+ * Gestisce l'inserimento in modo automatico di un'oggetto che implementa
+ * l'interfaccia {@link InputObject}.
  *
- * @author gabri
+ * @author TTT
  */
 public class ObjectInputEngine {
 
-    public ObjectInputEngine() {
+    private ObjectInputEngine() {
 
     }
 
@@ -77,6 +79,22 @@ public class ObjectInputEngine {
         return false;
     }
 
+    /**
+     * Crea una nuova istanza della classe specificata (che deve implementare
+     * {@link InputObject})chiedendo all'utente di inserire i valori (dei metodi
+     * o degli attributi) segnati tramite l'annotazione {@link InputElement} e
+     * li chiede ordinandoli secondo i valori specificati dall'annotazione
+     * {@link Order} (solo se presente, non è necessaria).
+     *
+     * @param <T> La classe da istanziare che deve implementare
+     * {@link InputObject}.
+     * @param object La classe da istanziare che deve implementare
+     * {@link InputObject}.
+     * @param nome_elemento Il nome della classe che viene chiesta in input
+     * all'utente.
+     * @return L'istanza della nuova classe, solo dopo aver chiesto all'utente i
+     * dati necessari.
+     */
     public static <T extends InputObject> T readNewObject(Class<T> object, String nome_elemento) {
         if (object != null) {
             try {
