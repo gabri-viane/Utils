@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import ttt.utils.ProjectSettings;
+import ttt.utils.console.input.interfaces.Validator;
 import static ttt.utils.console.output.GeneralFormatter.printOut;
 
 /**
@@ -64,11 +65,28 @@ public class ConsoleInput {
      * @param skippable Deve essre {@code true} se la richiesta può essre
      * annullata, altrimenti {@code false}.
      * @param skippable_keyword La parola o lettera (o qualsiasi altra cosa) per
-     * uscire dal giro (se e solo se {@code skippable = true}).
+     * uscire dal ciclo (se e solo se {@code skippable = true}).
      * @return Può restituire il valore immesso oppure {@code null} nel caso
      * l'utente sia uscito dal l'immisione.
      */
     public Optional<Double> readDouble(String question, boolean skippable, String skippable_keyword) {
+        return readDouble(question, skippable, skippable_keyword, null);
+    }
+
+    /**
+     * Chiede di inserire un valore double.Si può uscire dal ciclo tramite una
+     * parola specifica.
+     *
+     * @param question Domanda iniziale di richiesta del dato.
+     * @param skippable Deve essre {@code true} se la richiesta può essre
+     * annullata, altrimenti {@code false}.
+     * @param skippable_keyword La parola o lettera (o qualsiasi altra cosa) per
+     * uscire dal ciclo (se e solo se {@code skippable = true}).
+     * @param v Il validatore del valore.
+     * @return Può restituire il valore immesso oppure {@code null} nel caso
+     * l'utente sia uscito dal l'immisione.
+     */
+    public Optional<Double> readDouble(String question, boolean skippable, String skippable_keyword, Validator<Double> v) {
         Double d = null;
         printOut(question + input_data.getString("space"), false, false);
         while (true) {
@@ -79,11 +97,14 @@ public class ConsoleInput {
                         break;
                     }
                     d = Double.parseDouble(in.replaceAll(",", "\\."));
+                    if (v != null) {
+                        v.validate(d);
+                    }
                 } else {
                     d = input.nextDouble();
                 }
                 break;
-            } catch (NoSuchElementException | NumberFormatException ex) {
+            } catch (NoSuchElementException | IllegalArgumentException ex) {
                 input.nextLine();
                 printOut(input_data.getString("invalid_input")
                         + (skippable ? input_data.getString("annulable_1") + skippable_keyword + input_data.getString("annulable_2") : "")
@@ -112,11 +133,28 @@ public class ConsoleInput {
      * @param skippable Deve essre {@code true} se la richiesta può essre
      * annullata, altrimenti {@code false}.
      * @param skippable_keyword La parola o lettera (o qualsiasi altra cosa) per
-     * uscire dal giro (se e solo se {@code skippable = true}).
+     * uscire dal ciclo (se e solo se {@code skippable = true}).
      * @return Può restituire il valore immesso oppure {@code null} nel caso
      * l'utente sia uscito dal l'immisione.
      */
     public Optional<Float> readFloat(String question, boolean skippable, String skippable_keyword) {
+        return readFloat(question, skippable, skippable_keyword, null);
+    }
+
+    /**
+     * Chiede di inserire un valore float.Si può uscire dal ciclo tramite una
+     * parola specifica.
+     *
+     * @param question Domanda iniziale di richiesta del dato.
+     * @param skippable Deve essre {@code true} se la richiesta può essre
+     * annullata, altrimenti {@code false}.
+     * @param skippable_keyword La parola o lettera (o qualsiasi altra cosa) per
+     * uscire dal ciclo (se e solo se {@code skippable = true}).
+     * @param v Il validatore del valore.
+     * @return Può restituire il valore immesso oppure {@code null} nel caso
+     * l'utente sia uscito dal l'immisione.
+     */
+    public Optional<Float> readFloat(String question, boolean skippable, String skippable_keyword, Validator<Float> v) {
         Float f = null;
         printOut(question + input_data.getString("space"), false, false);
         while (true) {
@@ -127,11 +165,14 @@ public class ConsoleInput {
                         break;
                     }
                     f = Float.parseFloat(in.replaceAll(",", "\\."));
+                    if (v != null) {
+                        v.validate(f);
+                    }
                 } else {
                     f = input.nextFloat();
                 }
                 break;
-            } catch (NoSuchElementException | NumberFormatException ex) {
+            } catch (NoSuchElementException | IllegalArgumentException ex) {
                 input.nextLine();
                 printOut(input_data.getString("invalid_input")
                         + (skippable ? input_data.getString("annulable_1") + skippable_keyword + input_data.getString("annulable_2") : "")
@@ -160,11 +201,28 @@ public class ConsoleInput {
      * @param skippable Deve essre {@code true} se la richiesta può essre
      * annullata, altrimenti {@code false}.
      * @param skippable_keyword La parola o lettera (o qualsiasi altra cosa) per
-     * uscire dal giro (se e solo se {@code skippable = true}).
+     * uscire dal ciclo (se e solo se {@code skippable = true}).
      * @return Può restituire il valore immesso oppure {@code null} nel caso
      * l'utente sia uscito dal l'immisione.
      */
     public Optional<Integer> readInteger(String question, boolean skippable, String skippable_keyword) {
+        return readInteger(question, skippable, skippable_keyword, null);
+    }
+
+    /**
+     * Chiede di inserire un valore intero.Si può uscire dal ciclo tramite una
+     * parola specifica.
+     *
+     * @param question Domanda iniziale di richiesta del dato.
+     * @param skippable Deve essre {@code true} se la richiesta può essre
+     * annullata, altrimenti {@code false}.
+     * @param skippable_keyword La parola o lettera (o qualsiasi altra cosa) per
+     * uscire dal ciclo (se e solo se {@code skippable = true}).
+     * @param v Il validatore del valore.
+     * @return Può restituire il valore immesso oppure {@code null} nel caso
+     * l'utente sia uscito dal l'immisione.
+     */
+    public Optional<Integer> readInteger(String question, boolean skippable, String skippable_keyword, Validator<Integer> v) {
         Integer i = null;
         printOut(question + input_data.getString("space"), false, false);
         while (true) {
@@ -175,11 +233,14 @@ public class ConsoleInput {
                         break;
                     }
                     i = Integer.parseInt(in);
+                    if (v != null) {
+                        v.validate(i);
+                    }
                 } else {
                     i = input.nextInt();
                 }
                 break;
-            } catch (NoSuchElementException | NumberFormatException ex) {
+            } catch (NoSuchElementException | IllegalArgumentException ex) {
                 input.nextLine();
                 printOut(input_data.getString("invalid_input")
                         + (skippable ? input_data.getString("annulable_1") + skippable_keyword + input_data.getString("annulable_2") : "")
@@ -210,11 +271,28 @@ public class ConsoleInput {
      * @param skippable Deve essre {@code true} se la richiesta può essre
      * annullata, altrimenti {@code false}.
      * @param skippable_keyword La parola o lettera (o qualsiasi altra cosa) per
-     * uscire dal giro (se e solo se {@code skippable = true}).
+     * uscire dal ciclo (se e solo se {@code skippable = true}).
      * @return Può restituire il valore immesso oppure {@code null} nel caso
      * l'utente sia uscito dal l'immisione.
      */
     public Optional<Long> readLong(String question, boolean skippable, String skippable_keyword) {
+        return readLong(question, skippable, skippable_keyword, null);
+    }
+
+    /**
+     * Chiede di inserire un valore long.Si può uscire dal ciclo tramite una
+     * parola specifica.
+     *
+     * @param question Domanda iniziale di richiesta del dato.
+     * @param skippable Deve essre {@code true} se la richiesta può essre
+     * annullata, altrimenti {@code false}.
+     * @param skippable_keyword La parola o lettera (o qualsiasi altra cosa) per
+     * uscire dal ciclo (se e solo se {@code skippable = true}).
+     * @param v Il validatore del valore.
+     * @return Può restituire il valore immesso oppure {@code null} nel caso
+     * l'utente sia uscito dal l'immisione.
+     */
+    public Optional<Long> readLong(String question, boolean skippable, String skippable_keyword, Validator<Long> v) {
         Long l = null;
         printOut(question + input_data.getString("space"), false, false);
         while (true) {
@@ -225,11 +303,14 @@ public class ConsoleInput {
                         break;
                     }
                     l = Long.parseLong(in);
+                    if (v != null) {
+                        v.validate(l);
+                    }
                 } else {
                     l = input.nextLong();
                 }
                 break;
-            } catch (NoSuchElementException | NumberFormatException ex) {
+            } catch (NoSuchElementException | IllegalArgumentException ex) {
                 input.nextLine();
                 printOut(input_data.getString("invalid_input")
                         + (skippable ? input_data.getString("annulable_1") + skippable_keyword + input_data.getString("annulable_2") : "")
@@ -258,11 +339,28 @@ public class ConsoleInput {
      * @param skippable Deve essre {@code true} se la richiesta può essre
      * annullata, altrimenti {@code false}.
      * @param skippable_keyword La parola o lettera (o qualsiasi altra cosa) per
-     * uscire dal giro (se e solo se {@code skippable = true}).
+     * uscire dal ciclo (se e solo se {@code skippable = true}).
      * @return Può restituire il valore immesso oppure {@code null} nel caso
      * l'utente sia uscito dal l'immisione.
      */
     public Optional<String> readString(String question, boolean skippable, String skippable_keyword) {
+        return readString(question, skippable, skippable_keyword, null);
+    }
+
+    /**
+     * Chiede di inserire una stringa.Si può uscire dal ciclo tramite una parola
+     * specifica.
+     *
+     * @param question Domanda iniziale di richiesta del dato.
+     * @param skippable Deve essre {@code true} se la richiesta può essre
+     * annullata, altrimenti {@code false}.
+     * @param skippable_keyword La parola o lettera (o qualsiasi altra cosa) per
+     * uscire dal ciclo (se e solo se {@code skippable = true}).
+     * @param v Il validatore del valore.
+     * @return Può restituire il valore immesso oppure {@code null} nel caso
+     * l'utente sia uscito dal l'immisione.
+     */
+    public Optional<String> readString(String question, boolean skippable, String skippable_keyword, Validator<String> v) {
         String s = null;
         printOut(question + input_data.getString("space"), false, false);
         while (true) {
@@ -273,11 +371,14 @@ public class ConsoleInput {
                         break;
                     }
                     s = in;
+                    if (v != null) {
+                        v.validate(s);
+                    }
                 } else {
                     s = input.nextLine();
                 }
                 break;
-            } catch (NoSuchElementException | NumberFormatException ex) {
+            } catch (NoSuchElementException | IllegalArgumentException ex) {
                 input.nextLine();
                 printOut(input_data.getString("invalid_input")
                         + (skippable ? input_data.getString("annulable_1") + skippable_keyword + input_data.getString("annulable_2") : "")
@@ -305,11 +406,28 @@ public class ConsoleInput {
      * @param skippable Deve essre {@code true} se la richiesta può essre
      * annullata, altrimenti {@code false}.
      * @param skippable_keyword La parola o lettera (o qualsiasi altra cosa) per
-     * uscire dal giro (se e solo se {@code skippable = true}).
+     * uscire dal ciclo (se e solo se {@code skippable = true}).
      * @return Può restituire il valore immesso oppure {@code null} nel caso
      * l'utente sia uscito dal l'immisione.
      */
     public Optional<Character> readCharacter(String question, boolean skippable, String skippable_keyword) {
+        return readCharacter(question, skippable, skippable_keyword, null);
+    }
+
+    /**
+     * Chiede di inserire una stringa.Si può uscire dal ciclo tramite una
+ parola specifica.
+     *
+     * @param question Domanda iniziale di richiesta del dato.
+     * @param skippable Deve essre {@code true} se la richiesta può essre
+     * annullata, altrimenti {@code false}.
+     * @param skippable_keyword La parola o lettera (o qualsiasi altra cosa) per
+     * uscire dal ciclo (se e solo se {@code skippable = true}).
+     * @param v
+     * @return Può restituire il valore immesso oppure {@code null} nel caso
+     * l'utente sia uscito dal l'immisione.
+     */
+    public Optional<Character> readCharacter(String question, boolean skippable, String skippable_keyword, Validator<Character> v) {
         Character c = null;
         printOut(question + input_data.getString("space"), false, false);
         while (true) {
@@ -320,11 +438,14 @@ public class ConsoleInput {
                         break;
                     }
                     c = in.charAt(0);
+                    if (v != null) {
+                        v.validate(c);
+                    }
                 } else {
                     c = input.nextLine().charAt(0);
                 }
                 break;
-            } catch (NoSuchElementException | NumberFormatException ex) {
+            } catch (NoSuchElementException | IllegalArgumentException ex) {
                 input.nextLine();
                 printOut(input_data.getString("invalid_input")
                         + (skippable ? input_data.getString("annulable_1") + skippable_keyword + input_data.getString("annulable_2") : "")
