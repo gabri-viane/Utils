@@ -415,8 +415,8 @@ public class ConsoleInput {
     }
 
     /**
-     * Chiede di inserire una stringa.Si può uscire dal ciclo tramite una
- parola specifica.
+     * Chiede di inserire una stringa.Si può uscire dal ciclo tramite una parola
+     * specifica.
      *
      * @param question Domanda iniziale di richiesta del dato.
      * @param skippable Deve essre {@code true} se la richiesta può essre
