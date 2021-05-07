@@ -97,11 +97,11 @@ public class ConsoleInput {
                         break;
                     }
                     d = Double.parseDouble(in.replaceAll(",", "\\."));
-                    if (v != null) {
-                        v.validate(d);
-                    }
                 } else {
                     d = input.nextDouble();
+                }
+                if (v != null) {
+                    v.validate(d);
                 }
                 break;
             } catch (NoSuchElementException | IllegalArgumentException ex) {
@@ -165,11 +165,11 @@ public class ConsoleInput {
                         break;
                     }
                     f = Float.parseFloat(in.replaceAll(",", "\\."));
-                    if (v != null) {
-                        v.validate(f);
-                    }
                 } else {
                     f = input.nextFloat();
+                }
+                if (v != null) {
+                    v.validate(f);
                 }
                 break;
             } catch (NoSuchElementException | IllegalArgumentException ex) {
@@ -233,11 +233,11 @@ public class ConsoleInput {
                         break;
                     }
                     i = Integer.parseInt(in);
-                    if (v != null) {
-                        v.validate(i);
-                    }
                 } else {
                     i = input.nextInt();
+                }
+                if (v != null) {
+                    v.validate(i);
                 }
                 break;
             } catch (NoSuchElementException | IllegalArgumentException ex) {
@@ -303,11 +303,11 @@ public class ConsoleInput {
                         break;
                     }
                     l = Long.parseLong(in);
-                    if (v != null) {
-                        v.validate(l);
-                    }
                 } else {
                     l = input.nextLong();
+                }
+                if (v != null) {
+                    v.validate(l);
                 }
                 break;
             } catch (NoSuchElementException | IllegalArgumentException ex) {
@@ -371,11 +371,11 @@ public class ConsoleInput {
                         break;
                     }
                     s = in;
-                    if (v != null) {
-                        v.validate(s);
-                    }
                 } else {
                     s = input.nextLine();
+                }
+                if (v != null) {
+                    v.validate(s);
                 }
                 break;
             } catch (NoSuchElementException | IllegalArgumentException ex) {
@@ -438,11 +438,11 @@ public class ConsoleInput {
                         break;
                     }
                     c = in.charAt(0);
-                    if (v != null) {
-                        v.validate(c);
-                    }
                 } else {
                     c = input.nextLine().charAt(0);
+                }
+                if (v != null) {
+                    v.validate(c);
                 }
                 break;
             } catch (NoSuchElementException | IllegalArgumentException ex) {
