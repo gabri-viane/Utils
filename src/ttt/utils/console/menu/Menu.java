@@ -37,6 +37,7 @@ public abstract class Menu<P> {
 
     private final String title;
     private boolean quitMenu = false;
+    private int spaces = 3;
 
     /**
      * Inizializza un menù.
@@ -158,11 +159,22 @@ public abstract class Menu<P> {
     }
 
     /**
+     * Imposta il numero di spazi tra un operazione e la successiva.
+     *
+     * @param new_value Il nuovo numero di spazi.
+     */
+    public void setDefaultSpaces(int new_value) {
+        if (new_value > 0) {
+            spaces = new_value;
+        }
+    }
+
+    /**
      * Stampa N nuove linee per separare i testi.
      *
      * @param n Il numero di linee da stampare
      */
-    private void consoleSpaces(int n) {
+    public void consoleSpaces(int n) {
         for (int i = 0; i < n; i++) {
             System.out.println();
         }
@@ -180,11 +192,11 @@ public abstract class Menu<P> {
         } while (op.get() < 1 || op.get() > menu.size());
         GeneralFormatter.decrementIndents();
         if (autoPrint) {
-            consoleSpaces(3);
+            consoleSpaces(spaces);
         }
         executeAt(op.get() - 1);
         if (autoPrint) {
-            consoleSpaces(5);
+            consoleSpaces(spaces + 2);
         }
         if (!quitMenu) {
             paintMenu();
@@ -216,7 +228,7 @@ public abstract class Menu<P> {
         } while (op.get() < 1 || op.get() > menu.size());
         GeneralFormatter.decrementIndents();
         if (autoPrint) {
-            consoleSpaces(3);
+            consoleSpaces(spaces);
         }
         return executeAt(op.get() - 1);
     }
