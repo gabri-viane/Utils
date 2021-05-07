@@ -20,6 +20,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import ttt.utils.console.input.ObjectInputEngine;
+import ttt.utils.console.input.defaults.EmptyValidator;
+import ttt.utils.console.input.interfaces.Validator;
 
 /**
  * Segna un metodo o una variabile come impostabile tramite l'engine
@@ -52,4 +54,11 @@ public @interface InputElement {
      * @return La stringa che permette all'utente di saltare l'inserimento.
      */
     public String SkippableKeyword() default "";
+
+    /**
+     * Ritorna un validator da utilizzare.
+     *
+     * @return Il validator.
+     */
+    public Class<? extends Validator> Validator() default EmptyValidator.class;
 }

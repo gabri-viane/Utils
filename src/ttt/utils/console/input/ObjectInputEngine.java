@@ -26,6 +26,7 @@ import ttt.utils.ProjectSettings;
 import ttt.utils.console.input.annotations.InputElement;
 import ttt.utils.console.input.annotations.Order;
 import ttt.utils.console.input.interfaces.InputObject;
+import ttt.utils.console.input.interfaces.Validator;
 import ttt.utils.console.output.GeneralFormatter;
 import ttt.utils.engines.utils.EngineUtils;
 import ttt.utils.console.menu.utils.FutureAction;
@@ -43,7 +44,7 @@ public class ObjectInputEngine {
 
     }
 
-    private static Object readValue(Class clazz, String var_name, String skippable) {
+    private static Object readValue(Class clazz, String var_name, String skippable, Validator validator) {
         ConsoleInput IN = ConsoleInput.getInstance();
         if (EngineUtils.isPrimitive(clazz)) {
             clazz = EngineUtils.boxPrimitiveClass(clazz);
@@ -53,20 +54,20 @@ public class ObjectInputEngine {
         question += skp ? "('" + skippable + "' per saltare)" : "";
         Object return_value = null;
         if (clazz == Integer.class) {
-            return_value = !skp ? IN.readInteger(question) : IN.readInteger(question, true, skippable).orElse(null);
+            return_value = !skp ? IN.readInteger(question) : IN.readInteger(question, true, skippable, validator).orElse(null);
         } else if (clazz == Long.class) {
-            return_value = !skp ? IN.readLong(question) : IN.readLong(question, true, skippable).orElse(null);
+            return_value = !skp ? IN.readLong(question) : IN.readLong(question, true, skippable, validator).orElse(null);
         } else if (clazz == Character.class) {
-            return_value = !skp ? IN.readCharacter(question) : IN.readCharacter(question, true, skippable).orElse(null);
+            return_value = !skp ? IN.readCharacter(question) : IN.readCharacter(question, true, skippable, validator).orElse(null);
         } else if (clazz == Boolean.class) {
             question = "\"" + var_name + "\"? ";
             return_value = IN.readBoolean(question);
         } else if (clazz == Float.class) {
-            return_value = !skp ? IN.readFloat(question) : IN.readFloat(question, true, skippable).orElse(null);
+            return_value = !skp ? IN.readFloat(question) : IN.readFloat(question, true, skippable, validator).orElse(null);
         } else if (clazz == Double.class) {
-            return_value = !skp ? IN.readDouble(question) : IN.readDouble(question, true, skippable).orElse(null);
+            return_value = !skp ? IN.readDouble(question) : IN.readDouble(question, true, skippable, validator).orElse(null);
         } else if (clazz == String.class) {
-            return_value = !skp ? IN.readString(question) : IN.readString(question, true, skippable).orElse(null);
+            return_value = !skp ? IN.readString(question) : IN.readString(question, true, skippable, validator).orElse(null);
         }
         return return_value;
     }
@@ -122,13 +123,16 @@ public class ObjectInputEngine {
                                         read_val = readNewObject(annotazione.Type(), annotazione.Name());
                                         GeneralFormatter.decrementIndents();
                                     } else {
-                                        read_val = readValue(annotazione.Type(), annotazione.Name(), annotazione.SkippableKeyword());
+                                        Class<? extends Validator> val_class = annotazione.Validator();
+                                        Constructor<? extends Validator> constr = val_class.getConstructor();
+                                        Validator validator = constr.newInstance();
+                                        read_val = readValue(annotazione.Type(), annotazione.Name(), annotazione.SkippableKeyword(), validator);
                                     }
                                     if (metodo.getParameterCount() == 1 && (read_val != null ? metodo.getParameterTypes()[0] == read_val.getClass() : true)) {
                                         metodo.invoke(newInstance, read_val);
                                     }
                                 }
-                            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | InstantiationException ex) {
                                 Logger.getLogger(ObjectInputEngine.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             return null;
@@ -153,13 +157,16 @@ public class ObjectInputEngine {
                                         read_val = readNewObject(annotazione.Type(), annotazione.Name());
                                         GeneralFormatter.decrementIndents();
                                     } else {
-                                        read_val = readValue(annotazione.Type(), annotazione.Name(), annotazione.SkippableKeyword());
+                                        Class<? extends Validator> val_class = annotazione.Validator();
+                                        Constructor<? extends Validator> constr = val_class.getConstructor();
+                                        Validator validator = constr.newInstance();
+                                        read_val = readValue(annotazione.Type(), annotazione.Name(), annotazione.SkippableKeyword(), validator);
                                     }
-                                    if ((read_val != null && EngineUtils.isPrimitive(attributo.getType()) ? EngineUtils.boxPrimitiveClass(attributo.getType()) : attributo.getType()) == read_val.getClass()) {
+                                    if (read_val != null && (EngineUtils.isPrimitive(attributo.getType()) ? EngineUtils.boxPrimitiveClass(attributo.getType()) : attributo.getType()) == read_val.getClass()) {
                                         attributo.set(newInstance, read_val);
                                     }
                                 }
-                            } catch (IllegalArgumentException | IllegalAccessException ex) {
+                            } catch (IllegalArgumentException | IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException | SecurityException ex) {
                                 Logger.getLogger(ObjectInputEngine.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             return null;
