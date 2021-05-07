@@ -33,5 +33,13 @@ public class ProjectSettings {
      * Se vero stampa delle scritte pre-impostate nella console quando vengono
      * chiesti dei valori in input.
      */
-    public static boolean PROGRAM_DEFAULT_OBJECT_OUTPUT = true;
+    public static boolean PROGRAM_DEFAULT_OBJECT_OUTPUT_PHRASE = true;
+    /**
+     * Se vero stampa il il nome della dell'oggetto richiesto in input.
+     */
+    public static boolean PROGRAM_SHOW_OBJECT_INPUT = true;
+    /**
+     * Se vero stampa il il nome della dell'oggetto richiesto in input.
+     */
+    public static boolean PROGRAM_SHOW_VARIABLE_INPUT_TYPE_OUTPUT = true;
 }

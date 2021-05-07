@@ -48,7 +48,7 @@ public class ObjectInputEngine {
         if (EngineUtils.isPrimitive(clazz)) {
             clazz = EngineUtils.boxPrimitiveClass(clazz);
         }
-        String question = (ProjectSettings.PROGRAM_DEFAULT_OBJECT_OUTPUT ? "Inserire il valore per \"" : "") + var_name + (ProjectSettings.PROGRAM_DEFAULT_OBJECT_OUTPUT ? "\"" : "") + " [" + clazz.getSimpleName() + "]: ";
+        String question = (ProjectSettings.PROGRAM_DEFAULT_OBJECT_OUTPUT_PHRASE ? "Inserire il valore per \"" : "") + var_name + (ProjectSettings.PROGRAM_DEFAULT_OBJECT_OUTPUT_PHRASE ? "\"" : "") + (ProjectSettings.PROGRAM_SHOW_VARIABLE_INPUT_TYPE_OUTPUT ? " [" + clazz.getSimpleName() + "]" : "") + ": ";
         boolean skp = skippable != null && !skippable.trim().equals("");
         question += skp ? "('" + skippable + "' per saltare)" : "";
         Object return_value = null;
@@ -101,7 +101,7 @@ public class ObjectInputEngine {
             try {
                 Constructor<? extends InputObject> constructor = object.getConstructor();
                 if (constructor != null) {
-                    GeneralFormatter.printOut((ProjectSettings.PROGRAM_DEFAULT_OBJECT_OUTPUT ? "Inserirmento di \"" : "") + nome_elemento + (ProjectSettings.PROGRAM_DEFAULT_OBJECT_OUTPUT ? "\"" : "") + " [Oggetto]: ", true, false);
+                    GeneralFormatter.printOut((ProjectSettings.PROGRAM_DEFAULT_OBJECT_OUTPUT_PHRASE ? "Inserirmento di \"" : "") + nome_elemento + (ProjectSettings.PROGRAM_DEFAULT_OBJECT_OUTPUT_PHRASE ? "\"" : "") + (ProjectSettings.PROGRAM_SHOW_OBJECT_INPUT ? " [Oggetto] " : "") + ":", true, false);
                     GeneralFormatter.incrementIndents();
                     InputObject newInstance = constructor.newInstance();
                     Method[] metodi = object.getDeclaredMethods();
