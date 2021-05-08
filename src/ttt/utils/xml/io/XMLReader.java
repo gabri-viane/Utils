@@ -23,6 +23,7 @@ import javax.xml.stream.XMLStreamReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ttt.utils.xml.document.XMLDocument;
@@ -49,9 +50,16 @@ public class XMLReader {
     perciò chiamando metodi o direttamente variabili) con i valori letti.
      */
     private final File f;
+    private final InputStream f_strem;
 
     public XMLReader(File file) {
         this.f = file;
+        f_strem = null;
+    }
+
+    public XMLReader(InputStream is) {
+        this.f_strem = is;
+        f = null;
     }
 
     /**
@@ -71,6 +79,18 @@ public class XMLReader {
                 parseDocument(xmlsr, document);
                 xmlsr.close();
             } catch (FileNotFoundException | XMLStreamException e) {
+                throw new IOException("Il file specificato non esiste o non è formattato correttamente.");
+            }
+
+            return document;
+        } else if (f_strem != null) {
+            XMLDocument document = new XMLDocument(null);
+            try {
+                XMLInputFactory xmlif = XMLInputFactory.newInstance();
+                XMLStreamReader xmlsr = xmlif.createXMLStreamReader(f_strem);
+                parseDocument(xmlsr, document);
+                xmlsr.close();
+            } catch (XMLStreamException e) {
                 throw new IOException("Il file specificato non esiste o non è formattato correttamente.");
             }
 
