@@ -247,9 +247,7 @@ public class ConsoleInput {
                         + input_data.getString("ask_input"), false, true);
             }
         }
-
         input.nextLine();
-
         return Optional.ofNullable(i);
     }
 
