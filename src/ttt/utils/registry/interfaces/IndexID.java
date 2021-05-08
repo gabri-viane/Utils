@@ -15,6 +15,8 @@
  */
 package ttt.utils.registry.interfaces;
 
+import ttt.utils.registry.Registry;
+
 /**
  * Interfaccia per il registro ID {@link Registry}.
  *

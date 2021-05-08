@@ -421,7 +421,7 @@ public class ConsoleInput {
      * annullata, altrimenti {@code false}.
      * @param skippable_keyword La parola o lettera (o qualsiasi altra cosa) per
      * uscire dal ciclo (se e solo se {@code skippable = true}).
-     * @param v
+     * @param v Il validatore del valore.
      * @return Può restituire il valore immesso oppure {@code null} nel caso
      * l'utente sia uscito dal l'immisione.
      */
