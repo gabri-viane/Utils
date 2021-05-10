@@ -130,7 +130,7 @@ public abstract class Menu<P> {
     public int optionLookup(String text) {
         return menu.indexOf(menu.stream().filter((t) -> {
             return t.getKey().equals(text);
-        }).findFirst());
+        }).findFirst().get());
     }
 
     /**
@@ -241,8 +241,9 @@ public abstract class Menu<P> {
      */
     private P executeAt(int index) {
         Pair<String, FutureAction<P>> p = menu.get(index);
+        P val = p.getValue().onSelected();
         to_execute_later.forEach((f) -> f.onSelected());
         to_execute_later.clear();
-        return p.getValue().onSelected();
+        return val;
     }
 }
