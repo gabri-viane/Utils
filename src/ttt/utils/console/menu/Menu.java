@@ -85,12 +85,37 @@ public abstract class Menu<P> {
     /**
      * Aggiunge una nuova opzione al menu.
      *
+     * @param option L'opzione d'aggiungere, non deve contenere ne chiave ne
+     * valore nullo.
+     */
+    public void addOption(Pair<String, FutureAction<P>> option) {
+        if (option != null && option.getKey() != null && option.getValue() != null) {
+            menu.add(option);
+        }
+    }
+
+    /**
+     * Aggiunge una nuova opzione al menu.
+     *
      * @param option_message La voce del menu
      * @param action L'azione che verrà eseguita
      */
     public void addOption(String option_message, FutureAction action) {
         if (option_message != null && action != null) {
             menu.add(new Pair<>(option_message, action));
+        }
+    }
+
+    /**
+     * Aggiunge una nuova opzione al menu.
+     *
+     * @param index L'indice (parte da 1 e NON 0 ) a cui inserire l'opzione.
+     * @param option_message La voce del menu.
+     * @param action L'azione che verrà eseguita.
+     */
+    public void addOption(int index, String option_message, FutureAction action) {
+        if (index > 0 && option_message != null && action != null) {
+            menu.add(index - 1, new Pair<>(option_message, action));
         }
     }
 
@@ -122,6 +147,17 @@ public abstract class Menu<P> {
     }
 
     /**
+     * Rimuove l'opzione dal menù.
+     *
+     * @param option Opzione da rimuovere
+     */
+    public void removeOption(Pair<String, FutureAction<P>> option) {
+        if (option != null) {
+            menu.remove(option);
+        }
+    }
+
+    /**
      * Trova l'indice di un menu in base al testo contenuto.
      *
      * @param text Testo da cercare tra le voci del menu.
@@ -130,7 +166,21 @@ public abstract class Menu<P> {
     public int optionLookup(String text) {
         return menu.indexOf(menu.stream().filter((t) -> {
             return t.getKey().equals(text);
-        }).findFirst().get());
+        }).findFirst().orElse(null));
+    }
+
+    /**
+     * Cambia la voce di un'opzione del menu sapendo qual'era la precedente.
+     *
+     * @param oldText
+     * @param newText
+     */
+    public void changeOption(String oldText, String newText) {
+        int index = optionLookup(oldText);
+        if (index > -1) {
+            menu.add(index, new Pair<>(newText, menu.get(index).getValue()));
+            menu.remove(index + 1);
+        }
     }
 
     /**
