@@ -105,7 +105,9 @@ public class ConsoleInput {
                 }
                 break;
             } catch (NoSuchElementException | IllegalArgumentException ex) {
-                input.nextLine();
+                if (!(ex instanceof IllegalArgumentException)) {
+                    input.nextLine();
+                }
                 printOut("[" + ex.getMessage() + "] " + input_data.getString("invalid_input")
                         + (skippable ? input_data.getString("annulable_1") + skippable_keyword + input_data.getString("annulable_2") : "")
                         + input_data.getString("ask_input"), false, true);
@@ -173,7 +175,9 @@ public class ConsoleInput {
                 }
                 break;
             } catch (NoSuchElementException | IllegalArgumentException ex) {
-                input.nextLine();
+                if (!(ex instanceof IllegalArgumentException)) {
+                    input.nextLine();
+                }
                 printOut("[" + ex.getMessage() + "] " + input_data.getString("invalid_input")
                         + (skippable ? input_data.getString("annulable_1") + skippable_keyword + input_data.getString("annulable_2") : "")
                         + input_data.getString("ask_input"), false, true);
@@ -241,7 +245,9 @@ public class ConsoleInput {
                 }
                 break;
             } catch (NoSuchElementException | IllegalArgumentException ex) {
-                input.nextLine();
+                if (!(ex instanceof IllegalArgumentException)) {
+                    input.nextLine();
+                }
                 printOut("[" + ex.getMessage() + "] " + input_data.getString("invalid_input")
                         + (skippable ? input_data.getString("annulable_1") + skippable_keyword + input_data.getString("annulable_2") : "")
                         + input_data.getString("ask_input"), false, true);
@@ -309,7 +315,9 @@ public class ConsoleInput {
                 }
                 break;
             } catch (NoSuchElementException | IllegalArgumentException ex) {
-                input.nextLine();
+                if (!(ex instanceof IllegalArgumentException)) {
+                    input.nextLine();
+                }
                 printOut("[" + ex.getMessage() + "] " + input_data.getString("invalid_input")
                         + (skippable ? input_data.getString("annulable_1") + skippable_keyword + input_data.getString("annulable_2") : "")
                         + input_data.getString("ask_input"), false, true);
@@ -377,7 +385,9 @@ public class ConsoleInput {
                 }
                 break;
             } catch (NoSuchElementException | IllegalArgumentException ex) {
-                input.nextLine();
+                if (!(ex instanceof IllegalArgumentException)) {
+                    input.nextLine();
+                }
                 printOut("[" + ex.getMessage() + "] " + input_data.getString("invalid_input")
                         + (skippable ? input_data.getString("annulable_1") + skippable_keyword + input_data.getString("annulable_2") : "")
                         + input_data.getString("ask_input"), false, true);
@@ -444,7 +454,9 @@ public class ConsoleInput {
                 }
                 break;
             } catch (NoSuchElementException | IllegalArgumentException ex) {
-                input.nextLine();
+                if (!(ex instanceof IllegalArgumentException)) {
+                    input.nextLine();
+                }
                 printOut("[" + ex.getMessage() + "] " + input_data.getString("invalid_input")
                         + (skippable ? input_data.getString("annulable_1") + skippable_keyword + input_data.getString("annulable_2") : "")
                         + input_data.getString("ask_input"), false, true);
