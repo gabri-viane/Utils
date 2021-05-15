@@ -30,10 +30,10 @@ import ttt.utils.graph.exceptions.MeanlessException;
  * @param <T> Il tipo di nodo.
  * @param <K> Il tipo di link.
  */
-public class Node<T, K> {
+public final class Node<T, K> {
 
     private final String name;
-    private final HashMap<Node, Link<K>> links = new HashMap<>();
+    private final HashMap<Node<T, K>, Link<T, K>> links = new HashMap<>();
     private T value;
     private Link cycle;
 
@@ -60,9 +60,21 @@ public class Node<T, K> {
      *
      * @param l L'arco da aggiungere.
      */
-    public void addLink(Link l) {
+    public void addLink(Link<T, K> l) {
         if (l != null && !links.containsValue(l)) {
             links.put(l.getLinked(this), l);
+        }
+    }
+
+    /**
+     * Rimuove un arco a questo nodo e ne associa il nodo opposto.
+     *
+     * @param l L'arco da rimuovere.
+     */
+    public void removeLink(Link<T, K> l) {
+        if (l != null && links.containsValue(l)) {
+            links.remove(l.getLinked(this));
+            l.getLinked(this).removeLink(l);
         }
     }
 
@@ -115,8 +127,8 @@ public class Node<T, K> {
      * @return Lista di archi in uscita.
      * @throws MeanlessException Nel caso in cui l'arco sia bidirezionale.
      */
-    public List<Link> getOutputLinks() throws MeanlessException {
-        ArrayList<Link> to_ret = new ArrayList<>();
+    public List<Link<T, K>> getOutputLinks() throws MeanlessException {
+        ArrayList<Link<T, K>> to_ret = new ArrayList<>();
         links.values().stream().filter((l) -> {
             return l.getFrom() == this;
         }).forEach(l -> to_ret.add(l));
@@ -129,8 +141,8 @@ public class Node<T, K> {
      * @return Lista di archi in ingresso.
      * @throws MeanlessException Nel caso in cui l'arco sia bidirezionale.
      */
-    public List<Link> getInputLinks() throws MeanlessException {
-        ArrayList<Link> to_ret = new ArrayList<>();
+    public List<Link<T, K>> getInputLinks() throws MeanlessException {
+        ArrayList<Link<T, K>> to_ret = new ArrayList<>();
         links.values().stream().filter(l -> (l.getTo() == this))
                 .forEachOrdered(l -> {
                     to_ret.add(l);
@@ -167,8 +179,8 @@ public class Node<T, K> {
      * @return Il numero di archi.
      * @throws MeanlessException Nel caso in cui l'arco sia bidirezionale.
      */
-    public List<Link> getVoidInputLinks() throws MeanlessException {
-        ArrayList<Link> to_ret = new ArrayList<>();
+    public List<Link<T, K>> getVoidInputLinks() throws MeanlessException {
+        ArrayList<Link<T, K>> to_ret = new ArrayList<>();
         getInputLinks().stream().filter(link -> {
             return !link.hasValue();
         }).forEach((t) -> {
@@ -183,8 +195,8 @@ public class Node<T, K> {
      * @return Il numero di archi.
      * @throws MeanlessException Nel caso in cui l'arco sia bidirezionale.
      */
-    public List<Link> getVoidOutputLinks() throws MeanlessException {
-        ArrayList<Link> to_ret = new ArrayList<>();
+    public List<Link<T, K>> getVoidOutputLinks() throws MeanlessException {
+        ArrayList<Link<T, K>> to_ret = new ArrayList<>();
         getOutputLinks().stream().filter(link -> {
             return !link.hasValue();
         }).forEach((t) -> {
@@ -198,11 +210,11 @@ public class Node<T, K> {
      *
      * @return Map non modificabile.
      */
-    public Map<Node, Link> getAssociatedNodes() {
+    public Map<Node<T, K>, Link<T, K>> getAssociatedNodes() {
         return Collections.unmodifiableMap(links);
     }
 
-    public Collection<Link<K>> getLinks() {
+    public Collection<Link<T, K>> getLinks() {
         return Collections.unmodifiableCollection(links.values());
     }
 
@@ -214,7 +226,7 @@ public class Node<T, K> {
      * @param n Il nodo di arrivo.
      * @return L'arco che rappresenta il percorso da compiere.
      */
-    public Link to(Node n) {
+    public Link<T, K> to(Node<T, K> n) {
         return n == this ? cycle : links.get(n);
     }
 

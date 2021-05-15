@@ -16,30 +16,32 @@
 package ttt.utils.graph.elements;
 
 import java.util.Objects;
+import ttt.utils.console.menu.utils.Pair;
 import ttt.utils.graph.exceptions.MeanlessException;
 import ttt.utils.graph.exceptions.UnmodifiableException;
 
 /**
  *
  * @author TTT
+ * @param <T>
  * @param <K> Il tipo di valore.
  */
-public class Link<K> {
+public class Link<T, K> {
 
     private K value = null;
-    private Node from;
-    private Node to;
+    private Node<T, K> from;
+    private Node<T, K> to;
     private boolean unidirectional = false;
 
     private boolean unlocked = true;
 
-    public Link(Node from, Node to, boolean unidirectional) {
+    public Link(Node<T, K> from, Node<T, K> to, boolean unidirectional) {
         this.from = from;
         this.to = to;
         this.unidirectional = unidirectional;
     }
 
-    public Link(Node from, Node to) {
+    public Link(Node<T, K> from, Node<T, K> to) {
         this.from = from;
         this.to = to;
     }
@@ -50,7 +52,7 @@ public class Link<K> {
      * @return Il nodo associato.
      * @throws MeanlessException Nel caso l'arco sia bidirezionale.
      */
-    public Node getFrom() throws MeanlessException {
+    public Node<T, K> getFrom() throws MeanlessException {
         if (unidirectional) {
             return from;
         }
@@ -63,7 +65,7 @@ public class Link<K> {
      * @return Il nodo associato.
      * @throws MeanlessException Nel caso l'arco sia bidirezionale.
      */
-    public Node getTo() throws MeanlessException {
+    public Node<T, K> getTo() throws MeanlessException {
         if (unidirectional) {
             return to;
         }
@@ -111,7 +113,7 @@ public class Link<K> {
      * @return Il nodo opposto a quello passato come parametro, altrimenti
      * {@code null} se il nodo passato non fa parte dell'arco.
      */
-    public Node getLinked(Node n) {
+    public Node<T, K> getLinked(Node<T, K> n) {
         if (n != null && (n == from || n == to)) {
             return n == from ? to : from;
         }
@@ -156,6 +158,42 @@ public class Link<K> {
             this.from = tmp;
         }
         throw new MeanlessException("L'arco è bidirezionale. Quest'operazione non è ammessa.");
+    }
+
+    public Pair<Node<T, K>, Node<T, K>> getNodes() {
+        return new Pair<>(from, to);
+    }
+
+    /**
+     * Genera un nuovo arco tra due nodi.
+     *
+     * @param <R>
+     * @param <L>
+     * @param from Il nodo da cui parte.
+     * @param to Il nodo a cui arriva.
+     * @return Il link appena generato.
+     */
+    public static <R, L> Link<R, L> unidirectionalLink(Node<R, L> from, Node<R, L> to) {
+        Link<R, L> link = new Link(from, to,true);
+        from.addLink(link);
+        to.addLink(link);
+        return link;
+    }
+
+    /**
+     * Genera un nuovo arco tra due nodi.
+     *
+     * @param <R>
+     * @param <L>
+     * @param n1 Nodo a cui si collega.
+     * @param n2 Nodo a cui si collega.
+     * @return Il link appena generato.
+     */
+    public static <R, L> Link<R, L> bidirectionalLink(Node<R, L> n1, Node<R, L> n2) {
+        Link<R, L> link = new Link(n1, n2);
+        n1.addLink(link);
+        n2.addLink(link);
+        return link;
     }
 
     @Override
