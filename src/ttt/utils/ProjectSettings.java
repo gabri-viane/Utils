@@ -42,4 +42,10 @@ public class ProjectSettings {
      * Se vero stampa il il nome della dell'oggetto richiesto in input.
      */
     public static boolean PROGRAM_SHOW_VARIABLE_INPUT_TYPE_OUTPUT = true;
+    /**
+     * Se vero rende possibile che in una struttra di moduli generati in modo
+     * inverso partendo da un documento, un certo elemento vada da zero a N.
+     * Altrimenti partiranno da 1 a N.
+     */
+    public static boolean XML_STRUCTURE_ZERO_ALLOWED = true;
 }

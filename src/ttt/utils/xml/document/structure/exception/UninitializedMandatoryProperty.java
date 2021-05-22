@@ -13,28 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ttt.utils.engines.enums;
+package ttt.utils.xml.document.structure.exception;
 
 /**
- * I tipi di variabili d'istanza che possono essere utilizzati da un Engine per
- * completare e richiedere valori.
+ * Eccezione lanciata quando un valore obbligatorio non è ancora stato
+ * impostato.
  *
  * @author TTT
  */
-public enum FieldType {
-    /**
-     * Abilita una variabile d'istanza ad avere i diritti sia di {@link #READ}
-     * che di {@link #WRITE}.
-     */
-    READ_AND_WRITE,
-    /**
-     * Avverte l'Engine in utilizzo che la variabile può essere utilizzata in
-     * ambiti di lettura e interrogazione di valori.
-     */
-    READ,
-    /**
-     * Avverte l'Engine in utilizzo che la variabile può essere sovrascritta con
-     * altri valori a runtime.
-     */
-    WRITE
+public class UninitializedMandatoryProperty extends Exception {
+
+    public UninitializedMandatoryProperty(String message) {
+        super(message);
+    }
+
 }
