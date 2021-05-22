@@ -99,9 +99,18 @@ public class Graph<T, K> {
                     result = possible_path;
                     return result;
                 }
+            }else if(!sources.contains(ns.getKey())){
+                sources.add(ns.getValue());
+                sources.add(ns.getKey());
+                result.append(ns.getValue());
+                GraphPath<T, K> possible_path = nextLink(ns.getKey().getLinks(), sources, result.split(), to_find);
+                if (possible_path != null) {
+                    result = possible_path;
+                    return result;
+                }
             }
         }
         return null;
     }
-
+    
 }
