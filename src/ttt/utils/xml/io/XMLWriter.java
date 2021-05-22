@@ -67,8 +67,10 @@ public class XMLWriter {
      * Il file è scritto in codifica UTF-8 con formato XML 1.0
      *
      * @param document Il documento da salvare
+     * @param hr Nel caso il valore sia {@code true} allora il file viene
+     * stampato con formattazione Human Readable.
      */
-    public void writeDocument(XMLDocument document) {
+    public void writeDocument(XMLDocument document, boolean hr) {
         try {
             if (!f.exists()) {
                 f.createNewFile();
@@ -76,7 +78,11 @@ public class XMLWriter {
             XMLOutputFactory xmlof = XMLOutputFactory.newInstance();
             XMLStreamWriter xmlsw = xmlof.createXMLStreamWriter(new FileOutputStream(f), "UTF-8");
             xmlsw.writeStartDocument("UTF-8", "1.0");
-            document.getElements().forEach(el -> writeElement(xmlsw, el));
+            if (hr) {
+                document.getElements().forEach(el -> writeElementHR(xmlsw, el, ""));
+            } else {
+                document.getElements().forEach(el -> writeElement(xmlsw, el));
+            }
             xmlsw.writeEndDocument();
             xmlsw.flush();
             xmlsw.close();
@@ -111,6 +117,44 @@ public class XMLWriter {
             xmlsw.flush();
             element.getElements().forEach(el -> writeElement(xmlsw, el));
             xmlsw.writeEndElement();
+            xmlsw.flush();
+        } catch (XMLStreamException ex) {
+            Logger.getLogger(XMLWriter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * <b>HUMAN READABLE - STYLE</b><br>
+     * Si occupa della scrittura di un singolo elemento con i relativi tags, nel
+     * caso l'elemento ne possieda a sua volta degli altri allora il metodo
+     * procede a scrivere pure loro prima di chiudere l'elemento corrente.
+     *
+     * @param xmlsw Lo stream di scrittura del file.
+     * @param element L'elemento da scrivere.
+     */
+    private void writeElementHR(XMLStreamWriter xmlsw, IXMLElement element, String tabs) {
+        try {
+            xmlsw.writeCharacters(tabs);
+            xmlsw.writeStartElement(element.getName());
+            element.getTags().forEach(tag -> {
+                try {
+                    xmlsw.writeAttribute(tag.getName(), tag.getValue());
+                } catch (XMLStreamException ex) {
+                    Logger.getLogger(XMLWriter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+            if (element.getValue() != null) {
+                xmlsw.writeCharacters(element.getValue());
+            }
+            xmlsw.flush();
+            boolean bl = element.getElements().size() > 0;
+            if (bl) {
+                xmlsw.writeCharacters("\n");
+                element.getElements().forEach(el -> writeElementHR(xmlsw, el, tabs + "\t"));
+                xmlsw.writeCharacters(tabs);
+            }
+            xmlsw.writeEndElement();
+            xmlsw.writeCharacters("\n");
             xmlsw.flush();
         } catch (XMLStreamException ex) {
             Logger.getLogger(XMLWriter.class.getName()).log(Level.SEVERE, null, ex);
