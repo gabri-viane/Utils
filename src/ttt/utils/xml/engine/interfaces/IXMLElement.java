@@ -73,7 +73,7 @@ public interface IXMLElement {
     public void removeSubElement(IXMLElement element);
 
     /**
-     * Controlla se ha un'elemento
+     * Controlla se ha un'elemento.
      *
      * @param element Elemento da trovare.
      * @return {@code true} se contiene l'elemento.
@@ -81,7 +81,7 @@ public interface IXMLElement {
     public boolean hasElement(IXMLElement element);
 
     /**
-     * Aggiungi una tag
+     * Aggiungi una tag.
      *
      * @param tag La {@link IXMLTag} da aggiungere
      */
@@ -147,4 +147,18 @@ public interface IXMLElement {
      * @return L'ultimo elemento disponibile oppure {@code null}.
      */
     public IXMLElement getLast();
+
+    /**
+     * Ritorna la lista di commenti presenti in quest'elemento.
+     *
+     * @return Lista di commenti.
+     */
+    public List<IXMLComment> getComments();
+
+    /**
+     * Aggiunge un commento all'elemento corrente.
+     *
+     * @param comment Il commento da aggiungere.
+     */
+    public void addComment(IXMLComment comment);
 }

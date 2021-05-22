@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 gabri.
+ * Copyright 2021 TTT.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import ttt.utils.graph.exceptions.InvalidGraphFormat;
 
 /**
  *
- * @author gabri
+ * @author TTT
  * @param <T>
  * @param <K>
  */

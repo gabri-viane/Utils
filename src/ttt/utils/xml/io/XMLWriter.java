@@ -25,6 +25,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import ttt.utils.xml.document.XMLDocument;
+import ttt.utils.xml.engine.XMLWriteSupportEngine;
 import ttt.utils.xml.engine.interfaces.IXMLElement;
 
 /**
@@ -75,6 +76,8 @@ public class XMLWriter {
             if (!f.exists()) {
                 f.createNewFile();
             }
+            XMLWriteSupportEngine changer = new XMLWriteSupportEngine(document);
+            changer.applyChanges();
             XMLOutputFactory xmlof = XMLOutputFactory.newInstance();
             XMLStreamWriter xmlsw = xmlof.createXMLStreamWriter(new FileOutputStream(f), "UTF-8");
             xmlsw.writeStartDocument("UTF-8", "1.0");

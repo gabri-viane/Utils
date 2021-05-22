@@ -39,6 +39,5 @@ public enum MethodType {
      * tipi definiti dall'engine che deve utilizzare il metodo.
      */
     CALC,
-    EVENT,
-    VARIABLE_ONLY
+    EVENT
 }

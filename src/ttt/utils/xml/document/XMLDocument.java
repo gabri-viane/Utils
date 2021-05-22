@@ -19,6 +19,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import javax.xml.stream.events.XMLEvent;
 import ttt.utils.xml.engine.interfaces.IXMLElement;
 
@@ -54,6 +55,16 @@ public class XMLDocument extends XMLElement {
      */
     public File getSourceFile() {
         return file;
+    }
+
+    /**
+     * Ritorna l'elemento radice del file XML.
+     *
+     * @return Il primo elemento presente nel documento.
+     */
+    public IXMLElement getRoot() {
+        Optional<IXMLElement> root = super.getElements().stream().findFirst();
+        return root.orElse(null);
     }
 
     /**

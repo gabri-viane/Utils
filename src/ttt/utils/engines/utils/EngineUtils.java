@@ -34,6 +34,17 @@ public final class EngineUtils {
     }
 
     /**
+     * Controlla se una classe fa parte dei boxed-type.
+     *
+     * @param type La classe da controllare.
+     * @return {@code true} se è una classe boxed.
+     */
+    public static boolean isBoxed(Class<?> type) {
+        return (type == Integer.class || type == Long.class || type == Double.class || type == Float.class
+                || type == Boolean.class || type == Byte.class || type == Character.class || type == Short.class);
+    }
+
+    /**
      * Esegue il boxing di una classe primitiva.
      *
      * @param type La classe per cui eseguire il boxing.
@@ -58,6 +69,37 @@ public final class EngineUtils {
             return Short.class;
         } else {
             String string = "class '" + type.getName() + "' is not a primitive";
+            throw new IllegalArgumentException(string);
+        }
+    }
+
+    public static Object convertStringToPrimitive(String value, Class<?> type) {
+        if (value != null) {
+            if (isPrimitive(type)) {
+                type = boxPrimitiveClass(type);
+            }
+            if (type == Integer.class) {
+                return Integer.parseInt(value);
+            } else if (type == Long.class) {
+                return Long.parseLong(value);
+            } else if (type == Double.class) {
+                return Double.parseDouble(value);
+            } else if (type == Float.class) {
+                return Float.parseFloat(value);
+            } else if (type == Boolean.class) {
+                return Boolean.parseBoolean(value);
+            } else if (type == Byte.class) {
+                return Byte.class;
+            } else if (type == Character.class) {
+                return value.charAt(0);
+            } else if (type == Short.class) {
+                return Short.parseShort(value);
+            } else {
+                String string = "class '" + type.getName() + "' is not a primitive: expected primitive, cannot convert string to: " + type.getName();
+                throw new IllegalArgumentException(string);
+            }
+        } else {
+            String string = "Null value cannot be converted to a primitive type.";
             throw new IllegalArgumentException(string);
         }
     }

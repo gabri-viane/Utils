@@ -24,8 +24,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ttt.utils.xml.document.XMLComment;
 import ttt.utils.xml.document.XMLDocument;
 import ttt.utils.xml.document.XMLElement;
 import ttt.utils.xml.document.XMLTag;
@@ -36,6 +38,8 @@ import ttt.utils.xml.document.XMLTag;
  * @author TTT
  */
 public class XMLReader {
+
+    private static final ResourceBundle read_errors = ResourceBundle.getBundle("ttt/utils/resources/i18n/xml/read_errors");
 
     /*
     Quando si legge un file si deve ritornare un'istanza di una classe 
@@ -79,7 +83,7 @@ public class XMLReader {
                 parseDocument(xmlsr, document);
                 xmlsr.close();
             } catch (FileNotFoundException | XMLStreamException e) {
-                throw new IOException("Il file specificato non esiste o non è formattato correttamente.");
+                throw new IOException(read_errors.getString("not_found_or_incorrect"));
             }
 
             return document;
@@ -91,12 +95,12 @@ public class XMLReader {
                 parseDocument(xmlsr, document);
                 xmlsr.close();
             } catch (XMLStreamException e) {
-                throw new IOException("Il file specificato non esiste o non è formattato correttamente.");
+                throw new IOException(read_errors.getString("not_found_or_incorrect"));
             }
 
             return document;
         } else {
-            throw new IOException("Il file specificato non esiste o non è correttto.");
+            throw new IOException(read_errors.getString("not_found_or_incorrect"));
         }
     }
 
@@ -110,11 +114,16 @@ public class XMLReader {
         try {
             while (xmlsr.hasNext()) {
                 switch (xmlsr.getEventType()) {
+                    case XMLStreamConstants.START_DOCUMENT:
+                        break;
                     case XMLStreamConstants.START_ELEMENT:
                         d.getLast().addSubElement(parseElement(xmlsr));
                         break;
                     case XMLStreamConstants.END_ELEMENT:
                         d.getLast().close();
+                        break;
+                    case XMLStreamConstants.COMMENT:
+                        d.getLast().addComment(new XMLComment(xmlsr.getText()));
                         break;
                     case XMLStreamConstants.CHARACTERS: // content all’interno di un elemento: stampa il testo
                         if (xmlsr.getText().trim().length() > 0) {

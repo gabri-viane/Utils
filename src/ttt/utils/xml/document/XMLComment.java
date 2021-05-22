@@ -13,16 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ttt.utils.graph.exceptions;
+package ttt.utils.xml.document;
+
+import ttt.utils.xml.engine.interfaces.IXMLComment;
 
 /**
+ * Rappresenta un commento di un file XML.
  *
  * @author TTT
  */
-public class InvalidGraphFormat extends RuntimeException{
+public class XMLComment implements IXMLComment {
 
-    public InvalidGraphFormat(String message) {
-        super(message);
+    private String value;
+
+    public XMLComment() {
+
     }
-    
+
+    public XMLComment(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public String getValue() {
+        return this.value;
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+
 }

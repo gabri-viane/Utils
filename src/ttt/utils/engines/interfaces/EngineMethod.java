@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ttt.utils.xml.engine.annotations;
+package ttt.utils.engines.interfaces;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -33,7 +33,7 @@ import ttt.utils.engines.enums.MethodType;
 public @interface EngineMethod {
 
     /**
-     * Il tipo di metodo su cui viene posta quest'annotazione
+     * Il tipo di metodo su cui viene posta quest'annotazione.
      *
      * @return {@link MethodType}.
      */

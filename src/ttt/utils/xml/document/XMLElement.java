@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import ttt.utils.xml.engine.interfaces.IXMLComment;
 import ttt.utils.xml.engine.interfaces.IXMLElement;
 import ttt.utils.xml.engine.interfaces.IXMLTag;
 
@@ -38,6 +39,7 @@ public class XMLElement implements IXMLElement {
     private String value;
     private final HashMap<String, IXMLTag> tags = new HashMap<>();
     private final ArrayList<IXMLElement> sub_elements = new ArrayList<>();
+    private final ArrayList<IXMLComment> comments = new ArrayList<>();
 
     /**
      * Crea un nuovo elemento generico con tutti i metodi base già implementati.
@@ -141,6 +143,18 @@ public class XMLElement implements IXMLElement {
             return this;
         }
         return null;
+    }
+
+    @Override
+    public List<IXMLComment> getComments() {
+        return Collections.unmodifiableList(comments);
+    }
+
+    @Override
+    public void addComment(IXMLComment comment) {
+        if (comment != null && comment.getValue() != null && !"".equals(comment.getValue().trim())) {
+            comments.add(comment);
+        }
     }
 
 }

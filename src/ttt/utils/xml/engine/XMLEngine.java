@@ -19,18 +19,22 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ttt.utils.engines.enums.FieldType;
 import ttt.utils.xml.document.XMLDocument;
 import ttt.utils.xml.document.XMLElement;
 import ttt.utils.xml.engine.annotations.Element;
-import ttt.utils.xml.engine.annotations.EngineMethod;
+import ttt.utils.engines.interfaces.EngineMethod;
 import ttt.utils.xml.engine.annotations.Tag;
 import ttt.utils.engines.enums.MethodType;
+import ttt.utils.engines.interfaces.EngineField;
+import ttt.utils.engines.utils.EngineUtils;
 import ttt.utils.xml.engine.interfaces.IXMLElement;
 import ttt.utils.xml.engine.interfaces.IXMLTag;
 import ttt.utils.xml.io.XMLReader;
@@ -111,7 +115,7 @@ public final class XMLEngine {
      * @param c La classe da controllare.
      * @return L'annotazone {@link Element} associata alla classe.
      */
-    private Element getAnnotationFrom(Class c) {
+    protected static Element getAnnotationFrom(Class c) {
         Annotation annotation = c.getAnnotation(Element.class);
         if (annotation != null) {
             Element elem_ann = (Element) annotation;
@@ -173,11 +177,16 @@ public final class XMLEngine {
                     if (meta.MethodType() == MethodType.SET) {
                         if (main_ann.CanHaveTags()) {
                             Tag tag_annot = m.getAnnotation(Tag.class);
-                            if (tag_annot != null) {
-                                if (m.getParameterCount() == 1 && m.getParameterTypes()[0] == String.class) {
+                            if (tag_annot != null && m.getParameterCount() == 1) {
+                                Class<?> param1 = m.getParameterTypes()[0];
+                                if (param1.equals(tag_annot.ValueType())) {
+                                    IXMLTag effective_tag = from.getTag(tag_annot.Name());
                                     try {
-                                        IXMLTag effective_tag = from.getTag(tag_annot.Name());
-                                        m.invoke(to, effective_tag != null ? effective_tag.getValue() : null);
+                                        if (param1 == String.class) {
+                                            m.invoke(to, effective_tag != null ? effective_tag.getValue() : null);
+                                        } else if (EngineUtils.isPrimitive(param1) || EngineUtils.isBoxed(param1)) {
+                                            m.invoke(to, effective_tag != null ? EngineUtils.convertStringToPrimitive(effective_tag.getValue(), param1) : null);
+                                        }
                                     } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                                         Logger.getLogger(XMLEngine.class.getName()).log(Level.SEVERE, null, ex);
                                     }
@@ -188,10 +197,27 @@ public final class XMLEngine {
                         calc_methods.add(m);
                     }
                 }
-                //Completare per le variabili
-                /*for (Field f : c.getDeclaredFields()) {
-
-            }*/
+            }
+            for (Field f : c.getDeclaredFields()) {
+                f.setAccessible(true);
+                EngineField meta = f.getAnnotation(EngineField.class);
+                if (meta != null && (meta.FieldType() == FieldType.READ_AND_WRITE || meta.FieldType() == FieldType.WRITE)) {
+                    if (main_ann.CanHaveTags()) {
+                        Tag tag_annot = f.getAnnotation(Tag.class);
+                        if (tag_annot != null) {
+                            try {
+                                IXMLTag effective_tag = from.getTag(tag_annot.Name());
+                                if (f.getType().equals(String.class)) {
+                                    f.set(to, effective_tag != null ? effective_tag.getValue() : null);
+                                } else if (EngineUtils.isPrimitive(f.getType()) || EngineUtils.isBoxed(f.getType())) {
+                                    f.set(to, effective_tag != null ? EngineUtils.convertStringToPrimitive(effective_tag.getValue(), f.getType()) : null);
+                                }
+                            } catch (IllegalArgumentException | IllegalAccessException ex) {
+                                Logger.getLogger(XMLEngine.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                }
             }
         }
         from.getTags().forEach(tag -> to.addTag(tag));

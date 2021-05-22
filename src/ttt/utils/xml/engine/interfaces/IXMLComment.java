@@ -16,44 +16,23 @@
 package ttt.utils.xml.engine.interfaces;
 
 /**
- * Interfaccia che deve essere implmentata dalle classi che rappresentano
- * un'attributo (un tag) di un elemento XML.
+ * L'interfaccia che fornisce i metodi necessari per poter gestire un commento.
  *
  * @author TTT
  */
-public interface IXMLTag {
-
-    /*
-     Indica una tag di un elemento XML che può essere più complessa
-    <elemento tag=valore/>
-    Bisogna definire i metodi base di get e set.
-     */
-    /**
-     * Imposta il nome della Tag.
-     *
-     * @param name Il nome dell'attributo.
-     */
-    public void setName(String name);
+public interface IXMLComment {
 
     /**
-     * Imposta il valore della Tag.
+     * Imposta il valore del commento.
      *
-     * @param value Il valore dell'attributo.
+     * @param value Il commento.
      */
     public void setValue(String value);
 
     /**
-     * Ritorna il valore associato alla Tag.
+     * Ritorna il valore associato.
      *
-     * @return Il valore dell'attributo.
+     * @return Il commento.
      */
     public String getValue();
-
-    /**
-     * Ritorna il nome della Tag.
-     *
-     * @return Il valore dell'attributo.
-     */
-    public String getName();
-
 }

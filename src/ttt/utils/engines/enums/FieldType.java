@@ -13,16 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ttt.utils.graph.exceptions;
+package ttt.utils.engines.enums;
 
 /**
  *
  * @author TTT
  */
-public class InvalidGraphFormat extends RuntimeException{
-
-    public InvalidGraphFormat(String message) {
-        super(message);
-    }
-    
+public enum FieldType {
+    READ_AND_WRITE,
+    READ,
+    WRITE
 }
