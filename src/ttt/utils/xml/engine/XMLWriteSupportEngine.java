@@ -24,6 +24,7 @@ import ttt.utils.engines.enums.FieldType;
 import ttt.utils.engines.enums.MethodType;
 import ttt.utils.engines.interfaces.EngineField;
 import ttt.utils.engines.interfaces.EngineMethod;
+import ttt.utils.xml.document.XMLTag;
 import ttt.utils.xml.engine.annotations.Element;
 import ttt.utils.xml.engine.annotations.Tag;
 import ttt.utils.xml.engine.interfaces.IXMLElement;
@@ -60,6 +61,10 @@ public class XMLWriteSupportEngine {
                     if (tag_annot != null && m.getParameterCount() == 0) {
                         try {
                             IXMLTag effective_tag = exec.getTag(tag_annot.Name());
+                            if (effective_tag == null) {
+                                effective_tag = new XMLTag(tag_annot.Name());
+                                exec.addTag(effective_tag);
+                            }
                             Object res = m.invoke(exec);
                             effective_tag.setValue(res != null ? res.toString() : "");
                         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
@@ -71,11 +76,15 @@ public class XMLWriteSupportEngine {
             for (Field f : c.getDeclaredFields()) {
                 f.setAccessible(true);
                 EngineField meta = f.getAnnotation(EngineField.class);
-                if (meta != null && main_ann.CanHaveTags() && (meta.FieldType() == FieldType.READ_AND_WRITE || meta.FieldType() == FieldType.READ)) {
+                if (meta != null && main_ann.CanHaveTags() && (meta.FieldType() == FieldType.READ_AND_WRITE || meta.FieldType() == FieldType.WRITE)) {
                     Tag tag_annot = f.getAnnotation(Tag.class);
                     if (tag_annot != null) {
                         try {
                             IXMLTag effective_tag = exec.getTag(tag_annot.Name());
+                            if (effective_tag == null) {
+                                effective_tag = new XMLTag(tag_annot.Name());
+                                exec.addTag(effective_tag);
+                            }
                             Object res = f.get(exec);
                             effective_tag.setValue(res != null ? res.toString() : "");
                         } catch (IllegalArgumentException | IllegalAccessException ex) {
@@ -90,4 +99,13 @@ public class XMLWriteSupportEngine {
         });
     }
 
+    public static boolean doWriteSubElements(IXMLElement exec){
+        Class c = exec.getClass();
+        Element main_ann = XMLEngine.getAnnotationFrom(c);
+        if (main_ann != null){
+            return main_ann.IgnoreSubElementsOnWrite();
+        }
+        return false;
+    }
+    
 }

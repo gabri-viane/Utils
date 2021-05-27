@@ -201,7 +201,7 @@ public final class XMLEngine {
             for (Field f : c.getDeclaredFields()) {
                 f.setAccessible(true);
                 EngineField meta = f.getAnnotation(EngineField.class);
-                if (meta != null && (meta.FieldType() == FieldType.READ_AND_WRITE || meta.FieldType() == FieldType.WRITE)) {
+                if (meta != null && (meta.FieldType() == FieldType.READ_AND_WRITE || meta.FieldType() == FieldType.READ)) {
                     if (main_ann.CanHaveTags()) {
                         Tag tag_annot = f.getAnnotation(Tag.class);
                         if (tag_annot != null) {

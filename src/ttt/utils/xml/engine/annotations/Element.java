@@ -58,4 +58,11 @@ public @interface Element {
      */
     public boolean CanHaveValue() default true;
 
+    /**
+     * Ignora tutti i sotto-elementi per la scrittura di un file. Se
+     * {@code true} allora alla scrittura vengono ignorati tutti gli elementi.
+     *
+     * @return {@code true} se bisogna ignorarli.
+     */
+    public boolean IgnoreSubElementsOnWrite() default false;
 }

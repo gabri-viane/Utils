@@ -118,7 +118,9 @@ public class XMLWriter {
                 xmlsw.writeCharacters(element.getValue());
             }
             xmlsw.flush();
-            element.getElements().forEach(el -> writeElement(xmlsw, el));
+            if (XMLWriteSupportEngine.doWriteSubElements(element)) {
+                element.getElements().forEach(el -> writeElement(xmlsw, el));
+            }
             xmlsw.writeEndElement();
             xmlsw.flush();
         } catch (XMLStreamException ex) {
@@ -153,7 +155,9 @@ public class XMLWriter {
             boolean bl = element.getElements().size() > 0;
             if (bl) {
                 xmlsw.writeCharacters("\n");
-                element.getElements().forEach(el -> writeElementHR(xmlsw, el, tabs + "\t"));
+                if (XMLWriteSupportEngine.doWriteSubElements(element)) {
+                    element.getElements().forEach(el -> writeElementHR(xmlsw, el, tabs + "\t"));
+                }
                 xmlsw.writeCharacters(tabs);
             }
             xmlsw.writeEndElement();
