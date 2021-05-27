@@ -37,6 +37,7 @@ import ttt.utils.xml.engine.interfaces.IXMLElement;
 public class XMLWriter {
 
     private final File f;
+    private XMLWriteSupportEngine changer;
 
     /**
      * Crea un nuovo XMLWriter associato ad un file, in cui si potrà salvare un
@@ -76,12 +77,13 @@ public class XMLWriter {
             if (!f.exists()) {
                 f.createNewFile();
             }
-            XMLWriteSupportEngine changer = new XMLWriteSupportEngine(document);
+            changer = new XMLWriteSupportEngine(document);
             changer.applyChanges();
             XMLOutputFactory xmlof = XMLOutputFactory.newInstance();
             XMLStreamWriter xmlsw = xmlof.createXMLStreamWriter(new FileOutputStream(f), "UTF-8");
             xmlsw.writeStartDocument("UTF-8", "1.0");
             if (hr) {
+                xmlsw.writeCharacters("\n");
                 document.getElements().forEach(el -> writeElementHR(xmlsw, el, ""));
             } else {
                 document.getElements().forEach(el -> writeElement(xmlsw, el));
@@ -108,10 +110,12 @@ public class XMLWriter {
         try {
             xmlsw.writeStartElement(element.getName());
             element.getTags().forEach(tag -> {
-                try {
-                    xmlsw.writeAttribute(tag.getName(), tag.getValue());
-                } catch (XMLStreamException ex) {
-                    Logger.getLogger(XMLWriter.class.getName()).log(Level.SEVERE, null, ex);
+                if (changer.doWriteTag(element, tag)) {
+                    try {
+                        xmlsw.writeAttribute(tag.getName(), tag.getValue());
+                    } catch (XMLStreamException ex) {
+                        Logger.getLogger(XMLWriter.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             });
             if (element.getValue() != null) {
@@ -142,10 +146,12 @@ public class XMLWriter {
             xmlsw.writeCharacters(tabs);
             xmlsw.writeStartElement(element.getName());
             element.getTags().forEach(tag -> {
-                try {
-                    xmlsw.writeAttribute(tag.getName(), tag.getValue());
-                } catch (XMLStreamException ex) {
-                    Logger.getLogger(XMLWriter.class.getName()).log(Level.SEVERE, null, ex);
+                if (changer.doWriteTag(element, tag)) {
+                    try {
+                        xmlsw.writeAttribute(tag.getName(), tag.getValue());
+                    } catch (XMLStreamException ex) {
+                        Logger.getLogger(XMLWriter.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             });
             if (element.getValue() != null) {

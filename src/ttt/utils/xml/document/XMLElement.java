@@ -99,6 +99,10 @@ public class XMLElement implements IXMLElement {
     public void addTag(IXMLTag tag) {
         tags.put(tag.getName(), tag);
     }
+    @Override
+    public void removeTag(IXMLTag tag) {
+        tags.remove(tag.getName(), tag);
+    }
 
     @Override
     public List<IXMLTag> getTags() {

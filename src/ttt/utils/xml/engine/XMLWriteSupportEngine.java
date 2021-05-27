@@ -18,6 +18,9 @@ package ttt.utils.xml.engine;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ttt.utils.engines.enums.FieldType;
@@ -37,6 +40,7 @@ import ttt.utils.xml.engine.interfaces.IXMLTag;
 public class XMLWriteSupportEngine {
 
     private final IXMLElement element;
+    private final HashMap<Class<? extends IXMLElement>, LinkedList<String>> writeable_tags = new HashMap<>();
 
     public XMLWriteSupportEngine(IXMLElement element) {
         this.element = element;
@@ -47,11 +51,13 @@ public class XMLWriteSupportEngine {
      * cambiate devono essere applicate prima di poter essere scritte.
      */
     public void applyChanges() {
+        writeable_tags.clear();
         transferChanges(element);
     }
 
     private void transferChanges(IXMLElement exec) {
         Class c = exec.getClass();
+        writeable_tags.putIfAbsent(c, new LinkedList<>());
         Element main_ann = XMLEngine.getAnnotationFrom(c);
         if (main_ann != null && main_ann.CanHaveTags()) {
             for (Method m : c.getDeclaredMethods()) {
@@ -85,6 +91,7 @@ public class XMLWriteSupportEngine {
                                 effective_tag = new XMLTag(tag_annot.Name());
                                 exec.addTag(effective_tag);
                             }
+                            writeable_tags.get(c).add(effective_tag.getName());
                             Object res = f.get(exec);
                             effective_tag.setValue(res != null ? res.toString() : "");
                         } catch (IllegalArgumentException | IllegalAccessException ex) {
@@ -99,13 +106,25 @@ public class XMLWriteSupportEngine {
         });
     }
 
-    public static boolean doWriteSubElements(IXMLElement exec){
+    public static boolean doWriteSubElements(IXMLElement exec) {
         Class c = exec.getClass();
         Element main_ann = XMLEngine.getAnnotationFrom(c);
-        if (main_ann != null){
-            return main_ann.IgnoreSubElementsOnWrite();
+        if (main_ann != null) {
+            return !main_ann.IgnoreSubElementsOnWrite();
         }
         return false;
     }
-    
+
+    public boolean doWriteTag(IXMLElement exec, IXMLTag tag) {
+        Class c = exec.getClass();
+        Element main_ann = XMLEngine.getAnnotationFrom(c);
+        if (main_ann != null) {
+            LinkedList<String> get = writeable_tags.get(c);
+            if (get != null) {
+                return get.contains(tag.getName());
+            }
+        }
+        return false;
+    }
+
 }

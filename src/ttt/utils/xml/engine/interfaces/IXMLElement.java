@@ -88,6 +88,13 @@ public interface IXMLElement {
     public void addTag(IXMLTag tag);
 
     /**
+     * Rimuovi una tag.
+     *
+     * @param tag La {@link IXMLTag} da rimuovere
+     */
+    public void removeTag(IXMLTag tag);
+
+    /**
      * Controlla se ha una tag.
      *
      * @param name Nome della tag da cercare.
