@@ -172,8 +172,8 @@ public abstract class Menu<P> {
     /**
      * Cambia la voce di un'opzione del menu sapendo qual'era la precedente.
      *
-     * @param oldText
-     * @param newText
+     * @param oldText Veccho testo
+     * @param newText Nuovo testo.
      */
     public void changeOption(String oldText, String newText) {
         int index = optionLookup(oldText);

@@ -22,8 +22,8 @@ import ttt.utils.graph.exceptions.InvalidGraphFormat;
 /**
  *
  * @author TTT
- * @param <T>
- * @param <K>
+ * @param <T> Il tipo di Nodo.
+ * @param <K> Il tipo di valore.
  */
 public class TreeGraph<T, K> extends Graph<T, K> {
 

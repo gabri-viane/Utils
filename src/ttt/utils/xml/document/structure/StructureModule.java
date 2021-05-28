@@ -74,7 +74,7 @@ public class StructureModule {
      * Ritrorna il nome del modulo nel caso di un fallimento nella verifica di
      * un documento.
      *
-     * @return
+     * @return L'ultimo errore scatenato.
      */
     public String getLastError() {
         return last_error;

@@ -23,7 +23,7 @@ import ttt.utils.graph.exceptions.UnmodifiableException;
 /**
  *
  * @author TTT
- * @param <T>
+ * @param <T> Il tipo di Nodo.
  * @param <K> Il tipo di valore.
  */
 public class Link<T, K> {
@@ -167,8 +167,8 @@ public class Link<T, K> {
     /**
      * Genera un nuovo arco tra due nodi.
      *
-     * @param <R>
-     * @param <L>
+     * @param <R> Valore R
+     * @param <L> Valore L
      * @param from Il nodo da cui parte.
      * @param to Il nodo a cui arriva.
      * @return Il link appena generato.
@@ -183,8 +183,8 @@ public class Link<T, K> {
     /**
      * Genera un nuovo arco tra due nodi.
      *
-     * @param <R>
-     * @param <L>
+     * @param <R> Valore R
+     * @param <L> Valore L
      * @param n1 Nodo a cui si collega.
      * @param n2 Nodo a cui si collega.
      * @return Il link appena generato.

@@ -23,8 +23,8 @@ import ttt.utils.engines.enums.FieldType;
 
 /**
  * Serve alle classi {@code Engine} per stabilire una variabile a cosa serve. In
- * base al tipo imposto ({@link FielType}) il motore che si occupa del
- * completamento dei dati si comporterà in modo diverso.
+ * base al tipo imposto ({@link ttt.utils.engines.enums.FieldType}) il motore
+ * che si occupa del completamento dei dati si comporterà in modo diverso.
  *
  * @author TTT
  */
@@ -35,7 +35,7 @@ public @interface EngineField {
     /**
      * Il tipo di campo su cui viene posta quest'annotazione.
      *
-     * @return {@link FielType}.
+     * @return {@link ttt.utils.engines.enums.FieldType}.
      */
     public FieldType FieldType();
 }

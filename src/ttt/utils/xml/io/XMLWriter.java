@@ -42,7 +42,7 @@ public class XMLWriter {
     /**
      * Crea un nuovo XMLWriter associato ad un file, in cui si potrà salvare un
      * oggetto di tipo {@link XMLDocument} tramite il metodo messo a
-     * disposizione: {@link XMLWriter#writeDocument(ttt.utils.xml.document.XMLDocument)
+     * disposizione: {@link XMLWriter#writeDocument(ttt.utils.xml.document.XMLDocument, boolean)
      * }.
      *
      * @param file Il file che conterrà il documento.
@@ -140,6 +140,7 @@ public class XMLWriter {
      *
      * @param xmlsw Lo stream di scrittura del file.
      * @param element L'elemento da scrivere.
+     * @param tabs Le tabs da stampare prima dell'inserimento.
      */
     private void writeElementHR(XMLStreamWriter xmlsw, IXMLElement element, String tabs) {
         try {

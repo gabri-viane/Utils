@@ -15,15 +15,14 @@
  */
 package ttt.utils.graph.elements;
 
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.stream.Stream;
 
 /**
  *
  * @author TTT
- * @param <T>
- * @param <K>
+ * @param <T> Tipo di nodo
+ * @param <K> Tipo di link
  */
 public class GraphPath<T, K> {
 
