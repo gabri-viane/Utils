@@ -199,6 +199,125 @@ Ritorna la stringa composta da tante indentazioni (`"\t"`) quante ce ne sono cor
 </p>
 
 La classe *ObjectOutputEngine* è una classe non instanziabile, che mette a disposizione 4 metodi statici che permettono di assegnare degli identificatori ai metodi e variabili. La classe deve implementare `ttt.utils.console.output.interfaces.PrintableObject` e le variabili o metodi marcati con l'annotazione `ttt.utils.console.output.annotations.Printable` possono essere utilizzate per rimpiazzare in una stringa il valore associato all'identificatore.
-<p>
 
-</p>
+I quattro metodi eseguono sostanzialmente la stessa procedura ma tornano una stringa costruita con criteri differenti:<br>
+tutti i metodi funzionano secondo prendendo una stringa da formattare (molto simile al funzionamento di `System.out.printf()`) in cui sono presenti delle parole chiave precedute da **%** (ad esempio: *%player* o qualsiasi altra cosa preceduta da *%*).
+
+Per spiegare in modo semplice il funzionamento segue un esempio completo di utilizzo seguito con la spiegazione dei metodi:
+
+```java
+public class Posizione implements PrintableObject {
+
+    private final double x;
+    private final double y;
+
+    public Posizione(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    @Printable(replace = "X")
+    public double getX() {
+        return x;
+    }
+
+    @Printable(replace = "Y")
+    public double getY() {
+        return y;
+    }
+
+    @Printable(replace = "Pos")
+    @Override
+    public String toString() {
+        return "(" + x + "," + y + ")";
+    }
+
+}
+```
+
+```java
+public class OggettoEsempio implements PrintableObject {
+
+    @Printable(replace = "TT1")
+    public String nome = "Jakson";
+
+    @Printable(replace = "TT2")
+    public char seso = 'M';
+
+}
+```
+
+Notare come entrambe le classi implementano *PrintableObject*, senza questo passaggio il motore di completamento scarterebbe l'oggetto a priori.<br>
+L'annotazione *Printable* richiede un parametro: `replace` che prende una stringa, il valore assegnatogli sarà la parola chiave che identifica la variabile o metodo. Nel caso diversi elementi con la stessa parola chiave viene seguito l'ordine con cui vengono passati gli oggetti, e se nello stesso oggetto ci sono più elementi con lo stessa viene seguito l'ordine in cui sono state dichiarate nella classe. Le variabili di classe hanno la priorità sui metodi.
+
+Il metodo `ObjectOutputEngine.printExclusive(...)` ha due overload:
+```java
+public static String printExclusive(String format, Object o)
+```
+
+```java
+public static String printExclusive(String format, Object... os)
+```
+Poi sono presenti gli altri due metodi:
+```java
+public static String print(String format, Object o)
+```
+
+```java
+public static String printAll(String format, Object... os)
+```
+Tutti e quattro prendono in input la stringa da formattare e un'oggetto o la lista di oggetti (che devono implementare *PrintableObject*!!) e ritornano la stringa da formattare ma con le parole chiave sostituite.<br>
+Il funzionamento tra i 4 metodi è esattamente lo stesso con un'unica eccezione: quelli definiti come *printExclusive* se gli viene passata una stringa che contiene parole chiave non presenti negli oggetti passati come argomento vengono rimosse, mentri quelli non *exclusive* se non trovano una parola chiave la saltano. Segue un'esempio:
+
+Ora immaginiamo di eseguire istanziare in questo modo i due oggetti:
+```java
+Posizione pos = new Posizione(5.4, 6.7);
+OggettoEsempio ogg = new OggettoEsempio();
+
+String da_formattare1 = "La x vale : %X e la y: %Y";
+String da_formattare2 = "La posizione di %TT1 è %Pos";
+```
+Vogliamo ora inserire nelle stringhe al posto delle parole-chiave i valori delle istanze.
+
+```java
+  String f1 = printExclusive(da_formattare1,pos);
+  String f2 = print(da_formattare1,pos);
+  String f3 = printExclusive(da_formattare1,ogg);
+  String f4 = print(da_formattare1,ogg);
+
+  String f5 = printExclusive(da_formattare2,pos);
+  String f6 = print(da_formattare2,pos);
+```
+>f1 = "La x vale: 5.4 e la y: 6.7"<br>
+>f2 = "La x vale: 5.4 e la y: 6.7"<br>
+>f3 = "La x vale:  e la y: "<br>
+>f4 = "La x vale: %X e la y: %Y "<br><br>
+>f5 = "La posizione di  è (5.4,6.7)"<br>
+>f6 = "La posizione di %TT1 è (5.4,6.7)"<br>
+
+Come si può notare se le funzioni trovano i valori associati ad una parola-chiave lo sostituiscono nella stringa, altrimenti si comportano in modo diverso (*printExclusive* rimuove le parole-chiave non associate ad un valore mentre *print* lascia le parole-chiave nella stringa finale).<br>
+Allo stesso modo:
+```java
+  String f1 = printExclusive(da_formattare2,pos,ogg);
+  String f2 = printAll(da_formattare1,pos,ogg);
+  String f3 = printExclusive(da_formattare1,ogg);
+  String f4 = printAll(da_formattare1,ogg);
+```
+
+>f1 = "La posizione di Jakson è (5.4,6.7)"<br>
+>f2 = "La posizione di Jakson è (5.4,6.7)"<br>
+>f3 = "La posizione di Jakson è "<br>
+>f4 = "La posizione di Jakson è %Pos"<br>
+
+Anche qui le stesse considerazioni fatte per i metodi che prendono un solo oggetto oltre alla stringa come parametro.
+**Da notare: se in una stringa ci sono due parole-chiave uguali non verranno sostituite entrambe con il primo valore associato che si trova ma con gli oggetti successivi.**
+Esempio:
+```java
+Posizione pos1 = new Posizione(5.4, 6.7);
+Posizione pos1 = new Posizione(0.1, 3.3);
+
+String format = "%Pos %Pos";
+
+String output = printExclusive(format,pos2,pos1);
+```
+>output = "(0.1,3.3) (5.4,6.7)"

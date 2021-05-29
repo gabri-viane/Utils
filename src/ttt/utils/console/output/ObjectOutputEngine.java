@@ -106,7 +106,7 @@ public class ObjectOutputEngine {
                             format = ObjectOutputEngine.print(format, retn);
                         } else {
                             if (annotation.replace() != null && !"".equals(annotation.replace().trim())) {
-                                format = format.replaceAll("%" + annotation.replace(), retn != null ? retn.toString() : "null");
+                                format = format.replaceFirst("%" + annotation.replace(), retn != null ? retn.toString() : "null");
                             }
                         }
                     } catch (IllegalArgumentException | IllegalAccessException ex) {
@@ -125,7 +125,7 @@ public class ObjectOutputEngine {
                                 format = ObjectOutputEngine.print(format, retn);
                             } else {
                                 if (annotation.replace() != null && !"".equals(annotation.replace().trim())) {
-                                    format = format.replaceAll("%" + annotation.replace(), retn != null ? retn.toString() : "null");
+                                    format = format.replaceFirst("%" + annotation.replace(), retn != null ? retn.toString() : "null");
                                 }
                             }
                         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
