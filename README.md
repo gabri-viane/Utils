@@ -55,7 +55,7 @@ Per ogni tipo leggibile (tranne per i boolean in cui viene solamente posta una d
 
 ```
 - Il metodo della *tipologia 1* chiede come parametro **solamente la domanda** da stampare in console per poi chiedere il valore in input.<br>
-- Il metodo di *tipologia 2* chiede come parametri sempre la domanda, inoltre se il parametro `skippable = true` allora all'utente è **concesso di uscire dall'immissione** dal dato tramite una parola-chiave passata come stringa nel parametro `skippable_keyword`. Il metodo ritorna un `Optional<Object>` poichè nel caso si permette all'utente di non inserire nessun valore allora l'oggetto restituito sarà `null`.
+- Il metodo di *tipologia 2* chiede come parametri sempre la domanda, inoltre se il parametro `skippable = true` allora all'utente è **concesso di uscire dall'immissione** dal dato tramite una parola-chiave passata come stringa nel parametro `skippable_keyword`. Il metodo ritorna un `Optional<Object>` poiché nel caso si permette all'utente di non inserire nessun valore allora l'oggetto restituito sarà `null`.
 - Il metodo di *tipologia 3* rispetta tutte le condizioni della *tipologia 2* inoltre permette di validare l'input inserito dall'utente tramite l'interfaccia funzionale `Validator<T>` che mette a disposizione il metodo *validate* che scatena l'eccezione in caso di input invalido:
 ```java
 public void validate(T value) throws IllegalArgumentException;
@@ -141,8 +141,8 @@ La classe *GeneralFormatter* è una classe non instanziabile, che mette a dispos
 ```java
 public static void printOut(String message, boolean newline, boolean error)
 ```
-Questo metodo chiede 3 parametri: il messaggio da stampare in console (*message*), se bisogna tornare a capo (*newline*) ed infine se è un messaggio di errore (*error*). Quando il testo viene stampato vengono inserite prima le indentazioni e poi stampato il testo. Per incrementare o decrementare le indentazioni si usano ripsttivamente i metodi *incrementIndents* o *decrementIndents*.<br>
-All'inizio dell'esecuzione del programma non vengono stampate indentazioni (non sono ancora state aggiunte) perciò la funzione funziona allo stesso modo di `System.out.print()` se `newline = false`, mentre `System.out.println()` se `System.out.print()`. Allo stesso modo cambiando il parametro *error* si decide se stampare sullo stream di output, perciò se `error = true` viene usato `System.err` alrimenti `System.out`.
+Questo metodo chiede 3 parametri: il messaggio da stampare in console (*message*), se bisogna tornare a capo (*newline*) ed infine se è un messaggio di errore (*error*). Quando il testo viene stampato vengono inserite prima le indentazioni e poi stampato il testo. Per incrementare o decrementare le indentazioni si usano rispettivamente i metodi *incrementIndents* o *decrementIndents*.<br>
+All'inizio dell'esecuzione del programma non vengono stampate indentazioni (non sono ancora state aggiunte) perciò la funzione funziona allo stesso modo di `System.out.print()` se `newline = false`, mentre `System.out.println()` se `System.out.print()`. Allo stesso modo cambiando il parametro *error* si decide se stampare sullo stream di output, perciò se `error = true` viene usato `System.err` altrimenti `System.out`.
 Nel caso si volesse stampare sulla stessa riga nella console dopo aver chiamato il metodo *printOut* con il parametro `newline = false` si deve usare il normale metodo `System.out.print()` altrimenti vengono inserite le indentazioni.<br>
 <br>Ad esempio:
 ```java
@@ -267,7 +267,7 @@ public static String print(String format, Object o)
 public static String printAll(String format, Object... os)
 ```
 Tutti e quattro prendono in input la stringa da formattare e un'oggetto o la lista di oggetti (che devono implementare *PrintableObject*!!) e ritornano la stringa da formattare ma con le parole chiave sostituite.<br>
-Il funzionamento tra i 4 metodi è esattamente lo stesso con un'unica eccezione: quelli definiti come *printExclusive* se gli viene passata una stringa che contiene parole chiave non presenti negli oggetti passati come argomento vengono rimosse, mentri quelli non *exclusive* se non trovano una parola chiave la saltano. Segue un'esempio:
+Il funzionamento tra i 4 metodi è esattamente lo stesso con un'unica eccezione: quelli definiti come *printExclusive* se gli viene passata una stringa che contiene parole chiave non presenti negli oggetti passati come argomento vengono rimosse, mentre quelli non *exclusive* se non trovano una parola chiave la saltano. Segue un'esempio:
 
 Ora immaginiamo di eseguire istanziare in questo modo i due oggetti:
 ```java
@@ -321,3 +321,39 @@ String format = "%Pos %Pos";
 String output = printExclusive(format,pos2,pos1);
 ```
 >output = "(0.1,3.3) (5.4,6.7)"
+
+##### 1.3 Menu:
+Contiene una classe d'utilizzo principale: `ttt.utils.console.menu.Menu` che permette di avere un menù dinamico in output nella console per interagire con l'utente.
+
+**Questa classe è *abstract* poiché permette di sovrascrivere i propri metodi per cambiare a piacimento l'interazione con  l'utente.**
+
+La classe fa uso dei *generics* per poter permettere anche di avere un tipo di ritorno dalla selezione fatta dall'utente. Il menù principale di un'applicazione console dovrebbe essere definito con il tipo `Void` poiché a fine esecuzione teoricamente il programma esce.<br>
+Sono disponibili 2 costruttori:
+```java
+public Menu(String title)
+```
+```java
+public Menu(String title, boolean print_menu_title)
+```
+Il primo chiama il secondo passando a *print_menu_title* il valore `false`. Il parametro *title* è semplicemente la stringa che viene stampata come titolo del menu, mentre *print_menu_title* se `true` stampa "MENU PRINCIPALE".<br>
+Segue un'esempio:
+```java
+Menu<Void> menu = new Menu<>("Principale"){};
+```
+Di default tutti i menù hanno come opzione 1 l'opzione "Esci" che non fa altro che chiamare `System.exit(0)`. Per rimuovere un'opzione basta chiamare il metodo `removeOption(int)` passando come parametro l'indice dell'opzione, **ATTENZIONE: questo indice parte da 1 e NON da 0.** Perciò per rimuovere l'opzione "Esci" basta fare:
+```java
+Menu<Void> menu = new Menu<>("Principale"){};
+menu.removeOption(1);
+```
+Esiste anche `removeOption(Pair<String,FutureAction>)` che permette di rimuovere una coppia precedentemente aggiunta.
+
+Per trovare a che indice è un'opzione basta chiamare il metodo `optionLookup(String)` che richiede l'esatta voce dell'opzione per poterla trovare e ritorna l'indice dell'opzione, **ATTENZIONE: l'indice ritornato parte da 0.** Usando questo metodo per rimuovere l'opzione "Esci" basta fare:
+```java
+Menu<Void> menu = new Menu<>("Principale"){};
+menu.removeOption(menu.optionLookup("Esci") + 1);
+```
+Si può inoltre cambiare la voce di un'opzione sapendo l'esatto testo precedente chiamando `changeOption(String,String)` , per esempio per cambiare "Esci" con "Abbandona":
+```java
+menu.changeOption("Esci","Abbandona");
+```
+Per aggiungere un'opzione esistono
