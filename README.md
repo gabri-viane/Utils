@@ -6,7 +6,7 @@ Sono presenti 4 *main-packages* (funzionalità distinte) nella libreria:
 3. Dichiarazione di due **registri** (per ID e UUID);
 4. Gestione generalizzata di file **XML**.
 
-Verranno mostrate ogni sezione singolarmente per spiegarne l`utilizzo.
+Verranno mostrate ogni sezione singolarmente per spiegarne l'utilizzo.
 
 ------------
 ## Generalità
@@ -129,7 +129,76 @@ public class Esempio2 implements InputObject {
     }
 }
 ```
-Definite le due classi e imposati i metodi (e/o le variabili) che richiedono i valori si può fare la chiamata al motore di completamento:
+Definite le due classi e impostati i metodi (e/o le variabili) che richiedono i valori si può fare la chiamata al motore di completamento:
 ```java
  EsempioInput oggetto_letto = ObjectInputEngine.readNewObject(EsempioInput.class, "crea esempio input");
 ```
+##### 1.2 Output:
+Contiene due classi di utilizzo principale: `GeneralFormatter` e `ObjectOutputEngine`.<br>
+La classe *GeneralFormatter* è una classe non instanziabile, che mette a disposizione 4 metodi statici che aiutano a mantenere una coerenza nella stampa in console.
+<p>
+
+```java
+public static void printOut(String message, boolean newline, boolean error)
+```
+Questo metodo chiede 3 parametri: il messaggio da stampare in console (*message*), se bisogna tornare a capo (*newline*) ed infine se è un messaggio di errore (*error*). Quando il testo viene stampato vengono inserite prima le indentazioni e poi stampato il testo. Per incrementare o decrementare le indentazioni si usano ripsttivamente i metodi *incrementIndents* o *decrementIndents*.<br>
+All'inizio dell'esecuzione del programma non vengono stampate indentazioni (non sono ancora state aggiunte) perciò la funzione funziona allo stesso modo di `System.out.print()` se `newline = false`, mentre `System.out.println()` se `System.out.print()`. Allo stesso modo cambiando il parametro *error* si decide se stampare sullo stream di output, perciò se `error = true` viene usato `System.err` alrimenti `System.out`.
+Nel caso si volesse stampare sulla stessa riga nella console dopo aver chiamato il metodo *printOut* con il parametro `newline = false` si deve usare il normale metodo `System.out.print()` altrimenti vengono inserite le indentazioni.<br>
+<br>Ad esempio:
+```java
+  printOut("testo1",true,false);
+  incrementIndents();
+  printOut("testo2",true,false);
+  decrementIndents();
+  printOut("testo3",true,false);
+```
+Stamperà:
+>testo1<br>
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;testo2<br>
+>testo3
+
+Mentre non tornare a capo potrebbe causare il seguente comportamento non desiderato:
+```java
+  printOut("testo1",false,false); //notare che non si torna a capo
+  incrementIndents();
+  printOut("testo2",true,false);
+  decrementIndents();
+  printOut("testo3",true,false);
+```
+Stamperà invece:
+>testo1
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;testo2<br>
+>testo3
+
+Per evitare questo comportamento bisogna scrivere:
+```java
+  printOut("testo1",false,false); //notare che non si torna a capo
+  incrementIndents();
+  System.out.println("testo2");
+  decrementIndents();
+  printOut("testo3",true,false);
+```
+Che stamperà correttamente il contenuto voluto su una singola riga.
+>testo1testo2<br>
+>testo3
+
+```java
+public static void incrementIndents()
+```
+Permette di incrementare le indentazioni stampate in output prima di un testo passato al metodo *GeneralFormatter.printOut(...)*
+
+```java
+public static void decrementIndents()
+```
+Permette di decrementare le indentazioni stampate in output prima di un testo passato al metodo *GeneralFormatter.printOut(...)*
+
+```java
+public static String getIndentes()
+```
+Ritorna la stringa composta da tante indentazioni (`"\t"`) quante ce ne sono correntemente.
+</p>
+
+La classe *ObjectOutputEngine* è una classe non instanziabile, che mette a disposizione 4 metodi statici che permettono di assegnare degli identificatori ai metodi e variabili. La classe deve implementare `ttt.utils.console.output.interfaces.PrintableObject` e le variabili o metodi marcati con l'annotazione `ttt.utils.console.output.annotations.Printable` possono essere utilizzate per rimpiazzare in una stringa il valore associato all'identificatore.
+<p>
+
+</p>

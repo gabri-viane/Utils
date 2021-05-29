@@ -26,6 +26,10 @@ public class GeneralFormatter {
 
     private static int INDENTS = 0;
 
+    private GeneralFormatter(){
+      
+    }
+
     /**
      * Incrementa le indentazioni (globalmente).
      */
