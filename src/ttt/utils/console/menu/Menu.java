@@ -97,10 +97,23 @@ public abstract class Menu<P> {
     /**
      * Aggiunge una nuova opzione al menu.
      *
+     * @param index L'indice (parte da 1 e NON 0 ) a cui inserire l'opzione.
+     * @param option L'opzione d'aggiungere, non deve contenere ne chiave ne
+     * valore nullo.
+     */
+    public void addOption(int index,Pair<String, FutureAction<P>> option) {
+        if (index > 0 && option != null && option.getKey() != null && option.getValue() != null) {
+            menu.add(index -1,option);
+        }
+    }
+
+    /**
+     * Aggiunge una nuova opzione al menu.
+     *
      * @param option_message La voce del menu
      * @param action L'azione che verrà eseguita
      */
-    public void addOption(String option_message, FutureAction action) {
+    public void addOption(String option_message, FutureAction<P> action) {
         if (option_message != null && action != null) {
             menu.add(new Pair<>(option_message, action));
         }
@@ -113,7 +126,7 @@ public abstract class Menu<P> {
      * @param option_message La voce del menu.
      * @param action L'azione che verrà eseguita.
      */
-    public void addOption(int index, String option_message, FutureAction action) {
+    public void addOption(int index, String option_message, FutureAction<P> action) {
         if (index > 0 && option_message != null && action != null) {
             menu.add(index - 1, new Pair<>(option_message, action));
         }
@@ -128,7 +141,7 @@ public abstract class Menu<P> {
      * @param action Azione da eseguire dopo aver eseguito l'azione scelta
      * dall'utente.
      */
-    public void addLazyExecutable(FutureAction action) {
+    public void addLazyExecutable(FutureAction<P> action) {
         if (action != null) {
             to_execute_later.add(action);
         }
@@ -224,7 +237,7 @@ public abstract class Menu<P> {
      *
      * @param n Il numero di linee da stampare
      */
-    public void consoleSpaces(int n) {
+    public static void consoleSpaces(int n) {
         for (int i = 0; i < n; i++) {
             System.out.println();
         }
