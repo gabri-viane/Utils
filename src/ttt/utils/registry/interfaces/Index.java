@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 TTT.
+ * Copyright 2021 gabri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ttt.utils.registry.abstracts;
-
-import java.util.UUID;
+package ttt.utils.registry.interfaces;
 
 /**
  *
- * @author TTT
+ * @author gabri
+ * @param <K>
  */
-public abstract class UUIDRegistrableEntry extends RegistrableEntry<UUID> {
+public interface Index<K> {
 
+    /**
+     * Ritorna il precedente ID che è stato utilizzato.
+     *
+     * @return Il precedente ID utilizzato.
+     */
+    public K getLastID();
 }

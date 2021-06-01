@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 TTT.
+ * Copyright 2021 gabri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,45 +20,30 @@ import ttt.utils.registry.Registry;
 import ttt.utils.registry.abstracts.RegistrableEntry;
 
 /**
- * Classe che scatena gli eventi riguardanti il registro.
  *
- * @author TTT
+ * @author gabri
  */
-public final class RegistryEvent {
+public abstract class RegistryEvent<K> {
 
-    private static final RegistryEvent re = new RegistryEvent();
-    private final ArrayList<RegistryListener> listeners;
-
-    private RegistryEvent() {
-        listeners = new ArrayList<>();
-    }
+    private final ArrayList<RegistryListener<K>> listeners = new ArrayList<>();
 
     /**
-     * Restituisce l'unica istanza di questa classe.
-     *
-     * @return L'istanza di questa classe.
-     */
-    public static RegistryEvent getInstance() {
-        return re;
-    }
-
-    /**
-     * Aggiungi un {@link RegistryListener}.
+     * Aggiungi un {@link IDRegistryListener}.
      *
      * @param rl Listener
      */
-    public void addListener(RegistryListener rl) {
+    public final void addListener(RegistryListener<K> rl) {
         if (rl != null) {
             listeners.add(rl);
         }
     }
 
     /**
-     * Rimuovi un {@link RegistryListener}.
+     * Rimuovi un {@link IDRegistryListener}.
      *
      * @param rl Listener
      */
-    public void removeListener(RegistryListener rl) {
+    public final void removeListener(RegistryListener<K> rl) {
         if (rl != null) {
             listeners.remove(rl);
         }
@@ -70,7 +55,7 @@ public final class RegistryEvent {
      * @param re L'elemento aggiunto.
      * @param r L'istanza del registro
      */
-    public void elementRegistered(RegistrableEntry re, Registry r) {
+    public final void elementRegistered(RegistrableEntry<K> re, Registry<K, ?> r) {
         if (r != null && r.onCall()) {
             listeners.forEach(l -> l.onElementRegistered(re));
         }
@@ -83,7 +68,7 @@ public final class RegistryEvent {
      * @param re L'elemento rimosso.
      * @param r L'istanza del registro
      */
-    public void elementRemoved(RegistrableEntry re, Registry r) {
+    public final void elementRemoved(RegistrableEntry<K> re, Registry<K, ?> r) {
         if (r != null && r.onCall()) {
             listeners.forEach(l -> l.onElementRemoved(re));
         }

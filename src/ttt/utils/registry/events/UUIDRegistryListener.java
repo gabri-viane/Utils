@@ -15,7 +15,7 @@
  */
 package ttt.utils.registry.events;
 
-import ttt.utils.registry.abstracts.UUIDRegistrableEntry;
+import java.util.UUID;
 
 /**
  * Semplice Listener del registro, utile per essere segnalati di eliminazioni o
@@ -23,19 +23,5 @@ import ttt.utils.registry.abstracts.UUIDRegistrableEntry;
  *
  * @author TTT
  */
-public interface UUIDRegistryListener {
-
-    /**
-     * Viene chiamato ogni volta che un elemento viene registrato.
-     *
-     * @param re L'elemento registrato.
-     */
-    public void onElementRegistered(UUIDRegistrableEntry re);
-
-    /**
-     * Viene chiamato ogni volta che un elemento viene rimosso dal registro.
-     *
-     * @param re L'elemento rimosso.
-     */
-    public void onElementRemoved(UUIDRegistrableEntry re);
+public interface UUIDRegistryListener extends RegistryListener<UUID> {
 }

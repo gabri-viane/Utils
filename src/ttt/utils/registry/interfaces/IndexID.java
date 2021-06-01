@@ -15,10 +15,10 @@
  */
 package ttt.utils.registry.interfaces;
 
-import ttt.utils.registry.Registry;
+import ttt.utils.registry.IDRegistry;
 
 /**
- * Interfaccia per il registro ID {@link Registry}.
+ * Interfaccia per il registro ID {@link IDRegistry}.
  *
  * @author TTT
  */

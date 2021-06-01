@@ -15,12 +15,12 @@
  */
 package ttt.utils.registry.abstracts;
 
-import java.util.UUID;
-
 /**
+ * Classe che deve essere implementata da tutti gli oggetti che si vogliono fare
+ * registrare.
  *
  * @author TTT
  */
-public abstract class UUIDRegistrableEntry extends RegistrableEntry<UUID> {
+public abstract class IDRegistrableEntry extends RegistrableEntry<Long> {
 
 }

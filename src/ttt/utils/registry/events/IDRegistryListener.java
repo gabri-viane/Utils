@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ttt.utils.registry.abstracts;
-
-import java.util.UUID;
+package ttt.utils.registry.events;
 
 /**
+ * Semplice Listener del registro, utile per essere segnalati di eliminazioni o
+ * aggiunte di elementi nel registro.
  *
  * @author TTT
  */
-public abstract class UUIDRegistrableEntry extends RegistrableEntry<UUID> {
-
+public interface IDRegistryListener extends RegistryListener<Long>{
 }

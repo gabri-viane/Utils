@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 TTT.
+ * Copyright 2021 gabri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,25 +19,27 @@ import java.util.HashMap;
 import ttt.utils.console.output.GeneralFormatter;
 import ttt.utils.registry.abstracts.RegistrableEntry;
 import ttt.utils.registry.events.RegistryEvent;
-import ttt.utils.registry.exception.RegistryException;
-import ttt.utils.registry.interfaces.IndexID;
+import ttt.utils.registry.interfaces.Index;
 
 /**
- * Classe non istanziabile che permette di registrare nuovi elementi nel
- * planetario.
+ * Registro generico che permette di memorizzare degli oggetti con una chiave e
+ * la chiave con una stringa per facilitare la ricerca.
  *
- * @author TTT
+ * @author gabri
+ * @param <K>
+ * @param <V>
  */
-public final class Registry implements IndexID {
+public abstract class Registry<K, V extends RegistrableEntry<K>> implements Index<K> {
 
-    private static final Registry register_key = new Registry();
-    private static long currentID = 0;
+    final RegistryEvent<K> event;
+    final Registry<K, V> register_key = this;
+    K currentID = null;
 
-    private static final HashMap<Long, RegistrableEntry> registry = new HashMap<>();
-    private static final HashMap<String, Long> secondary_registry = new HashMap<>();
+    final HashMap<K, V> registry = new HashMap<>();
+    final HashMap<String, K> secondary_registry = new HashMap<>();
 
-    private Registry() {
-
+    public Registry(RegistryEvent<K> event) {
+        this.event = event;
     }
 
     /**
@@ -45,9 +47,7 @@ public final class Registry implements IndexID {
      *
      * @return <code>true</code>, sempre
      */
-    public boolean onCall() {
-        return true;
-    }
+    public abstract boolean onCall();
 
     /**
      * Registra un nuovo elemento e gli assegna l'ID.L'oggetto deve estendere la
@@ -59,22 +59,7 @@ public final class Registry implements IndexID {
      * @return <code>true</code> se la registrazione avviene con successo,
      * altrimenti <code>false</code>.
      */
-    public static boolean registerEntry(RegistrableEntry re, String entry_name) {
-        try {
-            if (re != null && !re.isRegistered()
-                    && entry_name != null && !"".equals(entry_name.trim()) && !secondary_registry.containsKey(entry_name)) {
-                re.register(currentID, register_key);
-                re.setEntryName(entry_name, register_key);
-                secondary_registry.put(entry_name, currentID);
-                registry.put(currentID++, re);
-                RegistryEvent.getInstance().elementRegistered(re, register_key);
-                return true;
-            }
-            return false;
-        } catch (RegistryException ex) {
-            return false;
-        }
-    }
+    public abstract boolean registerEntry(V re, String entry_name);
 
     /**
      * Rimuove un elemento dal registro. Gli elementi rimossi non vengono più
@@ -85,16 +70,7 @@ public final class Registry implements IndexID {
      * @return <code>true</code> se viene rimosso con successo, altrimenti
      * <code>false</code>.
      */
-    public static boolean removeEntry(RegistrableEntry re) {
-        if (re != null && registry.containsValue(re)) {
-            registry.remove(re.getID());
-            secondary_registry.remove(re.getEntryName());
-            re.remove(register_key);
-            RegistryEvent.getInstance().elementRemoved(re, register_key);
-            return true;
-        }
-        return false;
-    }
+    public abstract boolean removeEntry(V re);
 
     /**
      * Ritorna un {@link RegistrableEntry} dato l'ID corrispondente.
@@ -103,7 +79,7 @@ public final class Registry implements IndexID {
      * @return {@code null} se non esiste nessun elemento con quell'ID
      * altrimenti un riferimento ad un {@link RegistrableEntry}.
      */
-    public static RegistrableEntry getEntry(long ID) {
+    public final V getEntry(K ID) {
         return registry.get(ID);
     }
 
@@ -115,8 +91,8 @@ public final class Registry implements IndexID {
      * @return {@code null} se non esiste nessun elemento con quel nome
      * altrimenti un riferimento ad un {@link RegistrableEntry}.
      */
-    public static RegistrableEntry getEntry(String name) {
-        Long val_id = secondary_registry.get(name);
+    public final V getEntry(String name) {
+        K val_id = secondary_registry.get(name);
         return val_id != null ? registry.get(val_id) : null;
     }
 
@@ -125,15 +101,23 @@ public final class Registry implements IndexID {
      * <p>
      * ID | {@link RegistrableEntry#toString() }
      */
-    public static void printRegistry() {
+    public void printRegistry() {
         registry.forEach((t, u) -> {
             GeneralFormatter.printOut("ID: " + t + "\t\t" + u.toString(), true, false);
         });
     }
 
-    @Override
-    public long getLastID() {
-        return currentID - 1;
+    /**
+     * Ritorna il gestore di eventi di questo registro.
+     *
+     * @return L'istanza dell'EventHandler associata a questo registro.
+     */
+    public final RegistryEvent<K> getEventHandler() {
+        return event;
     }
 
+    @Override
+    public final K getLastID() {
+        return currentID;
+    }
 }

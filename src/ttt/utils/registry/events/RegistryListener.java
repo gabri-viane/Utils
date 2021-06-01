@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 TTT.
+ * Copyright 2021 gabri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,24 +18,23 @@ package ttt.utils.registry.events;
 import ttt.utils.registry.abstracts.RegistrableEntry;
 
 /**
- * Semplice Listener del registro, utile per essere segnalati di eliminazioni o
- * aggiunte di elementi nel registro.
  *
- * @author TTT
+ * @author gabri
+ * @param <K>
  */
-public interface RegistryListener {
+public interface RegistryListener<K> {
 
     /**
      * Viene chiamato ogni volta che un elemento viene registrato.
      *
      * @param re L'elemento registrato.
      */
-    public void onElementRegistered(RegistrableEntry re);
+    public void onElementRegistered(RegistrableEntry<K> re);
 
     /**
      * Viene chiamato ogni volta che un elemento viene rimosso dal registro.
      *
      * @param re L'elemento rimosso.
      */
-    public void onElementRemoved(RegistrableEntry re);
+    public void onElementRemoved(RegistrableEntry<K> re);
 }

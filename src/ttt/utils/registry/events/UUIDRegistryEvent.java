@@ -15,77 +15,13 @@
  */
 package ttt.utils.registry.events;
 
-import java.util.ArrayList;
-import ttt.utils.registry.UUIDRegistry;
-import ttt.utils.registry.abstracts.UUIDRegistrableEntry;
+import java.util.UUID;
 
 /**
  * Classe che scatena gli eventi riguardanti il registro.
  *
  * @author TTT
  */
-public final class UUIDRegistryEvent {
+public final class UUIDRegistryEvent extends RegistryEvent<UUID> {
 
-    private static final UUIDRegistryEvent re = new UUIDRegistryEvent();
-    private final ArrayList<UUIDRegistryListener> listeners;
-
-    private UUIDRegistryEvent() {
-        listeners = new ArrayList<>();
-    }
-
-    /**
-     * Restituisce l'unica istanza di questa classe.
-     *
-     * @return L'istanza di questa classe.
-     */
-    public static UUIDRegistryEvent getInstance() {
-        return re;
-    }
-
-    /**
-     * Aggiungi un {@link RegistryListener}.
-     *
-     * @param rl Listener
-     */
-    public void addListener(UUIDRegistryListener rl) {
-        if (rl != null) {
-            listeners.add(rl);
-        }
-    }
-
-    /**
-     * Rimuovi un {@link RegistryListener}.
-     *
-     * @param rl Listener
-     */
-    public void removeListener(UUIDRegistryListener rl) {
-        if (rl != null) {
-            listeners.remove(rl);
-        }
-    }
-
-    /**
-     * Avverte tutti i listeners in ascolto che un elemento è stato registrato.
-     *
-     * @param re L'elemento aggiunto.
-     * @param r L'istanza del registro
-     */
-    public void elementRegistered(UUIDRegistrableEntry re, UUIDRegistry r) {
-        if (r != null && r.onCall()) {
-            listeners.forEach(l -> l.onElementRegistered(re));
-        }
-    }
-
-    /**
-     * Avverte tutti i listeners in ascolto che un elemento è stato rimosso dal
-     * registro.
-     *
-     * @param re L'elemento rimosso.
-     * @param r L'istanza del registro
-     */
-    public void elementRemoved(UUIDRegistrableEntry re, UUIDRegistry r) {
-        if (r != null && r.onCall()) {
-            listeners.forEach(l -> l.onElementRemoved(re));
-        }
-    }
 }

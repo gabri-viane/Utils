@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ttt.utils.registry.abstracts;
-
-import java.util.UUID;
+package ttt.utils.registry.events;
 
 /**
+ * Classe che scatena gli eventi riguardanti il registro.
  *
  * @author TTT
  */
-public abstract class UUIDRegistrableEntry extends RegistrableEntry<UUID> {
-
+public final class IDRegistryEvent extends RegistryEvent<Long>{
 }

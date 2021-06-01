@@ -15,34 +15,48 @@
  */
 package ttt.utils.registry;
 
-import java.util.UUID;
-import ttt.utils.registry.abstracts.UUIDRegistrableEntry;
-import ttt.utils.registry.events.UUIDRegistryEvent;
+import ttt.utils.registry.abstracts.IDRegistrableEntry;
+import ttt.utils.registry.events.IDRegistryEvent;
 import ttt.utils.registry.exception.RegistryException;
 
 /**
- * Versione del registro {@link Registry} che utilizza la classe {@link UUID}
+ * Versione del registro {@link Registry} che utilizza la classe {@link Long}
  * come ID.
  *
  * @author TTT
  * @param <V>
  */
-public final class UUIDRegistry<V extends UUIDRegistrableEntry> extends Registry<UUID, V> {
+public final class IDRegistry<V extends IDRegistrableEntry> extends Registry<Long, V> {
 
-    private UUIDRegistry() {
-        super(new UUIDRegistryEvent());
-        currentID = UUID.randomUUID();
+    private IDRegistry() {
+        super(new IDRegistryEvent());
+        currentID = 0L;
     }
 
-    public static <G extends UUIDRegistrableEntry> UUIDRegistry<G> buildRegistry() {
-        return new UUIDRegistry<>();
+    public static <G extends IDRegistrableEntry> IDRegistry<G> buildRegistry() {
+        return new IDRegistry<>();
     }
 
+    /**
+     * Serve solo come test.
+     *
+     * @return <code>true</code>, sempre
+     */
     @Override
     public boolean onCall() {
         return true;
     }
 
+    /**
+     * Registra un nuovo elemento e gli assegna l'ID.L'oggetto deve estendere la
+     * classe astratta {@link IDRegistrableEntry}.
+     *
+     * @param re L'oggetto da registrare.
+     * @param entry_name Il nome con cui l'oggetto viene registrato (unico,
+     * altrimenti la registrazione fallisce).
+     * @return <code>true</code> se la registrazione avviene con successo,
+     * altrimenti <code>false</code>.
+     */
     @Override
     public boolean registerEntry(V re, String entry_name) {
         try {
@@ -51,9 +65,8 @@ public final class UUIDRegistry<V extends UUIDRegistrableEntry> extends Registry
                 re.register(currentID, register_key);
                 re.setEntryName(entry_name, this);
                 secondary_registry.put(entry_name, currentID);
-                registry.put(currentID, re);
+                registry.put(currentID++, re);
                 event.elementRegistered(re, this);
-                currentID = UUID.randomUUID();
                 return true;
             }
             return false;

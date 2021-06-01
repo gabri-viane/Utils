@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 TTT.
+ * Copyright 2021 gabri.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,18 @@
 package ttt.utils.registry.abstracts;
 
 import ttt.utils.registry.Registry;
+import ttt.utils.registry.IDRegistry;
 import ttt.utils.registry.exception.RegistryException;
 
 /**
- * Classe che deve essere implementata da tutti gli oggetti che si vogliono fare
- * registrare.
+ * Rappresenta una classe registrabile tramite un tipo di ID.
  *
- * @author TTT
+ * @author gabri
+ * @param <K> Il tipo di ID con cui è registrabile
  */
-public abstract class RegistrableEntry {
+public abstract class RegistrableEntry<K> {
 
-    private long ID = -1;
+    private K ID = null;
     private boolean registered = false;
     private Object me;
     private String entry_name = null;
@@ -38,7 +39,7 @@ public abstract class RegistrableEntry {
      *
      * @return L'ID del corpo celeste se è stato registrato, altrimenti -1.
      */
-    public final Long getID() {
+    public final K getID() {
         return ID;
     }
 
@@ -54,16 +55,15 @@ public abstract class RegistrableEntry {
     }
 
     /**
-     * Registra un oggetto. Solo la classe {@link Registry} tramite il
-     * metodo {@link Registry#registerEntry(planetarium.contents.registry.abstracts.RegistrableEntry, java.lang.String)
+     * Registra un oggetto. Solo la classe {@link IDRegistry} tramite il metodo {@link IDRegistry#registerEntry(planetarium.contents.registry.abstracts.RegistrableEntry, java.lang.String)
      * } può registrare l'ID.
      *
      * @param id Il nuovo ID
      * @param registry L'unica instanza di register.
      */
-    public final void register(long id, Registry registry) {
+    public final void register(K id, Registry<K, ?> registry) {
         if (registry != null && registry.onCall()) {
-            if (id >= 0) {
+            if (id != null) {
                 registered = true;
                 ID = id;
                 return;
@@ -79,11 +79,11 @@ public abstract class RegistrableEntry {
      *
      * @param register Il registro.
      */
-    public final void remove(Registry register) {
+    public final void remove(Registry<K, ?> register) {
         if (register != null && register.onCall()) {
             if (registered) {
                 registered = false;
-                ID = -1;
+                ID = null;
                 return;
             } else {
                 throw new RegistryException("L'elemento non è stato registrato.");
@@ -118,7 +118,7 @@ public abstract class RegistrableEntry {
      * @param name Il nome.
      * @param registry L'unica instanza di register.
      */
-    public final void setEntryName(String name, Registry registry) {
+    public final void setEntryName(String name, Registry<K, ?> registry) {
         if (registry != null && registry.onCall() && entry_name == null) {
             entry_name = name;
         }
