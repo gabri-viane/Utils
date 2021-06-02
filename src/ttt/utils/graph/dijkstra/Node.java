@@ -1,32 +1,59 @@
 package ttt.utils.graph.dijkstra;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.Set;
 
-public class Node<G> {
+public class Node<G, T> {
 
     private final G value;
-
-    private final ArrayList<Node<G>> nodes;
+    private final HashMap<Node<G, T>, T> links;
 
     public Node(G value) {
         this.value = value;
-        this.nodes = new ArrayList<>();
+        this.links = new HashMap<>();
     }
 
-    public G getValue(){
+    /**
+     * Ritorna il contenuto del nodo.
+     * @return Contenuto del nodo.
+     */
+    public G getValue() {
         return value;
     }
 
-    public ArrayList<Node<G>> getNodes(){
-        return nodes;
+    public Set<Node<G, T>> getLinks() {
+        return links.keySet();
     }
 
-    public void addNode(Node<G> node){
-        nodes.add(node);
+    public void addNode(Node<G, T> node, T value) {
+        links.put(node, value);
     }
 
-    public void removeNode(Node<G> node){
-        nodes.remove(node);
+    public void removeNode(Node<G, T> node) {
+        links.remove(node);
     }
 
+    /**
+     * Ritorna la distanza dal nodo passato per parametro se presente,
+     * altrimenti nullo.
+     * @param node Nodo
+     * @return Distanza
+     */
+    public T getLinkValue(Node<G, T> node) {
+        return links.get(node);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node<?, ?> node = (Node<?, ?>) o;
+        return Objects.equals(value, node.value) && Objects.equals(links, node.links);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value, links);
+    }
 }
