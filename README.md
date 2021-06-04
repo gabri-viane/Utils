@@ -493,52 +493,52 @@ Tutta la parte di lettura e scrittura si basa su 4 classi principali del package
 Partendo a spiegare le classi più semplici (le classi,ad eccezione di *XMLDocument* implementano solamente i metodi delle interfacce associate) e di cosa rappresentano:
 1. XMLComment: <br>
 rappresenta tutti un commento XML definito come:
-```xml
-<!-- Commento -->
-```
+  ```xml
+  <!-- Commento -->
+  ```
  * Il costruttore non chiede argomenti.
  * Imposta il testo del commento
-```java
-public void setValue(String value)
-```
+    ```java
+    public void setValue(String value)
+    ```
  * Ritorna il testo contenuto nel commento
- ```java
-public String getValue()
- ```
+    ```java
+    public String getValue()
+    ```
 2. XMLTag: <br>
 rappresenta un attributo associato ad un elemento:
-```xml
-<elemento tag="valore della tag"/>
-```
+  ```xml
+  <elemento tag="valore della tag"/>
+  ```
 Dove "tag" è il nome della Tag e "valore della tag" è il valore testuale associato alla Tag. L'insieme di questi due elementi rappresenta un XMLTag che verrà associata al relativo XMLElement.
 
  * Il costruttore chiede il nome della tag
-```java
-public XMLTag(String name)
-```
+    ```java
+    public XMLTag(String name)
+    ```
  * Imposta il nome della tag
-```java
-public void setName(String name)
-```
+    ```java
+    public void setName(String name)
+    ```
  * Ritorna il nome della tag
-```java
-public String getName()
-```
+    ```java
+    public String getName()
+    ```
  * Imposta il valore della tag
-```java
-public void setValue(String value)
-```
+    ```java
+    public void setValue(String value)
+    ```
  * Ritorna il valore della tag
-```java
-public String getValue()
-```
+    ```java
+    public String getValue()
+    ```
 3. XMLElement:<br>
 rappresenta un elemento con tutte le sue tags, il suo valore e i suoi sotto-elementi:
-```xml
-<elemento1 tag1="value"> Valore elemento1
-  <elemento2></elemento2>
-</elemento1>
-```
+  ```xml
+  <elemento1 tag1="value"> Valore elemento1
+    <elemento2></elemento2>
+  </elemento1>
+  ```
 Il seguente codice XML è interpretato come: un *XMLElement* di nome "elemento1" che ha una *XMLTag* (con nome "tag1" e valore "value") che a sua volta ha un *XMLElement* come sotto-elemento. (Ci possono essere infiniti o non essere sotto elementi, stesso vale per le tags e anche per il valore (può esserci ma anche no)).<br>
 Per questa classe sono implementati molti metodi ma la struttura di funzionamento base è:
  * XMLElement:<br>
@@ -561,4 +561,100 @@ Per questa classe sono implementati molti metodi ma la struttura di funzionament
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- List&lt;IXMLElement&gt; : empty<br>
 
 Sperando di aver chiarito come viene costruito un XMLElement ora vengono elencati i metodi:
+
 ###### Metodi XMLElement
+* Costruttore: esattamente come per XMLTag prende il nome dell'elemento
+  ```java
+  public XMLElement(String name);
+  ```
+* Attributi base:
+  * nome:
+    ```java
+    public String getName();
+    ```
+  * valore:
+    ```java
+    public void setValue(String value);
+    ```
+    ```java
+    public String getValue();
+    ```
+* Gestione sotto-elementi:
+ * aggiunta:
+    ```java
+    public void addSubElement(IXMLElement element);
+    ```
+ * rimozione:
+    ```java
+    public void removeSubElement(IXMLElement element);
+    ```
+ * controllo:
+    ```java
+    public boolean hasSubElements();
+    public boolean hasElement(IXMLElement element);
+    ```
+ * selezione e ricerca:
+    ```java
+    //Ritorna la lista di tutti i sotto-elementi
+    public List<IXMLElement> getElements();
+    //Ritorna la prima occorrenza di un elemento.
+    public IXMLElement getFirstElement(String name);
+    ```
+* Gestione tags:
+  * aggiunta:
+    ```java
+    public void addTag(IXMLTag tag);
+    ```
+
+  * rimozione:
+    ```java
+    public void removeTag(IXMLTag tag);
+    ```
+
+  * controllo:
+    ```java
+    public boolean hasTag(String name);
+    ```
+
+  * selezione e ricerca:
+    ```java
+    public List<IXMLTag> getTags();
+    public IXMLTag getTag(String name);
+    ```
+* Gestione commenti:
+  * aggiunta:
+    ```java
+    public void addComment(IXMLComment comment);
+    ```
+  * selezione:
+    ```java
+    public List<IXMLComment> getComments();
+    ```
+
+4. XMLDocument:<br>
+rappresenta il documento intero. Questa libreria considera il documento stesso un elemento perciò questa classe estende ed eredita tutti i metodi e valori di `XMLElement`.<br>
+Bisogna tenere presente che un documento XML contiene al massimo 1 elemento che rappresenta la *root* perciò la lista di sotto-elementi ereditata dalla classe padre conterrà solamente un elemento, per l'appunto la radice.</p>
+I metodi aggiunti sono:
+
+* Costruttore che chiede il file di output/input (può anche non esistere o essere `null`):
+  ```java
+  public XMLDocument(File file);
+  ```
+  Per prendere il file impostato chiamare il metodo:
+  ```java
+  public File getSourceFile();
+  ```
+
+* Ritornare l'elemento *root*:
+  ```java
+  public IXMLElement getRoot();
+  ```
+
+##### Lettura e scrittura XML
+Per adempiere a queste due funzioni si utilizzano le due classi del package `ttt.utils.xml.io`:
+ * XMLReader
+ * XMLWriter
+
+###### Scrittura
+
+###### Lettura
