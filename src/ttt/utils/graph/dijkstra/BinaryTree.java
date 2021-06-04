@@ -32,13 +32,25 @@ public class BinaryTree<K extends Comparable<K>, V extends Comparable<K>> {
             if(current.getRightSon() == null){ // se dx non è occupato lo mette li
                 current.setRightSon(new BinaryNode<>(value));
             } else {
-                addNode((BinaryNode<K, V>) current.getRightSon(), value);
+                if(value.compareTo(current.getRightSon().getValue()) < 0){
+                    BinaryNode<K, V> temp = new BinaryNode<>(value);
+                    temp.setRightSon(current.getRightSon());
+                    current.setRightSon(temp);
+                } else {
+                    addNode((BinaryNode<K, V>) current.getRightSon(), value);
+                }
             }
         } else if (value.compareTo(current.getValue()) < 0){ // se minore
             if (current.getLeftSon() == null) { // se sx non è occupato lo mette li
                 current.setLeftSon(new BinaryNode<>(value));
             } else {
-                addNode((BinaryNode<K, V>) current.getLeftSon(), value);
+                if(value.compareTo(current.getLeftSon().getValue()) > 0){
+                    BinaryNode<K, V> temp = new BinaryNode<>(value);
+                    temp.setLeftSon(current.getLeftSon());
+                    current.setLeftSon(temp);
+                } else {
+                    addNode((BinaryNode<K, V>) current.getLeftSon(), value);
+                }
             }
         }
     }
@@ -80,4 +92,32 @@ public class BinaryTree<K extends Comparable<K>, V extends Comparable<K>> {
         return isPresent(root, value);
     }
 
+    /**
+     * Ritorna il nodo con il valore passato per parametro, se trovato,
+     * altrimenti nullo.
+     * @param value Valore del nodo da trovare.
+     * @return Nodo se presente.
+     */
+    public BinaryNode<K, V> getNode(K value){
+        return getNode(root, value);
+    }
+
+    /**
+     * Ritorna il nodo con il valore passato per parametro, se trovato,
+     * altrimenti nullo.
+     * @param current Nodo corrente.
+     * @param value Valore del nodo da trovare.
+     * @return Nodo se presente.
+     */
+    private BinaryNode<K, V> getNode(BinaryNode<K, V> current, K value){
+        if(value.equals(current.getValue())){
+            return current;
+        } else if(current.getLeftSon() != null && value.compareTo(current.getValue()) < 0){
+            return getNode((BinaryNode<K, V>) current.getLeftSon(), value);
+        } else if(current.getRightSon() != null){
+            return getNode((BinaryNode<K, V>) current.getRightSon(), value);
+        } else {
+            return null;
+        }
+    }
 }
