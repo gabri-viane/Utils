@@ -4,6 +4,11 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Classe per la rappresentazione di un nodo.
+ * @param <G> Il valore che contiene.
+ * @param <T> Il tipo di distanza tra i nodi.
+ */
 public class Node<G, T> {
 
     private final G value;
@@ -22,14 +27,27 @@ public class Node<G, T> {
         return value;
     }
 
+    /**
+     * Ritorna i nodi a cui è collegato.
+     * @return Set di nodi a cui è collegato.
+     */
     public Set<Node<G, T>> getLinks() {
         return links.keySet();
     }
 
+    /**
+     * Aggiunge un nodo.
+     * @param node Nodo da aggiungere.
+     * @param value Distanza dal nodo da aggiungere.
+     */
     public void addNode(Node<G, T> node, T value) {
         links.put(node, value);
     }
 
+    /**
+     * Rimuove il nodo dalla lista dei nodi collegati.
+     * @param node Nodo da rimuovere.
+     */
     public void removeNode(Node<G, T> node) {
         links.remove(node);
     }

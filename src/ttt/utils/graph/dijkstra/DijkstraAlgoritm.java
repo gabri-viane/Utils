@@ -2,20 +2,29 @@ package ttt.utils.graph.dijkstra;
 
 import java.util.*;
 
+/**
+ * Classe per la ricerca del percorso migliore dato il nodo di partenza.
+ * (Minimum Spanning Tree)
+ * <br>La distanza tra i nodi deve essere di tipo numerico.<br>
+ * @param <G> Tipo di contenuto dei nodi.
+ */
 public class DijkstraAlgoritm <G extends DijkstraCalculable> {
 
     private static final double THRESHOLD = 0.00000001;
 
     private final Node<G, Double> first;
-    private final Node<G, Double> last;
 
     private final HashMap<Node<G, Double>, Double> values;
     private final LinkedList<Node<G, Double>> to_connect;
     private final LinkedHashMap<Node<G, Double>, Node<G, Double>> previous;
 
-    public DijkstraAlgoritm(List<Node<G, Double>> elements, Node<G, Double> first, Node<G, Double> last) {
+    /**
+     * Costruttore per la classe.
+     * @param elements Lista dei nodi da collegare.
+     * @param first Nodo iniziale da cui partire.
+     */
+    public DijkstraAlgoritm(List<Node<G, Double>> elements, Node<G, Double> first) {
         this.first = first;
-        this.last = last;
 
         values = new HashMap<>();
         to_connect = (LinkedList<Node<G, Double>>) elements;
@@ -30,9 +39,12 @@ public class DijkstraAlgoritm <G extends DijkstraCalculable> {
             previous.put(element, null);
         }
         values.put(first, 0.0);
-        to_connect.remove(last);
+        to_connect.remove(first);
     }
 
+    /**
+     * Genera il percorso dei cammini minimi, a partire dal primo nodo passato nel costruttore.
+     */
     public void findMinimumSpanningTree(){
         for (Node<G, Double> element : first.getLinks()) {
             previous.put(element, first);
@@ -60,10 +72,21 @@ public class DijkstraAlgoritm <G extends DijkstraCalculable> {
         }
     }
 
+    /**
+     * Ritorna la distanza minore possibile del nodo passato per parametro
+     * dal primo nodo, da cui si fa partire la ricerca.
+     * @param end_node Nodo finale.
+     * @return Distanza tra nodo finale e nodo iniziale.
+     */
     public double getDistanceFromStart(Node<G, Double> end_node){
         return values.get(end_node);
     }
 
+    /**
+     * Ritorna il percorso dal nodo di partenza a quello passato per parametro.
+     * @param end_node Nodo di arrivo.
+     * @return Lista dei nodi per arrivare al nodo finale.
+     */
     public ArrayList<Node<G, Double>> getTrackFromStart(Node<G, Double> end_node){
         ArrayList<Node<G, Double>> to_ret = new ArrayList<>();
         to_ret.add(end_node);
