@@ -1,6 +1,6 @@
 package ttt.utils.graph.dijkstra;
 
-public interface DijkstraCalculable {
+public interface DijkstraCalculable<G> {
 
-    public abstract <G> double calculateDistance(G second);
+    public abstract double calculateDistance(G second);
 }

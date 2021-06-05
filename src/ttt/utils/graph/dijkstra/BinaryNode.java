@@ -16,26 +16,26 @@ public class BinaryNode<K extends Comparable<K>, V extends Comparable<K> > exten
         sons = new HashMap<>();
     }
 
-    public BinaryNode(K value, Node<K, V> node1, Node<K, V> node2) {
-        super(value);
-        sons = new HashMap<>();
-        init(node1, node2);
-    }
-
-    private void init(Node<K, V> node1, Node<K, V> node2){
-        int distance = node1.getValue().compareTo(node2.getValue());
-        if(distance < 0) {
-            left_son = node1;
-            right_son = node2;
-            addSonsToMap();
-        } else if (distance > 0) {
-            left_son = node2;
-            right_son = node1;
-            addSonsToMap();
-        } else {
-            throw new BinaryNodeException("I figli non possono avere lo stesso valore.");
-        }
-    }
+//    public BinaryNode(K value, Node<K, V> node1, Node<K, V> node2) {
+//        super(value);
+//        sons = new HashMap<>();
+//        init(node1, node2);
+//    }
+//
+//    private void init(Node<K, V> node1, Node<K, V> node2){
+//        int distance = node1.getValue().compareTo(node2.getValue());
+//        if(distance < 0) {
+//            left_son = node1;
+//            right_son = node2;
+//            addSonsToMap();
+//        } else if (distance > 0) {
+//            left_son = node2;
+//            right_son = node1;
+//            addSonsToMap();
+//        } else {
+//            throw new BinaryNodeException("I figli non possono avere lo stesso valore.");
+//        }
+//    }
 
     /**
      * Aggiunge i figli alla mappa.

@@ -8,7 +8,7 @@ import java.util.*;
  * <br>La distanza tra i nodi deve essere di tipo numerico.<br>
  * @param <G> Tipo di contenuto dei nodi.
  */
-public class DijkstraAlgoritm <G extends DijkstraCalculable> {
+public class DijkstraAlgoritm <G extends DijkstraCalculable<G>> {
 
     private static final double THRESHOLD = 0.00000001;
 
@@ -20,7 +20,7 @@ public class DijkstraAlgoritm <G extends DijkstraCalculable> {
 
     /**
      * Costruttore per la classe.
-     * @param elements Lista dei nodi da collegare.
+     * @param elements Lista dei nodi da collegare. <br(non so perchè passando ArrayList non fa il cast)<br
      * @param first Nodo iniziale da cui partire.
      */
     public DijkstraAlgoritm(List<Node<G, Double>> elements, Node<G, Double> first) {
@@ -48,7 +48,7 @@ public class DijkstraAlgoritm <G extends DijkstraCalculable> {
     public void findMinimumSpanningTree(){
         for (Node<G, Double> element : first.getLinks()) {
             previous.put(element, first);
-            values.put(element, element.getValue().calculateDistance(first));
+            values.put(element, element.getValue().calculateDistance(first.getValue()));
         }
         while (!to_connect.isEmpty()) {
             Node<G, Double> piu_vicino = null;
@@ -62,7 +62,7 @@ public class DijkstraAlgoritm <G extends DijkstraCalculable> {
             }
             double dist = values.get(piu_vicino);
             for (Node<G, Double> element : piu_vicino.getLinks()) {
-                double ricalc = dist + element.getValue().calculateDistance(piu_vicino);
+                double ricalc = dist + element.getValue().calculateDistance(piu_vicino.getValue());
                 if (ricalc - values.get(element) < THRESHOLD) {
                     previous.put(element, piu_vicino);
                     values.put(element, ricalc);

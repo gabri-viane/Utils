@@ -67,11 +67,11 @@ public class Node<G, T> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Node<?, ?> node = (Node<?, ?>) o;
-        return Objects.equals(value, node.value) && Objects.equals(links, node.links);
+        return Objects.equals(value, node.value); // non controlla i collegamenti perche potrebbero essere aggiunti dopo
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value, links);
+        return Objects.hash(value);
     }
 }
