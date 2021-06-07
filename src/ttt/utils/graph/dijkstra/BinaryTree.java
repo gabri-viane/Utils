@@ -1,16 +1,11 @@
 package ttt.utils.graph.dijkstra;
 
-import java.util.HashSet;
-
 public class BinaryTree<K extends Comparable<K>, V extends Comparable<K>> {
 
     private final BinaryNode<K, V> root;
-    private final HashSet<K> values;
 
     public BinaryTree(BinaryNode<K, V> first_node) {
         this.root = first_node;
-        values = new HashSet<>();
-        values.add(root.getValue());
     }
 
     /**
@@ -37,22 +32,25 @@ public class BinaryTree<K extends Comparable<K>, V extends Comparable<K>> {
                     temp.setRightSon(current.getRightSon());
                     current.setRightSon(temp);
                 } else {
-                    addNode((BinaryNode<K, V>) current.getRightSon(), value);
+                    addNode(current.getRightSon(), value);
                 }
             }
-        } else if (value.compareTo(current.getValue()) < 0){ // se minore
+        } else if (value.compareTo(current.getValue()) < 0) { // se minore
             if (current.getLeftSon() == null) { // se sx non è occupato lo mette li
                 current.setLeftSon(new BinaryNode<>(value));
             } else {
-                if(value.compareTo(current.getLeftSon().getValue()) > 0){
+                if (value.compareTo(current.getLeftSon().getValue()) > 0) {
                     BinaryNode<K, V> temp = new BinaryNode<>(value);
                     temp.setLeftSon(current.getLeftSon());
                     current.setLeftSon(temp);
                 } else {
-                    addNode((BinaryNode<K, V>) current.getLeftSon(), value);
+                    addNode(current.getLeftSon(), value);
                 }
             }
         }
+//        } else {
+//            throw new BinaryNodeException("Un albero non può avere due nodi uguali.");
+//        }
     }
 
     /**

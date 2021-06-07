@@ -7,8 +7,8 @@ import java.util.Set;
 
 public class BinaryNode<K extends Comparable<K>, V extends Comparable<K> > extends Node<K, V> {
 
-    private Node<K ,V> right_son;
-    private Node<K ,V> left_son;
+    private BinaryNode<K ,V> right_son;
+    private BinaryNode<K ,V> left_son;
     private final HashMap<Node<K, V>, V> sons;
 
     public BinaryNode(K value) {
@@ -49,7 +49,7 @@ public class BinaryNode<K extends Comparable<K>, V extends Comparable<K> > exten
      * Ritorna il figlio destro del nodo.
      * @return Figlio destro del nodo.
      */
-    public Node<K, V> getRightSon() {
+    public BinaryNode<K, V> getRightSon() {
         return right_son;
     }
 
@@ -57,7 +57,7 @@ public class BinaryNode<K extends Comparable<K>, V extends Comparable<K> > exten
      * Ritorna il figlio sinistro del nodo.
      * @return Figlio sinistro del nodo.
      */
-    public Node<K, V> getLeftSon() {
+    public BinaryNode<K, V> getLeftSon() {
         return left_son;
     }
 
@@ -65,7 +65,7 @@ public class BinaryNode<K extends Comparable<K>, V extends Comparable<K> > exten
      * Imposta il figlio destro.
      * @param node Nodo da impostare.
      */
-    public void setRightSon(Node<K, V> node){
+    public void setRightSon(BinaryNode<K, V> node){
         right_son = node;
     }
 
@@ -73,7 +73,7 @@ public class BinaryNode<K extends Comparable<K>, V extends Comparable<K> > exten
      * Imposta il figlio sinistro.
      * @param node Nodo da impostare.
      */
-    public void setLeftSon(Node<K, V> node){
+    public void setLeftSon(BinaryNode<K, V> node){
         left_son = node;
     }
 
@@ -104,6 +104,7 @@ public class BinaryNode<K extends Comparable<K>, V extends Comparable<K> > exten
 
     @Override
     public void removeNode(Node<K, V> node) {
+        node = (BinaryNode<K, V>) node;
         if(left_son == node){
             left_son = null;
         } else if(right_son == node){
