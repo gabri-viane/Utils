@@ -1,3 +1,47 @@
+#Indice
+0. [Libreria Utils](#libreria-utils)
+	1. [Generalità](#generalità)
+1. [Console](#1-console)
+	1. [Input](#11-input)
+		* [ConsoleInput](#consoleinput)
+		* [Spiegazione metodi](#spiegazione-metodi)
+		* [Esempio utilizzo](#esempio-utilizzo)
+		* [ObjectInputEngine](#objectinputengine)
+			* [Regole di utilizzo](#regole-di-utilizzo)
+			* [Esempio utilizzo](#esempio-utilizzo-1)
+	2. [Output](#12-output)
+		* [GeneralFormatter](#generalformatter)
+			* [Esempio utilizzo](#esempio-utilizzo-2)
+		* [ObjectOutputEngine](#objectoutputengine)
+			* [Esempio classi](#esempio-classi)
+			* [Metodi di formattazione](#metodi-di-formattazione)
+	3. [Menu](#13-menu)
+		* [Istanziare nuovo menù](#istanziare-nuovo-menù)
+		* [Rimuovere opzione](#rimuovere-opzione)
+		* [Trovare indice opzione](#trovare-indice-opzione)
+		* [Cambiare voce opzione](#cambiare-voce-opzione)
+		* [Aggiungere opzioni](#aggiungere-opzioni)
+		* [Azioni future (Eseguibili futuri)](#azioni-future-eseguibili-futuri)
+		* [Reset del menù](#reset-del-menù)
+		* [Eseguire il menù](#eseguire-il-menù)
+		* [Funzionalità aggiuntive](#funzionalità-aggiuntive)
+		* [Chiarimenti](#chiarimenti)
+2. [Grafi](#2-grafi)
+3. [Registro](#3-registro)
+4. [XML](#4-xml)
+	1. [Elementi XML](#elementi-xml)
+		* [Metodi XMLElement](#metodi-xmlelement)
+	2. [Lettura e scrittura XML](#lettura-e-scrittura-xml)
+		* [Scrittura](#scrittura)
+		* [Lettura](#lettura)
+	3. [XMLEngine](#xmlengine)
+		* [Perchè conviene utilizzare delle classi personalizzate?](#perchè-conviene-utilizzare-delle-classi-personalizzate)
+		* [Tags collegate a variabili di classe](#tags-collegate-a-variabili-di-classe)
+		* [Tags collegate a metodi di classe e metodi di calcolo](#tags-collegate-a-metodi-di-classe-e-metodi-di-calcolo)
+	4. [Strutture di controllo](#strutture-di-controllo)
+		* [Modulo di struttura](#modulo-di-struttura)
+		* [Controllo struttura](#controllo-struttura)
+
 # Libreria Utils
 Aggiunge diverse classi di utilità base.
 Sono presenti 4 *main-packages* (funzionalità distinte) nella libreria:
@@ -62,7 +106,7 @@ Per ogni tipo leggibile (tranne per i boolean in cui viene solamente posta una d
 ```java
 public void validate(T value) throws IllegalArgumentException;
 ```
-###### Esepio utilizzo
+###### Esempio utilizzo
 Un'esempio completo di utilizzo può essere fatto utilizzando il metodo di terza tipologia:
 ```java
 ConsoleInput ci = ConsoleInput.getInstance();
@@ -76,7 +120,7 @@ Optional<Integer> valore_letto = ci.readInteger("Inserisci valore intero:", true
 });
 ```
 Con queste istruzioni si chiede all' utente la domanda "Inserisci valore intero:" e gli si permette di ignorare l'inserimento inserendo la parola-chiave "esci!". Inoltre il valore viene validato e risulta corretto solo se maggiore di 0.
-#### ObjectInputEngine
+##### ObjectInputEngine
 La classe *ObjectInputEngine* permette di "estendere" le funzionalità della classe *ConsoleInput* gestendo l'input completo di oggetti tramite console. Per usufruire correttamente di questa classe bisogna implementare correttamente anche le interfacce e annotazioni: `InputObject` (interfaccia), `InputElement` e `Order` (annotazioni).
 La classe *ObjectInputEngine* non è istanziabile e mette a disposizione un solo metodo che gestisce l'input di oggetti:
 ```java
@@ -406,7 +450,7 @@ Si possono aggiungere inoltre infinite *FutureAction&lt;P&gt;* che verranno eseg
 ```java
 public void addLazyExecutable(FutureAction<P> action)
 ```
-###### Reset del menu
+###### Reset del menù
 Per reimpostare un menù basta chiamare il metodo `reset()`, questa chiamata rimuove tutte le opzioni precedentemente aggiunte, rimuove inoltre tutti gli eseguibili futuri (lazy executables) oltre a reimpostare il menù sullo stato `quit = false` nel caso fosse stato precedentemente segnato come uscito (fine vita ciclo del menù). Come ultima cosa viene aggiunta nuovamente l'opzione "Esci".
 
 ###### Eseguire il menù
@@ -534,11 +578,11 @@ Dove "tag" è il nome della Tag e "valore della tag" è il valore testuale assoc
     ```
 3. XMLElement:<br>
 rappresenta un elemento con tutte le sue tags, il suo valore e i suoi sotto-elementi:
-  ```xml
-  <elemento1 tag1="value"> Valore elemento1
-    <elemento2></elemento2>
-  </elemento1>
-  ```
+```xml
+<elemento1 tag1="value"> Valore elemento1
+  <elemento2></elemento2>
+</elemento1>
+```
 Il seguente codice XML è interpretato come: un *XMLElement* di nome "elemento1" che ha una *XMLTag* (con nome "tag1" e valore "value") che a sua volta ha un *XMLElement* come sotto-elemento. (Ci possono essere infiniti o non essere sotto elementi, stesso vale per le tags e anche per il valore (può esserci ma anche no)).<br>
 Per questa classe sono implementati molti metodi ma la struttura di funzionamento base è:
  * XMLElement:<br>
@@ -656,5 +700,322 @@ Per adempiere a queste due funzioni si utilizzano le due classi del package `ttt
  * XMLWriter
 
 ###### Scrittura
+Per scrivere file XML la libreria offre una comoda classe che permette in modo automatico di scrivere un XMLDocument: `XMLWriter`. <br>
+La classe è di facile utilizzo, mette a disposizione:
+* Il costruttore chiede un solo parametro di tipo *File* che rappresenta il file di output in cui verrà scritto il contenuto.
+* Il metodo per scrivere il documento su file:
+```java
+public void writeDocument(XMLDocument document, boolean hr);
+```
+Il metodo prende come parametro il documento XMLDocument (*document*) da scrivere (in modo ricorsivo scriverà tutti i sotto-elementi con le relative tags e valori). Il parametro *hr* è l'abbreviazione per "Human Readable", se il valore `hr = true` allora il file viene stampato con la formattazione corretta (ritorni a capo e indentazioni) altrimenti viene stampato tutto il contenuto in modo più compatto su una singola riga.
+
+La scrittura automatica supporta tutti gli elementi annotati da `MethodType` con valore impostato su *MethodType.GET* e quelli con `FieldType` impostati su *FieldType.WRITE* oppure *FieldType.READ_AND_WRITE*.<br>
+ (Questa parte verrà affrontata più avanti trattando del motore di lettura e conversione XML)
 
 ###### Lettura
+Come per la classe di scrittura anche la classe di letture `XMLReader` è di facile utilizzo. Questa classe permette di caricare da un *File* o da un *InputStream* il contenuto XML e caricarlo in un XMLDocument composto da una radice a sua volta composta da tutti i sotto-elementi ricostruiti in maniera ricorsiva (vengono inclusi tutti i commenti, le tags e i valori, e naturalmente i sotto-elementi).
+La classe mette quindi a disposizione:
+* Il costruttore che chiede un solo parametro di tipo *File* che rappresenta il file di input da cui verrà estratto il contenuto.
+* Il costruttore che chiede un solo parametro di tipo *InputStream* che rappresenta lo stream da cui estrarre il contenuto XML.
+* Il metodo per leggere il documento:
+```java
+public XMLDocument readDocument() throws IOException;
+```
+Il metodo non prende parametri e ritorna il documento XMLDocument (*document*) letto dal file (o stream) in cui viene ricostruita tutta la struttura tramite liste di `XMLElement` contenenti a loro volta `XMLTag` e `XMLComment` e valori, oltre ad altri `XMLElement` se nel file sono presenti sotto-elementi.
+
+La lettura automatica supporta tutti gli elementi annotati da `MethodType` con valore impostato su *MethodType.SET* e quelli con `FieldType` impostati su *FieldType.READ* oppure *FieldType.READ_AND_WRITE*.<br>
+ (Questa parte verrà affrontata più avanti trattando del motore di lettura e conversione XML)
+
+ Segue un esempio di lettura e trascrittura di un file XML (*"input.xml"* a *"output.xml"*):
+ ```java
+ try {
+   //Creazione lettore file
+     XMLReader reader = new XMLReader(new File("input.xml"));
+   //Lettura del file in XMLDocument
+     XMLDocument doc = reader.readDocument();
+   //Creazione scrittore file
+     XMLWriter writer = new XMLWriter(new File("output.xml"));
+   //Scrittura del documento letto
+     writer.writeDocument(doc, true);
+ } catch (IOException ex) {
+   //Eccezione nella letture del file
+ }
+ ```
+
+<p>
+ Arrivati a questo punto la lettura e scrittura base di un file XML è stata trattata.
+
+ Si può continuare creando *XMLElement* (anche *XMLTag* ma anche *XMLComment* (superfluo e non verrà mostrato ma il concetto rimane invariato)) personalizzati e utilizzare strutture di controllo.
+ </p>
+
+##### XMLEngine
+Viene messo a disposizione un motore che permette di trasformare un generico *XMLDocument* letto (dove per generico si intende composto da N istanze di *XMLElement*) in un documento specifico (dove per specifico si intende composto da N istanze di classi personalizzate che estendono *XMLElement*).
+
+Viene innanzitutto mostrato come e con che criterio devono essere realizzate le classi specifiche di *XMLElement*. Le regole **obbligatorie per un corretto funzionamento** sono le seguenti:
+* la classe in questione deve estendere la classe *XMLElement* evitando di fare l'override dei metodi per non incorrere in errori inaspettati (difficilmente vengono scatenate eccezioni e molto più probabilmente si incontrano comportamenti indesiderati);
+* la classe deve avere un costruttore vuoto (senza parametri) che chiama il costruttore `super(stringa)` passando alla variabile *stringa* il nome del componente da associare (**attenzione, la stringa è case-sensitive: le maiuscole fanno la differenza**);
+* la classe deve essere annotata con l'annotazione `Element` del package `ttt.utils.xml.engine.annotations`. L'annotazione deve avere il parametro *Name* con assegnata una stringa **esattamente identica** a quella passata nel costruttore alla chiamata di *`super(stringa)`*.
+
+Prendendo ad esempio il file XML contentente:
+```xml
+<elemento1 tag1="value"> Valore elemento1
+	<elemento2>Valore 1</elemento2>
+	<elemento2>Valore 2</elemento2>
+</elemento1>
+```
+
+Si **possono** (non è obbligatorio, ma per avere un miglior controllo è consigliato farlo) creare 2 classi: una per ogni tipologia di elemento presente nel file, in questo caso per: *elemento1* e *elemento2*:
+```java
+@Element(Name = "elemento1")
+public class ElementoPrincipale extends XMLElement {
+    public ElementoPrincipale() {
+        super("elemento1");
+    }
+}
+```
+```java
+@Element(Name = "elemento2")
+public class ElementoSecondario extends XMLElement {
+    public ElementoSecondario() {
+        super("elemento2");
+    }
+}
+```
+Come si può notare le stringhe passate alle annotazioni e ai costruttori sono **esattamente identiche** ai nomi degli elementi nel file. Nel caso le stringhe non siano uguali la classe diventa inutilizzata.
+
+Il funzionamento del motore è relativamente semplice: letto un documento sostituisce gli *XMLElement* caricati con le classi che estendono *XMLElement* e hanno come nome dell'elemento lo stesso di quello letto (per questo motivo è necessario che siano identiche le stringhe).
+
+L'utilizzo della classe `XMLEngine` è estremamente semplice, sono presenti 3 tipi di costruttori:
+* tramite File;
+* tramite XMLReader;
+* tramite XMLDocument;
+
+Tutti chiedono una lista di classi, queste sono le classi che si vogliono utilizzare per sostituire in un documento gli *XMLElement*.
+Utilizzando l'esempio di prima basta estenderlo di poco per convertire un documento
+```java
+try {
+	//Creazione lettore file
+	XMLReader reader = new XMLReader(new File("input.xml"));
+	//Lettura del file in XMLDocument
+	XMLDocument da_convertire = reader.readDocument();
+	//Creo un nuovo documento che conterrà il file convertito in classi personalizzate
+	XMLDocument convertito = new XMLDocument(null);
+	//Creo il nuovo motore di conversione passando l'XMLDocument da convertire e le classi desiderate 
+	XMLEngine eng = new XMLEngine(da_convertire,ElementoPrincipale.class,ElementoSecondario.class);
+	//Converto il documento e lo salvo nel documento vuoto creato prima
+	eng.morph(convertito);
+	//Da qui in poi "convertito" è l'XMLDocument contenente la lista di XMLElement personalizzati
+	//La scrittura viene omessa per ora...
+} catch (IOException ex) {
+	//Eccezione nella letture del file
+}
+```
+Facendo così tutti gli XMLElement presenti in *"da_convertire"* che avevano un nome presente nella lista di classi passati al motore sono stati convertiti. La struttura cambia perciò da così:
+
+***XMLElement***:<br>
+&nbsp;|-- Nome : "elemento1"<br>
+&nbsp;|-- Valore : "Valore elemento1" <br>
+&nbsp;|-- Map&lt;IXMLTag&gt;<br>
+&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|-- ["tag1", XMLTag("tag1","value")]<br>
+&nbsp;|-- List&lt;IXMLElement&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- ***XMLElement***:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- Nome : "elemento2"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- Valore : "Valore 1"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- Map&lt;IXMLTag&gt; : empty<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- List&lt;IXMLElement&gt; : empty<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- ***XMLElement***:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- Nome : "elemento2"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- Valore : "Valore 2"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- Map&lt;IXMLTag&gt; : empty<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- List&lt;IXMLElement&gt; : empty<br>
+
+a così:
+
+***ElementoPrincipale***:<br>
+&nbsp;|-- Nome : "elemento1"<br>
+&nbsp;|-- Valore : "Valore elemento1" <br>
+&nbsp;|-- Map&lt;IXMLTag&gt;<br>
+&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;|-- ["tag1", XMLTag("tag1","value")]<br>
+&nbsp;|-- List&lt;IXMLElement&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- ***ElementoSecondario***:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- Nome : "elemento2"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- Valore : "Valore 1"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- Map&lt;IXMLTag&gt; : empty<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- List&lt;IXMLElement&gt; : empty<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- ***ElementoSecondario***:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- Nome : "elemento2"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- Valore : "Valore 2"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- Map&lt;IXMLTag&gt; : empty<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- List&lt;IXMLElement&gt; : empty<br>
+
+###### Perchè conviene utilizzare delle classi personalizzate?
+1. Perchè nelle classi personalizzate si possono definire variabili e metodi che possono aiutare la scrittura e gestione del programma che non sono concepiti per la lettura e scrittura XML;
+2. Perchè si possono avere le variabili di classe (ma anche metodi) chiamati e assegnati con valori delle tags di un elemento;
+3. Perchè si possono utilizzare le strutture di controllo;
+4. Per avere una gestione e integrazione migliorata dei file XML con il programma.
+
+###### Tags collegate a variabili di classe
+Per collegare una XMLTag (una tag letta di un elemento) ad una variabile basta utilizzare le annotazioni:
+* `Tag` del package `ttt.utils.xml.engine.annotations`;
+* `FieldType` del package `ttt.utils.engines.interfaces`;
+
+La prima annotazione (`Tag`) definisce a che *Tag* la variabile verrà associata, la seconda (`FieldType`) definisce in che maniera viene gestita:
+* *FieldType.READ* la variabile viene solamente caricata nella variabile quando viene convertito il documento da file a XMLDocument;
+* *FieldType.WRITE* la variabie non viene caricata ma alla scrittura del file viene scritta al relativo elemento;
+* *FieldType.READ_AND_WRITE* la variabile viene sia letta che scritta;
+
+Segue l'estensione dell'esempio precedente della classe *ElementoPrincipale*:
+```java
+@Element(Name = "elemento1")
+public class ElementoPrincipale extends XMLElement {
+
+	@EngineField(FieldType = FieldType.READ_AND_WRITE)
+    @Tag(Name = "tag1", ValueType = String.class)
+    private String tag_principale;
+
+    public ElementoPrincipale() {
+        super("elemento1");
+    }
+	
+}
+```
+
+Esaminando l'annotazione `Tag`:
+* Il parametro `Name` è obbligatorio e **deve essere identico al nome della tag nel file** 
+* Il parametro `ValueType` prende la classe che rappresenta la tag: nel caso la tag contenenga, ad esempio, un valore intero basta dichiarare nel modo seguente la tag e viene eseguito un cast automatico (**supponendo quindi che la tag "tag1" contenga un valore intero**):
+```java
+@Element(Name = "elemento1")
+public class ElementoPrincipale extends XMLElement {
+
+	@EngineField(FieldType = FieldType.READ_AND_WRITE)
+    @Tag(Name = "tag1", ValueType = int.class)
+    private int tag_principale;
+
+    public ElementoPrincipale() {
+        super("elemento1");
+    }
+}
+```
+
+
+Si possono definire quante variabili si vogliono e non è obbligatorio dichiarare una variabile per ogni tag.
+
+###### Tags collegate a metodi di classe e metodi di calcolo
+Allo stesso modo si possono collegare dei metodi in modo tale da prendere tags oppure definirsi come metodi di "calcolo". I metodi che vengono collegati ad una tag vengono chiamati alla lettura (subito dopo la chiamata al costruttore), tutti quelli definiti come di tipo "calcolo" vengono chiamati alla fine della compilazione delle tags.
+
+Riprendendo l'esempio precedente:
+```java
+@Element(Name = "elemento1")
+public class ElementoPrincipale extends XMLElement {
+
+    private String tag_principale;
+
+    public ElementoPrincipale() {
+        super("elemento1");
+    }
+	
+	@EngineMethod(MethodType = MethodType.SET)
+    @Tag(Name = "tag1", ValueType = String.class)
+	public void impostaValore(String s){
+		this.tag_principale = s;
+	}
+	
+}
+```
+
+Anche qui vengono fatte le stesse considerazioni per il metodo:
+* Il metodo deve avere **un solo parametro** e il tipo del parametro deve corrispondere a quello definito in *ValueType* della `Tag` (anche qui in caso di valori diversi da *String* viene eseguito un cast)
+* Il valore per *Name* deve essere esattamente identico al nome della tag nel file, altrimenti il metodo non verrà mai chiamato.
+
+Il metodo  "impostaValore" rappresenta l'equivalente di *FieldType.READ* volendo emulare il funzionamento di *FieldType.WRITE* bisogna definire un metodo get:
+```java
+...
+@EngineMethod(MethodType = MethodType.GET)
+@Tag(Name = "tag1", ValueType = String.class)
+public String leggiValore(){
+	return this.tag_principale;
+}
+...
+```
+
+Ricordandosi che qui il metodo **non** prende parametri e il tipo di ritorno è identico a quello definito in *ValueType* della `Tag`.
+
+##### Strutture di controllo
+Le strutture di controllo permettono di verificare la correttezza di un file XML. L'utilizzo è relativamente intuitivo, si utilizzano le classi:
+* StructureModule (del package `ttt.utils.xml.document.structure`)
+* Rules (del package `ttt.utils.xml.document.structure.rules`)
+* Structure (del package `ttt.utils.xml.document.structure`)
+
+###### Modulo di struttura
+Il modulo di una struttura rappresenta una sezione di regole che il file deve rispettare. I moduli sono da costruire secondo la struttura del file desiderata. 
+
+Ad esempio: si vuole controllare che il file contenga un elemento radice di tipo *ElementoPrincipale*("elemento1") che a sua volta contenga da 1 a infiniti elementi del tipo *ElementoSecondario*("elemento2") che a loro volta contengono un solo o nessuno elemento del tipo *ElementoTerziario*("elemento3"):
+
+
+* Questa struttura risulta corretta:
+```xml
+<elemento1 tag1="value"> Valore elemento1
+	<elemento2>Valore 1</elemento2>
+	<elemento2>Valore 2</elemento2>
+</elemento1>
+```
+
+* Questa struttura risulta corretta:
+```xml
+<elemento1 tag1="value"> Valore elemento1
+	<elemento2>
+		<elemento3>1212941238</elemento3>
+	</elemento2>
+	<elemento2>Valore 2</elemento2>
+</elemento1>
+```
+
+* Questa struttura risulta errata:
+```xml
+<elemento1 tag1="value"> Valore elemento1
+	<elemento2>
+		<elemento3>1236623</elemento3>
+		<elemento3>1212941238</elemento3>
+	</elemento2>
+	<elemento2>Valore 2</elemento2>
+</elemento1>
+```
+
+Come si controlla? Semplicemendo concatenando diversi `StructureModule` con le corrispettive regole:
+```java
+StructureModule principale = new StructureModule(ElementoPrincipale.class, Rules.ONE);
+StructureModule secondario = new StructureModule(ElementoSecondario.class, Rules.ONE_TO_INFINITE);
+StructureModule terziario = new StructureModule(ElmentoTerziario.class, Rules.ZERO_TO_ONE);
+
+secondario.addModule(terziario);
+principale.addModule(secondario);
+```
+
+Oppure in maniera uguale ma più compatta:
+```java
+StructureModule principale 
+= new StructureModule(ElementoPrincipale.class, Rules.ONE)
+			.addModule(new StructureModule(ElementoSecondario.class, Rules.ONE_TO_INFINITE)
+				.addModule(new StructureModule(ElmentoTerziario.class, Rules.ZERO_TO_ONE)));
+```
+
+###### Controllo struttura
+Definito lo `StructureModule` principale che contiene tutti gli altri moduli si definisce una variabile di tipo `Structure` gli si **gli si imposta il modulo principale** e si verifica la struttura:
+```java
+StructureModule principale 
+= new StructureModule(ElementoPrincipale.class, Rules.ONE)
+			.addModule(new StructureModule(ElementoSecondario.class, Rules.ONE_TO_INFINITE)
+				.addModule(new StructureModule(ElmentoTerziario.class, Rules.ZERO_TO_ONE)));
+				
+				
+Structure s = new Structure();
+s.setStructureModel(principale);
+
+try{
+	s.verify(documentoXML_letto_e_convertito);
+}catch(InvalidXMLFormat | UninitializedMandatoryProperty ex){
+	//Gestione: se InvalidXMLFormat allora la struttura del file è errata e non rispetta uno dei moduli
+}
+```
+
+Il metodo *verifiy(XMLDocument)* controlla la correttezza di un documento **letto e convertito con le classi corrette**, nel caso la struttura non sia corretta lancia l'eccezione *InvalidXMLFormat*.

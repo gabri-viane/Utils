@@ -52,10 +52,10 @@ public class XMLWriter {
     }
 
     /*
-     Prende in input un'istanza di tipo XMLDocument e iterando in successione 
-     i suoi elementi e li scrive man mano eseguendo il flush continuo (ad ogni 
+     Prende in input un'istanza di tipo XMLDocument e iterando in successione
+     i suoi elementi e li scrive man mano eseguendo il flush continuo (ad ogni
      elemento processato).
-     
+
     Deve permettere di creare un file vuoto nel caso non esiste, deve chiedere se
     si vuole sovrascrivere il file già esistente.
      */
@@ -74,6 +74,11 @@ public class XMLWriter {
      */
     public void writeDocument(XMLDocument document, boolean hr) {
         try {
+            if(document == null){
+                throw new NullPointerException("The document is null");
+            }else if(f == null){
+                f = document.getSourceFile();
+            }
             if (!f.exists()) {
                 f.createNewFile();
             }
