@@ -77,7 +77,7 @@ public class XMLWriter {
             if(document == null){
                 throw new NullPointerException("The document is null");
             }else if(f == null){
-                f = document.getSourceFile();
+                throw new NullPointerException("Output file is null");
             }
             if (!f.exists()) {
                 f.createNewFile();
