@@ -89,22 +89,11 @@ public class BinaryNode<K extends Comparable<K>, V extends Comparable<K> > exten
 
     @Override
     public void addNode(Node<K, V> node, V value) {
-//        if(left_son == null){
-//            left_son = node;
-//        } else if(value.compareTo(left_son.getValue()) < 0){
-//            right_son = left_son;
-//            left_son = node;
-//        } else if(value.compareTo(left_son.getValue()) > 0){
-//            right_son = node;
-//        } else {
-//            throw new BinaryNodeException("I figli non possono avere lo stesso valore.");
-//        }
-//        super.addNode(node, value);
+
     }
 
     @Override
     public void removeNode(Node<K, V> node) {
-        node = (BinaryNode<K, V>) node;
         if(left_son == node){
             left_son = null;
         } else if(right_son == node){
