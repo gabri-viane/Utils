@@ -25,7 +25,7 @@ import ttt.utils.registry.exception.RegistryException;
  * come ID.
  *
  * @author TTT
- * @param <V>
+ * @param <V> Il tipo di valore
  */
 public final class UUIDRegistry<V extends UUIDRegistrableEntry> extends Registry<UUID, V> {
 

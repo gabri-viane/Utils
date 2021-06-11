@@ -20,7 +20,7 @@ public class DijkstraAlgoritm <G extends DijkstraCalculable<G>> {
 
     /**
      * Costruttore per la classe.
-     * @param elements Lista dei nodi da collegare. <br(non so perchè passando ArrayList non fa il cast)<br
+     * @param elements Lista dei nodi da collegare. <br>(non so perchè passando ArrayList non fa il cast)
      * @param first Nodo iniziale da cui partire.
      */
     public DijkstraAlgoritm(List<Node<G, Double>> elements, Node<G, Double> first) {

@@ -26,8 +26,8 @@ import ttt.utils.registry.interfaces.Index;
  * la chiave con una stringa per facilitare la ricerca.
  *
  * @author gabri
- * @param <K>
- * @param <V>
+ * @param <K> Il tipo di chiave
+ * @param <V> Il tipo di valore
  */
 public abstract class Registry<K, V extends RegistrableEntry<K>> implements Index<K> {
 

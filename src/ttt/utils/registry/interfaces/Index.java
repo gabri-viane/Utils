@@ -18,7 +18,7 @@ package ttt.utils.registry.interfaces;
 /**
  *
  * @author gabri
- * @param <K>
+ * @param <K> Il tipo di chiave
  */
 public interface Index<K> {
 

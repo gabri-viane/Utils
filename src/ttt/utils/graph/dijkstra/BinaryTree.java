@@ -63,8 +63,8 @@ public class BinaryTree<K extends Comparable<K>, V extends Comparable<K>> {
     }
 
     /**
-     * Cerca un valore all'interno dell'albero e restituisce <code>true</code> se trovato,
-     * altrimenti <false>;
+     * Cerca un valore all'interno dell'albero e restituisce {@code true} se trovato,
+     * altrimenti {@code false};
      * @param current Nodo su cui si sta effettuando la ricerca.
      * @param value Valore cercato.
      * @return Se il valore è presente  o no.

@@ -20,7 +20,7 @@ import ttt.utils.registry.abstracts.RegistrableEntry;
 /**
  *
  * @author gabri
- * @param <K>
+ * @param <K> Il tipo di chiave
  */
 public interface RegistryListener<K> {
 

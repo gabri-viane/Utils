@@ -24,7 +24,7 @@ import ttt.utils.registry.exception.RegistryException;
  * come ID.
  *
  * @author TTT
- * @param <V>
+ * @param <V> Il tipo di valore da contenere
  */
 public final class IDRegistry<V extends IDRegistrableEntry> extends Registry<Long, V> {
 
