@@ -1,6 +1,5 @@
 package ttt.utils.graph.dijkstra;
 
-import ttt.utils.graph.exceptions.BinaryNodeException;
 
 import java.util.HashMap;
 import java.util.Set;
