@@ -43,7 +43,7 @@ public abstract class Registry<K, V extends RegistrableEntry<K>> implements Inde
     }
 
     /**
-     * Serve solo come test.
+     * Serve solo come diplomacy.test.
      *
      * @return <code>true</code>, sempre
      */

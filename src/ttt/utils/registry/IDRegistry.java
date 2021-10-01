@@ -38,7 +38,7 @@ public final class IDRegistry<V extends IDRegistrableEntry> extends Registry<Lon
     }
 
     /**
-     * Serve solo come test.
+     * Serve solo come diplomacy.test.
      *
      * @return <code>true</code>, sempre
      */
